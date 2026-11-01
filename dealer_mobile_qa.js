@@ -88,16 +88,22 @@ async function runEngine(kind){
    page.on('pageerror',err=>record.errors.push(String(err?.message||'page JS error').slice(0,170)));
    const login=await page.goto(BASE+'/web/login?redirect=%2Fshop',{waitUntil:'domcontentloaded',timeout:45000});
    if(login?.status()!==200)throw Error('Login page not HTTP 200');
-   const emailInput=page.locator('input[name="login"]').first(),passInput=page.locator('input[name="password"]').first();
+   // Odoo header includes unrelated search forms: scope all login controls to the actual, visible login form.
+   const loginForm=page.locator('form.oe_login_form').first();
+   await loginForm.waitFor({state:'visible',timeout:15000});
+   const emailInput=loginForm.locator('input[name="login"]').first(),passInput=loginForm.locator('input[name="password"]').first();
    if(!await emailInput.count()||!await passInput.count())throw Error('Normal Odoo sign-in form not found');
    await emailInput.fill(EMAIL);
    await passInput.fill(PASSWORD);
    // Only credential form submission is permitted. No product/order forms are submitted.
-   const submit=page.locator('form button[type="submit"],form input[type="submit"]').first();
+   const submit=loginForm.locator('button[type="submit"]').first();
    if(!await submit.count())throw Error('Login button missing');
    await submit.click({timeout:15000});
    await page.waitForTimeout(1300);
-   for(const p of products)record.products.push(await productCheck(page,p,record.issues));
+   for(const p of products){
+     record.products.push(await productCheck(page,p,record.issues));
+     await page.waitForTimeout(2600); // WebKit/Odoo lazy recently-viewed RPC must finish before navigation.
+   }
    record.authenticated=record.products.every(x=>x.before.accountLabel);
    if(!record.authenticated)throw Error('Dealer account authentication not verified; checkout inspection prohibited');
    // Only safe GET routes below. No clicks that save, modify or confirm a cart/order.
@@ -115,8 +121,12 @@ async function runEngine(kind){
    };
    if(record.cart.http!==200)record.issues.push('Authenticated cart did not return 200');
    if(record.cart.width!==390||record.cart.overflow)record.issues.push('Cart mobile horizontal overflow/viewport');
+   for(const key of ['hasSealant','hasWallboard','hasFreightcom','previousKnownSubtotalVisible','previousKnownTaxesVisible','previousKnownTotalVisible']){
+      if(!record.cart[key])record.issues.push('Existing cart expected item/total not verified: '+key);
+   }
    if(/your cart is empty|empty cart/i.test(cartText))record.issues.push('Existing test cart missing; checkout addresses not exercised');
    if(!record.issues.some(s=>s.includes('Existing test cart missing'))){
+     await page.waitForTimeout(2600);
      const address=await page.goto(BASE+'/shop/checkout?try_skip_step=true',{waitUntil:'domcontentloaded',timeout:45000});
      record.checkout=await page.evaluate(()=>({
        currentPath:location.pathname,width:document.documentElement.clientWidth,
@@ -124,7 +134,8 @@ async function runEngine(kind){
        hasAddressStep:/address|shipping|billing/i.test(document.body.innerText)
      }));
      record.checkout.http=address?.status();
-     if(record.checkout.http!==200||record.checkout.overflow||record.checkout.width!==390)record.issues.push('Address page mobile acceptance');
+     if(record.checkout.http!==200||record.checkout.overflow||record.checkout.width!==390||!record.checkout.hasAddressStep)record.issues.push('Address page mobile acceptance');
+     await page.waitForTimeout(1600);
      const extra=await page.goto(BASE+'/shop/extra_info',{waitUntil:'domcontentloaded',timeout:45000});
      record.extraInfo=await page.evaluate(()=>({
        currentPath:location.pathname,width:document.documentElement.clientWidth,
@@ -132,7 +143,19 @@ async function runEngine(kind){
        hasReferenceField:/reference|purchase order|additional information/i.test(document.body.innerText)
      }));
      record.extraInfo.http=extra?.status();
-     if(record.extraInfo.http!==200||record.extraInfo.overflow||record.extraInfo.width!==390)record.issues.push('Extra Info mobile acceptance');
+     if(record.extraInfo.http!==200||record.extraInfo.overflow||record.extraInfo.width!==390||!record.extraInfo.hasReferenceField)record.issues.push('Extra Info mobile acceptance');
+     await page.waitForTimeout(1600);
+     // GET-only post-audit cart integrity: never change order lines or submit checkout.
+     await page.goto(BASE+'/shop/cart',{waitUntil:'domcontentloaded',timeout:45000});
+     const endText=await page.locator('body').innerText({timeout:12000});
+     record.finalCart={
+       hasSealant:endText.includes('Sealant'),hasWallboard:endText.includes('Wallboard'),
+       hasFreightcom:endText.includes('Freightcom'),
+       subtotalUnchanged:endText.includes('273.82'),
+       taxUnchanged:endText.includes('32.87'),
+       totalUnchanged:endText.includes('306.69')
+     };
+     if(Object.values(record.finalCart).some(v=>!v))record.issues.push('Existing cart content or totals not preserved after navigation');
    }
    if(record.errors.length)record.issues.push('Page JS errors ('+record.errors.length+')');
    record.status=record.issues.length?'REVIEW':'PASS';
