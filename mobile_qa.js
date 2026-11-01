@@ -41,6 +41,26 @@ const OTHER = [
   ['joist-kit-6616', '/shop/hydroblok-1/hbfljck-hydroblok-lowering-joist-kit-6616'],
   ['brass-drain-38943', '/shop/hydroblok-1/hbbdk-hydro-blok-brass-drain-kit-38943'],
 ];
+// DT8_HB_DESCRIPTIONS_C8_V1_20261101: exact site1-only neutral family descriptions verified against Odoo QWeb view 7920.
+const EXPECTED_DESCRIPTIONS = {
+  "6600": "Select the available HYDRO-BLOK invisible-drain trim profile and finish above. Confirm the item code and per-unit price for your selection.",
+  "6602": "Choose the HYDRO-BLOK invisible-drain accessory that matches your project. Check the selected configuration and item code.",
+  "6604": "Choose HYDRO-BLOK wallboard dimensions and thickness above. The item code and per-unit price follow the selected panel.",
+  "6605": "Select a HYDRO-BLOK shower curb style and length above. Confirm your selected size and item code before ordering.",
+  "6606": "Explore available HYDRO-BLOK recessed niche shapes and sizes above. The item code and price reflect your selection.",
+  "6607": "Choose the HYDRO-BLOK bench style and size suited to your shower. The item code and price follow the selected option.",
+  "6608": "Select HYDRO-BLOK joint sealant in the available cartridge or sausage format. Check the item code and quantity for your choice.",
+  "6609": "Choose the HYDRO-BLOK sealant applicator for your selected cartridge or sausage format. Check the item code before ordering.",
+  "6610": "Select the HYDRO-BLOK screws or washers required for the installation. Packaging and quantity vary by item.",
+  "6611": "Choose from the available HYDRO-BLOK drain-cover styles and finishes. The item code and price follow the selected cover.",
+  "6613": "Select the HYDRO-BLOK pipe or valve seal needed for your opening. Confirm the selected option and item code.",
+  "6614": "Choose the HYDRO-BLOK sealant accessory required for your project. Item specifications and packaging vary by selection.",
+  "6615": "Select the available HYDRO-BLOK uncoupling membrane format. Confirm the selected size, item code, and price.",
+  "6620": "Choose a HYDRO-BLOK invisible-drain shower pan by available size and slope profile. Confirm the selected item code before ordering.",
+  "6621": "Explore HYDRO-BLOK standard-drain shower pans by available dimensions and drain position. Choose an offered combination above.",
+  "6622": "Choose a compatible standard-drain shower-pan extension by style and size. Check the item code and per-unit price for your selected configuration.",
+  "6623": "Choose a compatible invisible-drain shower-pan extension by slope profile and size. Check the item code and per-unit price for your selected configuration."
+};
 const report = { created: new Date().toISOString(), target: BASE, company: 8, website: 1,
   readonly: true, widths, allAt390, entries: [], summary: {} };
 const short = e => String(e && e.message || e).slice(0, 500);
@@ -170,6 +190,12 @@ async function main(){
           await settle(page,sku);
           entry.metrics=await snapshot(page);
           checkSnapshot(entry.metrics,sku,msrp,issues,width);
+          const familyId=(id.match(/-(\d+)$/)||[])[1];
+          if(familyId && EXPECTED_DESCRIPTIONS[familyId]) {
+            const familyCopy=await page.locator('#product_full_description').first().innerText({timeout:5000}).catch(()=>'');
+            entry.descriptionText=familyCopy.trim().slice(0,200);
+            if(familyCopy.trim()!==EXPECTED_DESCRIPTIONS[familyId])issues.push('Dalla Terra family description mismatch: product '+familyId);
+          }
           if(id!=='category'&&!entry.metrics.hasPriceBox)issues.push('Guest price box missing');
           if(!entry.metrics.title)issues.push('Product title missing');
           const initial=id+'-'+width+'-initial.png';
