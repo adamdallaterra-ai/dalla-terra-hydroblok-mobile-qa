@@ -1,0 +1,42 @@
+name: Dalla Terra HYDRO-BLOK signed-in mobile acceptance
+
+# Manual-only; never run on a schedule or on repo changes.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DT_QA_TEST_PASSWORD: ${{ secrets.DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate read-only test JavaScript
+        run: node --check dealer_mobile_qa.js
+      - name: Confirm temporary test-account secret exists
+        run: |
+          if [ -z "$DT_QA_TEST_PASSWORD" ]; then
+            echo "BLOCKED: configure the temporary QA test-account Actions secret before running."
+            exit 3
+          fi
+      - name: Install test dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
+      - name: Audit dealer account pricing and existing checkout (GET-only)
+        run: node dealer_mobile_qa.js
+      - name: Upload sanitized QA reports (no checkout screenshots)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dalla-terra-dealer-mobile-readonly-report
+          path: qa-output-dealer/
+          if-no-files-found: warn
+          retention-days: 7
