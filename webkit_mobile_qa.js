@@ -168,6 +168,21 @@ async function interactions(page,id,width) {
   }
   return tests;
 }
+// Wait for the actual Odoo recently-viewed RPC to finish before leaving the page.
+// Do not hide requestfailures or browser JS errors; report both explicitly.
+async function waitForRecentViewedIdle(page,pending){
+  await page.waitForTimeout(450);
+  const until=Date.now()+8500;
+  let quietAt=0;
+  while(Date.now()<until){
+    if(!pending.size){
+      if(!quietAt)quietAt=Date.now();
+      if(Date.now()-quietAt>=480)return true;
+    }else quietAt=0;
+    await page.waitForTimeout(120);
+  }
+  return pending.size===0;
+}
 async function main(){
   const browser=await webkit.launch({headless:true});
   try{
@@ -178,6 +193,16 @@ async function main(){
       const page=await context.newPage();page.setDefaultTimeout(12000);
       let pageErrors=[];
       let recentlyViewedResponses=[];
+      const recentlyViewedPending=new Set(),recentlyViewedFailures=[];
+      const isRecent=req=>req.url().includes('/shop/products/recently_viewed_update');
+      page.on('request',req=>{if(isRecent(req))recentlyViewedPending.add(req);});
+      page.on('requestfinished',req=>{if(isRecent(req))recentlyViewedPending.delete(req);});
+      page.on('requestfailed',req=>{
+        if(isRecent(req)){
+          recentlyViewedPending.delete(req);
+          recentlyViewedFailures.push({reason:req.failure()?.errorText||'unknown request failure'});
+        }
+      });
       page.on('pageerror',err=>pageErrors.push(short(err)));
       page.on('response',resp=>{
         if(resp.url().includes('/shop/products/recently_viewed_update')) recentlyViewedResponses.push({status:resp.status(),method:resp.request().method(),path:'/shop/products/recently_viewed_update'});
@@ -185,6 +210,7 @@ async function main(){
       const items=width===390&&allAt390?KEY.concat(OTHER):KEY;
       for(const [id,slug,sku,msrp] of items){
         const issues=[],url=BASE+slug;pageErrors=[];recentlyViewedResponses=[];
+        const recentFailuresBefore=recentlyViewedFailures.length;
         const entry={id,width,url,issues,status:'ERROR'};
         try{
           const resp=await page.goto(url,{waitUntil:'domcontentloaded',timeout:40000});
@@ -251,6 +277,10 @@ async function main(){
               }
             }
           }
+          const recentlyViewedSettled=await waitForRecentViewedIdle(page,recentlyViewedPending);
+          entry.recentlyViewedNetwork={settled:recentlyViewedSettled,pending:recentlyViewedPending.size,failures:recentlyViewedFailures.slice(recentFailuresBefore).slice(-10)};
+          if(!recentlyViewedSettled||recentlyViewedPending.size)issues.push('Recently-viewed request did not settle before navigation');
+          for(const req of entry.recentlyViewedNetwork.failures)issues.push('Recently-viewed network request failed: '+req.reason);
           entry.recentlyViewedResponses=recentlyViewedResponses.slice(-15);
           entry.javascriptErrors=pageErrors.slice(0,10);
           if(entry.javascriptErrors.length)issues.push('Page JS errors: '+entry.javascriptErrors.join('; '));
