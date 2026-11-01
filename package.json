@@ -1,0 +1,12 @@
+{
+  "name": "dalla-terra-hydroblok-mobile-qa",
+  "private": true,
+  "version": "2.1.0",
+  "description": "Read-only public Dalla Terra mobile catalogue QA",
+  "scripts": {
+    "test:mobile": "node mobile_qa.js"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  }
+}
