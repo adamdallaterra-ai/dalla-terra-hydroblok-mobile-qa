@@ -56,7 +56,7 @@ async function one(kind,mode){
   const visits=mode==='fresh'?[memorial]:slugs.slice(0,7);
   for(const slug of visits){
    const response=await page.goto(base+slug,{waitUntil:'domcontentloaded',timeout:40000});
-   await page.waitForTimeout(700);
+   await page.waitForTimeout(2600); // Deliberately allow lazy recently-viewed JSON-RPC to finish before leaving.
    record.visited.push({product:slug.split('/').pop(),http:response?.status()||0,jsErrorCount:record.errors.length});
   }
   await Promise.allSettled(pending);
