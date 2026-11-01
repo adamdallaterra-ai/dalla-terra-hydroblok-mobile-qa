@@ -30,6 +30,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Validate JavaScript syntax
+        run: node --check mobile_qa.js
       - name: Install test dependencies
         run: npm install --no-audit --no-fund
       - name: Install Chromium browser
