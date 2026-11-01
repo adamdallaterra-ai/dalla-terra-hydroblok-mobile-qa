@@ -1,0 +1,48 @@
+name: Dalla Terra HYDRO-BLOK WebKit mobile audit
+
+# Manual-only: never run on a schedule, push, or PR.
+on:
+  workflow_dispatch:
+    inputs:
+      widths:
+        description: "CSS viewport widths"
+        type: string
+        required: true
+        default: "375,390,430,768"
+      catalogue_390:
+        description: "Include all 22 product families at 390px"
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      QA_WIDTHS: ${{ inputs.widths }}
+      QA_ALL_390: ${{ inputs.catalogue_390 && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate WebKit test JavaScript syntax
+        run: node --check webkit_mobile_qa.js
+      - name: Install test dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install WebKit browser
+        run: npx playwright install --with-deps webkit
+      - name: Run public WebKit mobile read-only audit
+        run: node webkit_mobile_qa.js
+      - name: Upload screenshots and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dalla-terra-hydroblok-webkit-mobile-qa
+          path: qa-output-webkit/
+          if-no-files-found: warn
+          retention-days: 14
