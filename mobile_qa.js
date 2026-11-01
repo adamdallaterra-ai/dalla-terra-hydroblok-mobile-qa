@@ -205,6 +205,31 @@ async function main(){
             if(!copy.includes('request availability and freight')||!copy.includes('which stocking-dealer terms apply'))issues.push('Dealer offer confirmation/qualification wording missing');
             if(!(await dealer.locator('a[href="/web/login?redirect=/my/home"]').count()))issues.push('Dealer sign-in action missing');
             if(!(await dealer.locator('a[href="/contact-us"]').count()))issues.push('Dealer enquiry action missing');
+
+            // DT8_HB_FIRST_PROJECT_PATH_V1_20261101: exercise native guide at every viewport, not just static HTML.
+            const first=dealer.locator('#dt8-hb-first-project').first();
+            if(!(await first.count()))issues.push('First-project guide missing');
+            else {
+              const summary=first.locator('summary').first();
+              if(!(await summary.count()))issues.push('First-project guide summary missing');
+              else {
+                try{
+                  const initiallyClosed=await first.evaluate(el=>!el.open);
+                  if(!initiallyClosed)issues.push('First-project guide should start collapsed');
+                  await summary.click({timeout:8500});
+                  const opened=await first.evaluate(el=>!!el.open);
+                  if(!opened)issues.push('First-project guide did not expand on click');
+                  const guideText=await first.innerText({timeout:5000});
+                  const terms=['Capture the basics.','Explore the options.','Request a review.','New Quote / Check Availability','does not reserve inventory'];
+                  entry.firstProjectGuide={opened,terms:terms.map(term=>({term,present:guideText.includes(term)})),contactLink:await first.locator('a[href="/contact-us"]').count()>0};
+                  for(const item of entry.firstProjectGuide.terms)if(!item.present)issues.push('First-project step missing: '+item.term);
+                  if(!entry.firstProjectGuide.contactLink)issues.push('First-project help contact link missing');
+                  const dimensions=await page.evaluate(()=>({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
+                  entry.expandedGuidePageWidth=dimensions;
+                  if(dimensions.scroll>dimensions.client+2)issues.push('Expanded first-project guide causes horizontal overflow');
+                }catch(e){issues.push('First-project guide interaction: '+short(e));}
+              }
+            }
           }
           if(id!=='category'&&!entry.metrics.hasPriceBox)issues.push('Guest price box missing');
           if(!entry.metrics.title)issues.push('Product title missing');
