@@ -177,10 +177,14 @@ async function main(){
         screen:{width,height:844},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:1,locale:'en-CA'});
       const page=await context.newPage();page.setDefaultTimeout(12000);
       let pageErrors=[];
+      let recentlyViewedResponses=[];
       page.on('pageerror',err=>pageErrors.push(short(err)));
+      page.on('response',resp=>{
+        if(resp.url().includes('/shop/products/recently_viewed_update')) recentlyViewedResponses.push({status:resp.status(),method:resp.request().method(),path:'/shop/products/recently_viewed_update'});
+      });
       const items=width===390&&allAt390?KEY.concat(OTHER):KEY;
       for(const [id,slug,sku,msrp] of items){
-        const issues=[],url=BASE+slug;pageErrors=[];
+        const issues=[],url=BASE+slug;pageErrors=[];recentlyViewedResponses=[];
         const entry={id,width,url,issues,status:'ERROR'};
         try{
           const resp=await page.goto(url,{waitUntil:'domcontentloaded',timeout:40000});
@@ -212,6 +216,7 @@ async function main(){
               }
             }
           }
+          entry.recentlyViewedResponses=recentlyViewedResponses.slice(-15);
           entry.javascriptErrors=pageErrors.slice(0,10);
           if(entry.javascriptErrors.length)issues.push('Page JS errors: '+entry.javascriptErrors.join('; '));
           entry.status=issues.length?'REVIEW':'PASS';
