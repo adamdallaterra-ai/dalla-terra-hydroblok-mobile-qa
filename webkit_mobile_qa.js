@@ -200,6 +200,16 @@ async function main(){
             entry.descriptionText=familyCopy.trim().slice(0,200);
             if(familyCopy.trim()!==EXPECTED_DESCRIPTIONS[familyId])issues.push('Dalla Terra family description mismatch: product '+familyId);
           }
+          if(id==='category'){
+            const dealer=page.locator('#dt8-hb-dealers').first();
+            const copy=await dealer.innerText({timeout:5000}).catch(()=>'');
+            const labels=['Order for a project.','Stock the essentials.','Use the portal you already have.'];
+            entry.dealerOfferLabels=labels.map(label=>({label,present:copy.includes(label)}));
+            for(const item of entry.dealerOfferLabels)if(!item.present)issues.push('Dealer offer label missing: '+item.label);
+            if(!copy.includes('request availability and freight')||!copy.includes('which stocking-dealer terms apply'))issues.push('Dealer offer confirmation/qualification wording missing');
+            if(!(await dealer.locator('a[href="/web/login?redirect=/my/home"]').count()))issues.push('Dealer sign-in action missing');
+            if(!(await dealer.locator('a[href="/contact-us"]').count()))issues.push('Dealer enquiry action missing');
+          }
           if(id!=='category'&&!entry.metrics.hasPriceBox)issues.push('Guest price box missing');
           if(!entry.metrics.title)issues.push('Product title missing');
           const initial=id+'-'+width+'-initial.png';
