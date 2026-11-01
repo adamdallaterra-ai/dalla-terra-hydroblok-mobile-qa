@@ -111,10 +111,10 @@ async function snapshot(page) {
       overhangs};
   });
 }
-async function settle(page, sku) {
+async function settle(page, sku, dwellMs=700) {
   if(sku)await page.waitForFunction(x=>document.querySelector('#dt8-hb-sku')?.textContent?.trim()===x,
     sku,{timeout:12000}).catch(()=>{});
-  await page.waitForTimeout(700);
+  await page.waitForTimeout(dwellMs);
 }
 function checkSnapshot(m, sku, price, issues, width) {
   if(m.clientWidth!==width || m.innerWidth!==width)issues.push('Wrong CSS viewport: inner='+m.innerWidth+', client='+m.clientWidth);
@@ -191,7 +191,7 @@ async function main(){
           entry.httpStatus=resp?.status()||null;entry.actualUrl=page.url();
           if(entry.httpStatus!==200)issues.push('HTTP '+entry.httpStatus);
           if(new URL(entry.actualUrl).hostname!=='www.dallaterra.ca')issues.push('Unexpected host '+entry.actualUrl);
-          await settle(page,sku);
+          await settle(page,sku,2600); // Ensure Odoo recently-viewed RPC finishes before next navigation on WebKit.
           entry.metrics=await snapshot(page);
           checkSnapshot(entry.metrics,sku,msrp,issues,width);
           const familyId=(id.match(/-(\d+)$/)||[])[1];
