@@ -10,6 +10,16 @@ Open **Actions → Dalla Terra HYDRO-BLOK mobile audit → Run workflow**, selec
 
 The workflow installs Chromium and visits the live site from GitHub's internet-connected runner. It saves `qa-output/report.md`, `results.json`, and full-page **before/after** screenshots as a downloadable workflow artifact for 14 days. Any `REVIEW` or `ERROR` result makes the workflow fail, even when later checks continue.
 
+## Assistant-run on-demand workflow (no TinyFish)
+
+Connected Make scenario **6856455** (`DT8 HYDRO-BLOK | On-demand GitHub mobile QA trigger (no schedule)`) dispatches the same `.github/workflows/mobile-audit.yml` workflow via the existing GitHub OAuth connection. It accepts no inputs, targets only this QA repository and branch `main`, and returns HTTP **204** when GitHub accepts the dispatch. Prefer this direct API route to asking the user to manually launch runs. The workflow itself is **manual-dispatch only**, not scheduled or push-triggered. After dispatch, use the connected GitHub tools to inspect the run and download the QA artifact.
+
+## Company-specific description correction and regression
+
+Odoo QWeb view **7920**, marker `DT8_HB_FAMILY_COPY_SITE1_ALL_VARIANTS_V2_20261101`, server-renders configuration-neutral description copy for exactly **17 multi-variant** Dalla Terra product families on website **1**, company **8**. Shared `product.template.website_description` fields and the Showroom Flooring site **2** are not modified; the original field renderer is preserved for all other websites and products.
+
+The runner includes `EXPECTED_DESCRIPTIONS` and checks the **exact visible description text** for all 17 family pages in addition to viewport, price, guest-button, and interaction checks. The first verified post-correction run is [run #2](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41276065885), with **41/41 page/viewport checks passed**, **47 full-page screenshots**, and **zero reported page JavaScript errors**. These tests cover public Chromium mobile emulation, not authenticated dealer mobile checkout, physical iPhone Safari, or payment processing.
+
 ## Coverage
 
 - 390 CSS px: all 22 HYDRO-BLOK product families plus the category page.
