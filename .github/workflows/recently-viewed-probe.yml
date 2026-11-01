@@ -1,0 +1,33 @@
+name: Dalla Terra Odoo recently-viewed RPC diagnostic
+# One-time/on-demand only, read-only public product navigation.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate diagnostic JavaScript
+        run: node --check recently_viewed_probe.js
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install WebKit and Chromium
+        run: npx playwright install --with-deps webkit chromium
+      - name: Compare fresh and warmed guest sessions without writes
+        run: node recently_viewed_probe.js
+      - name: Upload sanitized RPC diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dalla-terra-recently-viewed-rpc-diagnostic
+          path: qa-output-rpc/
+          retention-days: 7
+          if-no-files-found: warn
