@@ -38,6 +38,13 @@ npm run test:mobile
 
 This is a remote-site smoke and responsive interaction regression suite, **not** iOS Safari, physical-device testing, signed-in dealer mobile checkout or an actual order placement test. Public mobile QA cannot sign off those separate gates.
 
+## WebKit and authenticated acceptance (separate release gates)
+
+- **Public WebKit mobile emulation** is available via `.github/workflows/webkit-audit.yml`, triggered directly on demand through Make scenario **6856534**. It uses Playwright WebKit on Linux (Safari engine), **not physical iPhone Safari**. The first two runs achieved **40 PASS / 1 REVIEW** (41 checks): responsive layout and product selections passed, while a guest Odoo recently-viewed AJAX request produced a WebKit access-control error. See [QA issue #2](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/issues/2). No production workaround is authorized until the cause is confirmed.
+- **Signed-in dealer checkout mobile QA** is prepared at `.github/workflows/dealer-mobile-readonly.yml` using `dealer_mobile_qa.js`. It tests the authorized test account at 390px in **Chromium and WebKit**; it checks assigned account prices, public MSRP, variant taps, guest/dealer controls, and GET-only cart/address/extra-info navigation. It NEVER adds lines to cart, edits addresses, confirms an order, or submits payment. No screenshots of private checkout data are saved.
+- The authenticated workflow requires a **temporary GitHub Actions secret** named `DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026`. The password must be entered directly through GitHub's encrypted Actions Secret UI, **never committed to source code, provided in workflow-dispatch inputs, or printed in logs**. This secret has **not** been configured or tested by the assistant. After acceptance, delete the temporary repository secret and rotate the test password because it previously appeared in a screenshot.
+- Once the user configures the encrypted secret, the assistant can trigger the workflow via on-demand Make scenario **6856567** and review its sanitized reports. No TinyFish is needed.
+
 ## Change controls
 
 Only run when requested. Treat new failures as potential application issues but independently verify before modifying the production site. Never modify Showroom company 2 or the Showroom shower-studio QA repository in response to this project.
