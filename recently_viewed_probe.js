@@ -31,12 +31,14 @@ const slugs=[
  memorial
 ];
 async function one(kind,mode){
- const record={engine:kind,mode,visited:[],errors:[],rpc:[],product:null};
+ const record={engine:kind,mode,visited:[],errors:[],rpc:[],failedRequests:[],consoleErrors:[],product:null};
  const browser=await (kind==='webkit'?webkit:chromium).launch({headless:true});
  try{
   const context=await browser.newContext({viewport:{width:390,height:844},screen:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:1,locale:'en-CA'});
   const page=await context.newPage();
   page.on('pageerror',e=>record.errors.push(String(e?.message||e).slice(0,450)));
+  page.on('requestfailed',req=>{if(req.url().includes('recently_viewed_update'))record.failedRequests.push({url:req.url().slice(0,180),errorText:req.failure()?.errorText||''});});
+  page.on('console',msg=>{if(msg.type()==='error' && msg.text().includes('recently_viewed_update'))record.consoleErrors.push(msg.text().slice(0,400));});
   const pending=[];
   page.on('response',r=>{
    if(!r.url().includes('/shop/products/recently_viewed_update'))return;
@@ -51,7 +53,7 @@ async function one(kind,mode){
    })();
    pending.push(task);
   });
-  const visits=mode==='fresh'?[memorial]:slugs;
+  const visits=mode==='fresh'?[memorial]:slugs.slice(0,7);
   for(const slug of visits){
    const response=await page.goto(base+slug,{waitUntil:'domcontentloaded',timeout:40000});
    await page.waitForTimeout(700);
@@ -75,10 +77,10 @@ async function main(){
   for(const mode of ['fresh','warm']){
    const result=await one(engine,mode);
    runs.push(result);
-   console.log(engine+' '+mode+' visited='+result.visited.length+' errors='+result.errors.length+' rpc_errors='+result.rpc.filter(r=>r.hasError).length+' page='+result.product?.sku);
+   console.log(engine+' '+mode+' visited='+result.visited.length+' errors='+result.errors.length+' failedRequests='+result.failedRequests.length+' rpc_errors='+result.rpc.filter(r=>r.hasError).length);
   }
  }
- const summary={runs:runs.length,auth:'guest',site:'www.dallaterra.ca',incidents:runs.filter(x=>x.errors.length||x.rpc.some(v=>v.hasError)).map(x=>({engine:x.engine,mode:x.mode,errors:x.errors.length,rpcErrors:x.rpc.filter(v=>v.hasError).length}))};
+ const summary={runs:runs.length,auth:'guest',site:'www.dallaterra.ca',incidents:runs.filter(x=>x.errors.length||x.failedRequests.length||x.rpc.some(v=>v.hasError)).map(x=>({engine:x.engine,mode:x.mode,errors:x.errors.length,failedRequests:x.failedRequests.length,rpcErrors:x.rpc.filter(v=>v.hasError).length}))};
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({summary,runs},null,2));
  fs.writeFileSync(path.join(out,'report.md'),'# Recently-viewed RPC diagnostic\n\n'+JSON.stringify(summary,null,2)+'\n\nRead-only public Odoo website_sale diagnostic. Successful HTTP 200 does not guarantee JSON-RPC success.');
 }
