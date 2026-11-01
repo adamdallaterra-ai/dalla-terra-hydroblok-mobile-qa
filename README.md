@@ -45,6 +45,20 @@ This is a remote-site smoke and responsive interaction regression suite, **not**
 - The authenticated workflow requires a **temporary GitHub Actions secret** named `DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026`. The password must be entered directly through GitHub's encrypted Actions Secret UI, **never committed to source code, provided in workflow-dispatch inputs, or printed in logs**. This secret has **not** been configured or tested by the assistant. After acceptance, delete the temporary repository secret and rotate the test password because it previously appeared in a screenshot.
 - Once the user configures the encrypted secret, the assistant can trigger the workflow via on-demand Make scenario **6856567** and review its sanitized reports. No TinyFish is needed.
 
+## Authenticated mobile acceptance — verified (2026-11-01)
+
+**[Signed-in mobile run #2](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41309265075) — SUCCESS.** The downloaded GitHub artifact was inspected and verified (ZIP integrity OK, `results.json` and `report.md` only; no screenshots or credentials). Test account: `test@dallaterra.ca`. Both Playwright **Chromium and WebKit at 390×844 CSS px** passed, with no page JavaScript errors or horizontal overflow.
+
+- Dealer prices and MSRP verified for HYDRO-BLOK sealant cartridge (`HBJSCART`: $11.24 / $20.43 MSRP) and sausage (`HBJSSAUS`: $19.92 / $36.22 MSRP), including the one-tap 10oz→20oz dependency.
+- Wallboards verified (`HBWB366014`: $36.17 / $65.76 MSRP; `HBWB366012`: $41.09 / $74.70 MSRP) with thickness-option tap.
+- Dealer ordering CTA present on the tested product configurations.
+- Existing four-line test cart accessible (HTTP 200), and prior subtotal **$273.82**, taxes **$32.87**, and total **$306.69** remained visible before/after checkout navigation in both engines.
+- Checkout Address and Extra Info GET screens loaded (HTTP 200), width 390, no horizontal overflow; existing cart values preserved.
+- **No products added or removed, no address saved, no order confirmation, no payment, and no customer-private screenshots.**
+- This is **emulated mobile** Chromium/WebKit, not a physical iPhone or native iOS Safari, and does not test final purchase/payment submission.
+
+**Required credential cleanup:** After acceptance, delete the repository Actions secret `DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026` and rotate the test-account password, which appeared in an earlier screenshot. The connected tools cannot safely manage the GitHub Actions secret deletion; user must perform it in GitHub Settings → Secrets and variables → Actions. Do not place the password in code, reports or chat.
+
 ## Change controls
 
 Only run when requested. Treat new failures as potential application issues but independently verify before modifying the production site. Never modify Showroom company 2 or the Showroom shower-studio QA repository in response to this project.
