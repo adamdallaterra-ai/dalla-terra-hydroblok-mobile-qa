@@ -22,8 +22,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Validate syntax of GET-only guard
-        run: node --check tests/held-wallboard-public-readonly.js
+      - name: Validate syntax of GET-only guards
+        run: |
+          node --check tests/held-wallboard-public-readonly.js
+          node --check tests/held-wallboard-ssr-smoke.js
       - name: Validate strict offline code and URL fixtures
         run: |
           node --test tests/vendor-sku-routing-no-email.test.js
@@ -32,7 +34,9 @@ jobs:
         run: |
           npm install --no-audit --no-fund
           npx playwright install --with-deps ${{ matrix.browser }}
-      - name: Run public-only held SKU and positive image-load release gate
+      - name: Confirm interim SSR form suppression independently (GET only)
+        run: node tests/held-wallboard-ssr-smoke.js ${{ matrix.browser }}
+      - name: Run full held SKU and positive image-load release gate (expected HOLD)
         run: node tests/held-wallboard-public-readonly.js ${{ matrix.browser }}
       - name: Store sanitized public screenshots and results
         if: always()
