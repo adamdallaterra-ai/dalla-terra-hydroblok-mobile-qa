@@ -3,10 +3,12 @@
  * DT8_HB_HELD_WALLBOARD_PUBLIC_GUARD_V1_20261101
  * Manual-only, PUBLIC-GUEST, GET-only live guard. No login, email, forms,
  * add-to-cart, checkout, order, booking, Odoo writes or Showroom website visits.
- * Deliberately FAILS while held product 10972 is deep-link selectable.
+ * Validates the live company-8 FRONTEND unavailable state after the held-SKU fix.
+ * A green public result never establishes cart/API/backend order-line rejection.
  */
 const fs = require('node:fs');
 const path = require('node:path');
+const {nativeForm} = require('./held-wallboard-ssr-smoke');
 const BASE = 'https://www.dallaterra.ca';
 const PRODUCT = BASE + '/shop/hydroblok-wallboard-and-panels-6604';
 const HELD = PRODUCT + '?attribute_values=346%2C305';
@@ -40,7 +42,8 @@ async function main() {
   const out = path.resolve('qa-output-held-' + engine);
   fs.mkdirSync(out, { recursive: true });
   const report = { scope: 'DT8 SITE1 PUBLIC GET ONLY', engine, created: new Date().toISOString(),
-    expectedCurrentHold: true, cases: [], passed: false };
+    expectedFrontEndUnavailable: true, backendWriteTimeAcceptance: 'NOT TESTED - ISSUE 3 OPEN',
+    cases: [], passed: false };
   try {
     for (const width of [390, 1280]) {
       const context = await browser.newContext({ viewport: {width, height: 850},
@@ -65,9 +68,11 @@ async function main() {
       try {
         const normal = await page.goto(PRODUCT, { waitUntil: 'domcontentloaded', timeout: 45000 });
         const html = await normal.text();
-        one.pages.default = { status: normal.status(), serverProductId: serverProductId(html) };
-        if (normal.status() !== 200 || one.pages.default.serverProductId !== 10238)
-          one.issues.push('Normal wallboard default product baseline drift');
+        one.pages.default = { status: normal.status(), serverProductId: serverProductId(html),
+          nativePurchaseForm: nativeForm(html), priceBoxInHTML: html.includes('id="dt8-hb-pricebox"') };
+        if (normal.status() !== 200 || one.pages.default.serverProductId !== 10238 ||
+            one.pages.default.nativePurchaseForm !== true || !one.pages.default.priceBoxInHTML)
+          one.issues.push('Normal wallboard default purchase/price baseline drift');
         const held = await page.goto(HELD, { waitUntil: 'domcontentloaded', timeout: 45000 });
         const heldHtml = await held.text();
         await page.waitForTimeout(900);
@@ -82,18 +87,37 @@ async function main() {
           const price = document.querySelector('#dt8-hb-primary')?.textContent?.trim() || null;
           const sku = document.querySelector('#dt8-hb-sku')?.textContent?.trim() || null;
           const heldData = document.querySelector('#dt8-hb-prices [data-id="10972"]');
+          const notice = document.querySelector('#dt8-hb-wallboard-unavailable');
+          const legacyWarning = document.querySelector('#o_wsale_product_details_content .o_wsale_product_details_content_section_title .alert.alert-warning');
+          const alternativeLinks = [...(notice?.querySelectorAll('a[href]') || [])].filter(visible);
           return { url: location.href, sku, price, choices,
             hiddenMsrpPresent: !!(heldData && heldData.hasAttribute('data-msrp')),
+            unavailableNoticeVisible: visible(notice),
+            genericWarningVisible: visible(legacyWarning),
+            alternativeLinkCount: alternativeLinks.length,
+            priceBoxVisible: visible(document.querySelector('#dt8-hb-pricebox')),
             guestPurchaseLabels: controls.filter(x => /add to (cart|order)/i.test(x)).slice(0, 6),
             canonical: document.querySelector('link[rel="canonical"]')?.href || null };
         });
-        one.pages.held = { status: held.status(), serverProductId: serverProductId(heldHtml), ...state };
-        if (held.status() !== 200) one.issues.push('Held deep link does not load predictably: HTTP ' + held.status());
-        if (one.pages.held.serverProductId === HELD_ID || state.sku === HELD_CODE ||
-            state.choices.some(c => c.attributeId === '346'))
-          one.issues.push('RELEASE HOLD: unpriced variant 10972 still selectable using attribute_values=346,305');
-        if (!one.pages.held.serverProductId) one.issues.push('Unable to independently verify held URL server product_id');
-        if (state.hiddenMsrpPresent) one.issues.push('Held variant unexpectedly has public data-msrp');
+        one.pages.held = { status: held.status(), serverProductId: serverProductId(heldHtml),
+          nativePurchaseForm: nativeForm(heldHtml), ...state };
+        if (held.status() !== 200) one.issues.push('Held deep link HTTP ' + held.status());
+        // The selected historical variant may be visible as a *reference*; it must not be orderable.
+        // Absence of a server product_id and purchase form is the expected protected state.
+        if (one.pages.held.nativePurchaseForm !== false || one.pages.held.serverProductId !== null)
+          one.issues.push('Held variant still exposes a native purchase form/product_id');
+        if (!heldHtml.includes('id="dt8-hb-wallboard-unavailable"') ||
+            !heldHtml.includes("This wallboard size isn't available to order") ||
+            !heldHtml.includes('Our supplier does not stock the 25 x 48-inch') ||
+            !state.unavailableNoticeVisible)
+          one.issues.push('Supplier-unavailable explanation absent or hidden');
+        if (!state.alternativeLinkCount)
+          one.issues.push('No visible alternative-size/help link');
+        if (state.genericWarningVisible)
+          one.issues.push('Obsolete native invalid-combination alert still visible');
+        if (heldHtml.includes('id="dt8-hb-pricebox"') || state.priceBoxVisible ||
+            state.hiddenMsrpPresent)
+          one.issues.push('Held variant exposes a price box or MSRP data');
         if (state.guestPurchaseLabels.length) one.issues.push('Public guest purchase control visible');
         await page.screenshot({ path: path.join(out, 'held-' + width + '.png'), fullPage: false });
         const hub = await page.goto(HUB, { waitUntil: 'domcontentloaded', timeout: 45000 });
@@ -129,8 +153,9 @@ async function main() {
   report.passed = report.cases.length === 2 && report.cases.every(c => c.issues.length === 0);
   fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n');
   const summary = report.cases.map(c => c.width + 'px: ' + (c.issues.length ? c.issues.join(' | ') : 'PASS')).join('\n');
-  console.log('DT8 HELD-WALLBOARD READ-ONLY RELEASE GATE\n' + summary);
-  console.log('Final: ' + (report.passed ? 'PASS' : 'HOLD / FAIL') + ' (no non-GET requests allowed)');
+  console.log('DT8 HELD-WALLBOARD PUBLIC SSR / IMAGE-LOAD GUARD (GET only)\n' + summary);
+  console.log('Frontend result: ' + (report.passed ? 'PASS' : 'FAIL') +
+    '; BACKEND ORDER REJECTION: NOT TESTED / ISSUE #3 OPEN (no non-GET requests allowed)');
   if (!report.passed) process.exitCode = 1;
 }
 if (require.main === module) main().catch(e => { console.error(String(e.stack || e)); process.exitCode = 1; });
