@@ -85,7 +85,18 @@ async function runEngine(kind){
    const ctx=await browser.newContext({viewport:{width:390,height:844},screen:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:1,locale:'en-CA'});
    const page=await ctx.newPage();
    page.setDefaultTimeout(12000);
-   page.on('pageerror',err=>record.errors.push(String(err?.message||'page JS error').slice(0,170)));
+   // DT8_HB_MAILDATA_DIAGNOSTIC_NO_SEND_V1_20261101: route of pageerror is recorded; no private account or token values.
+   page.on('pageerror',err=>record.errors.push(('page '+new URL(page.url()).pathname+': '+String(err?.message||'page JS error')).slice(0,210)));
+   record.mailDataResponses=[];
+   page.on('response',res=>{
+     if(new URL(res.url()).pathname==='/mail/data')
+       record.mailDataResponses.push({status:res.status(),method:res.request().method(),page:new URL(page.url()).pathname});
+   });
+   // Harden no-email/no-order testing: never allow an Odoo server action to execute.
+   await page.route('**/web/dataset/call_kw/ir.actions.server/run',async route=>{
+     record.issues.push('Unexpected Odoo server-action request was blocked');
+     await route.abort();
+   });
    const login=await page.goto(BASE+'/web/login?redirect=%2Fshop',{waitUntil:'domcontentloaded',timeout:45000});
    if(login?.status()!==200)throw Error('Login page not HTTP 200');
    // Odoo header includes unrelated search forms: scope all login controls to the actual, visible login form.
