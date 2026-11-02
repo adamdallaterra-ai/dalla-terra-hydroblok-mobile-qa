@@ -26,6 +26,7 @@ jobs:
         run: |
           node --check tests/held-wallboard-public-readonly.js
           node --check tests/held-wallboard-ssr-smoke.js
+          node --check tests/unstocked-wallboard-search-readonly.js
       - name: Validate strict offline code and URL fixtures
         run: |
           node --test tests/vendor-sku-routing-no-email.test.js
@@ -36,6 +37,8 @@ jobs:
           npx playwright install --with-deps ${{ matrix.browser }}
       - name: Confirm interim SSR form suppression independently (GET only)
         run: node tests/held-wallboard-ssr-smoke.js ${{ matrix.browser }}
+      - name: Verify exact unstocked SKU search banner and normal SKU control (GET only)
+        run: node tests/unstocked-wallboard-search-readonly.js ${{ matrix.browser }}
       - name: Run full held SKU and positive image-load release gate (expected HOLD)
         run: node tests/held-wallboard-public-readonly.js ${{ matrix.browser }}
       - name: Store sanitized public screenshots and results
