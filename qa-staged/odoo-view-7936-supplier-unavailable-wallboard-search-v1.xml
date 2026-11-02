@@ -1,0 +1,707 @@
+<data>
+    <!-- 1. INJECT THE HIGH-END RETAIL AESTHETIC CSS -->
+    <xpath expr="//div[@id='wrap']" position="before">
+        <style>
+            /* Page Background */
+            .o_wsale_products_page { background-color: #ffffff; }
+
+            /* Category Sidebar and Header Typography */
+            .o_wsale_products_header h1 { font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; color: #111; border-bottom: 1px solid #eaeaea; padding-bottom: 15px; margin-bottom: 25px !important;}
+            .products_categories .nav-link { color: #666; font-weight: 400; text-transform: uppercase; font-size: 0.80rem; letter-spacing: 0.08em; padding: 8px 15px; transition: color 0.2s ease;}
+            .products_categories .nav-link:hover { color: #111; }
+            .products_categories .nav-link.active { color: #111; font-weight: 600; border-left: 3px solid #A97F4D; background: transparent !important; padding-left: 12px; }
+
+            /* ==================================================== */
+            /* PREMIUM PRODUCT CARD RE-STYLING */
+            /* ==================================================== */
+            
+            /* Remove standard Bootstrap card borders */
+            .o_wsale_products_grid_table .card { border: none !important; background: transparent !important; }
+            
+            /* The Hover Interaction */
+            .o_wsale_products_grid_table .oe_product { border: none !important; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); border-radius: 2px; padding: 10px; }
+            .o_wsale_products_grid_table .oe_product:hover { transform: translateY(-4px); z-index: 10; }
+            
+            /* The Image "Studio" Box - Grounds the floating images */
+            .o_wsale_products_grid_table .oe_product_image { background-color: #fcfbf9 !important; border-radius: 4px; padding: 1.5rem; transition: background-color 0.3s ease; }
+            .o_wsale_products_grid_table .oe_product:hover .oe_product_image { background-color: #f7f5f0 !important; }
+            
+            /* Optional: If your tile images have white backgrounds, this blends them into the studio box */
+            .o_wsale_products_grid_table .oe_product_image img { mix-blend-mode: multiply; }
+
+            /* Typography: Product Title */
+            .o_wsale_product_information { background: transparent !important; padding: 1rem 0.2rem 0 0.2rem !important; }
+            .o_wsale_product_information_text a.text-primary { color: #1a1a1a !important; font-weight: 500; font-size: 0.95rem; letter-spacing: 0.03em; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+            .o_wsale_product_information_text a.text-primary:hover { color: #A97F4D !important; }
+
+            /* Typography: Price */
+            .product_price { color: #666 !important; font-weight: 400; font-size: 0.9rem; margin-top: 4px; }
+            .product_price .text-danger { color: #A97F4D !important; /* Make discount text gold instead of harsh red */ }
+
+            /* Hidden Action Buttons (Add to Cart / View) */
+            .o_wsale_product_btn { background: transparent !important; border: none !important; box-shadow: none !important; padding-bottom: 10px; }
+            .o_wsale_product_btn .btn { background-color: #fff; color: #111; border: 1px solid #e0e0e0; border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; opacity: 0.8; }
+            .o_wsale_product_btn .btn:hover { background-color: #111; color: #fff; border-color: #111; opacity: 1; }
+
+            /* Global Utility */
+            .hover-elevate:hover { transform: translateY(-2px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; color: #fff !important; filter: brightness(1.05); }
+        </style>
+    </xpath>
+
+    <!-- DT8_HYDROBLOK_EDITORIAL_DEALER_LANDING_V1_20261016
+         Site 1, company 8, Hydroblok category only. Retains current product grid, pricing,
+         portal authentication, SKU records and the independent HYDROBLOK Shower Planner. -->
+
+    <!-- DT8_HB_UNSTOCKED_WALLBOARD_EXACT_SKU_SEARCH_V1_20261102: confirmed supplier-unavailable HBWB2548112; exact company8/site1 SKU search only, no redirect, no product data or pricing change. -->
+    <xpath expr="//div[hasclass('o_wsale_products_grid_table_wrapper')]" position="before">
+      <t t-if="request.website and request.website.id == 1 and request.website.company_id.id == 8 and search and str(search).strip().upper() == 'HBWB2548112'">
+        <style type="text/css">
+          #products_grid .o_wsale_products_grid_table .product_price {display:none!important}
+        </style>
+        <section id="dt8-hb-unstocked-sku-search-notice" class="border rounded p-3 p-md-4 mb-4" role="status" aria-label="Wallboard item availability">
+          <h2 class="h5 mb-2">That wallboard item is not available to order</h2>
+          <p class="mb-2"><strong>HBWB2548112</strong> is the 25 x 48-inch, 1 1/2-inch-thick HYDRO-BLOK wallboard. Our supplier does not stock this size, so Dalla Terra cannot offer it.</p>
+          <p class="mb-3">The product family shown below contains other wallboard sizes. Any price on the family product page applies to the size selected there, not to this unavailable item.</p>
+          <a class="btn btn-outline-primary" href="/shop/hydroblok-wallboard-and-panels-6604">View available wallboard sizes</a>
+        </section>
+      </t>
+    </xpath>
+
+    <xpath expr="//div[hasclass('o_wsale_products_grid_table_wrapper')]" position="before">
+        <t t-if="request.website and request.website.id == 1 and request.website.company_id.id == 8 and category and 'hydroblok' in (category.name or '').lower() and not search">
+            
+<style>
+/* DT8_HB_UNIFIED_LANDING_V2_20261030 — scope: website 1 / company 8 / HYDRO-BLOK category. Shared shop, tile, pricing and portal remain unchanged. */
+/* DT8_HB_UNLISTED_WALLBOARD_FILTER_HOLD_V1_20261031: Only the legacy 25x48 wallboard attribute filter; supplier 2026 list excludes this SKU. */
+#products_grid .list-group-item:has(input[name="attribute_value"][value="45-346"]){display:none!important}
+
+#o_wsale_products_header &gt; h1 {display:none!important}
+.dt8-hb-v2 {--hb-ink:#292c29;--hb-muted:#5f625c;--hb-sand:#f2efe9;--hb-line:#dcd6cb;--hb-accent:#8d765b;color:var(--hb-ink);font-family:inherit;width:100%;max-width:100%;margin:0 0 54px;overflow:hidden}
+.dt8-hb-v2 * {box-sizing:border-box}
+.dt8-hb-v2 h1,.dt8-hb-v2 h2,.dt8-hb-v2 h3,.dt8-hb-v2 p,.dt8-hb-v2 figure {margin:0}
+.dt8-hb-v2 h1,.dt8-hb-v2 h2 {font-family:Georgia,'Times New Roman',serif!important;font-weight:400!important;letter-spacing:-.043em!important;color:inherit!important}
+.dt8-hb-v2 h2 {font-size:clamp(34px,3.65vw,52px)!important;line-height:1.13!important}
+.dt8-hb-v2 h3 {font-size:clamp(19px,1.85vw,24px)!important;line-height:1.25!important;font-weight:600!important;color:inherit!important}
+.dt8-hb-v2 p {font-size:16px;line-height:1.7;color:var(--hb-muted)}
+.dt8-hb-v2 img {display:block;width:100%;height:100%;object-fit:cover}
+.dt8-hb-v2 a {text-decoration:none!important}
+.dt8-hb-v2 a:focus-visible {outline:3px solid #b58e55!important;outline-offset:4px!important}
+.dt8-hb-v2 .dt8-hb-eyebrow {display:block;font-size:12px;line-height:1.45;letter-spacing:.12em;font-weight:700;text-transform:uppercase;color:#846e54;margin:0 0 20px}
+.dt8-hb-v2 .dt8-hb-btn {display:inline-flex;align-items:center;justify-content:center;gap:13px;min-height:52px;padding:13px 23px;border:1px solid #2c302c;background:#2c302c;color:#fff!important;font-size:14px;font-weight:700;line-height:1.3;letter-spacing:.015em;transition:background .15s,border-color .15s,transform .15s;max-width:100%;text-align:center}
+.dt8-hb-v2 .dt8-hb-btn:hover {background:#424941;border-color:#424941;transform:translateY(-1px)}
+.dt8-hb-v2 .dt8-hb-btn--outline {background:transparent;color:#2c302c!important;border-color:#918a7e}
+.dt8-hb-v2 .dt8-hb-btn--outline:hover {background:#ece7df;border-color:#2c302c;color:#2c302c!important}
+.dt8-hb-v2 .dt8-hb-buttons {display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:30px}
+.dt8-hb-v2 .dt8-hb-text-link {display:inline-block;color:#3f5146!important;font-weight:700;text-decoration:underline!important;text-decoration-color:#a2ab9f!important;text-underline-offset:5px!important;font-size:14px;line-height:1.5}
+.dt8-hb-v2 .dt8-hb-text-link:hover {color:#1b2a1f!important}
+.dt8-hb-v2 .dt8-hb-note {font-size:13px!important;line-height:1.6!important;color:#74726d!important}
+.dt8-hb-v2 .dt8-hb-hero {display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);background:var(--hb-sand);min-height:535px;align-items:stretch}
+.dt8-hb-v2 .dt8-hb-hero-copy {display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(40px,5.4vw,78px) clamp(28px,5.1vw,72px)}
+.dt8-hb-v2 .dt8-hb-hero h1 {font-size:clamp(41px,4.15vw,61px)!important;line-height:1.085!important;max-width:12.6em}
+.dt8-hb-v2 .dt8-hb-hero h1 span {display:block;color:#7b705d}
+.dt8-hb-v2 .dt8-hb-hero-copy &gt; p {font-size:17px;line-height:1.65;max-width:520px;margin-top:23px}
+.dt8-hb-v2 .dt8-hb-hero-media {position:relative;min-height:470px;overflow:hidden;background:#c3c1b9}
+.dt8-hb-v2 .dt8-hb-hero-media img {position:absolute;inset:0;object-position:52% 50%;transition:transform .4s}
+.dt8-hb-v2 .dt8-hb-hero-media figcaption {position:absolute;right:12px;bottom:12px;background:rgba(32,36,32,.75);padding:7px 10px;font-size:11px;line-height:1.3;color:#fff;max-width:85%}
+.dt8-hb-v2 .dt8-hb-quick-nav {display:flex;align-items:center;gap:30px;flex-wrap:wrap;padding:18px clamp(25px,4.7vw,66px);border-bottom:1px solid #e3ded5;background:#fff}
+.dt8-hb-v2 .dt8-hb-quick-nav a {font-size:13px;font-weight:700;line-height:1.3;color:#424740!important;padding:9px 0}
+.dt8-hb-v2 .dt8-hb-quick-nav a:hover {color:#867357!important;text-decoration:underline!important}
+.dt8-hb-v2 .dt8-hb-section {padding:clamp(58px,6.9vw,92px) clamp(27px,5.2vw,75px)}
+.dt8-hb-v2 .dt8-hb-section-intro {max-width:870px}
+.dt8-hb-v2 .dt8-hb-section-intro &gt; p {font-size:17px;max-width:720px;margin-top:18px}
+.dt8-hb-v2 .dt8-hb-benefits {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px;margin-top:49px}
+.dt8-hb-v2 .dt8-hb-benefit {border-top:2px solid #303a31;padding-top:23px;min-width:0}
+.dt8-hb-v2 .dt8-hb-benefit-num {display:block;color:#897458;font-size:12px;font-weight:700;letter-spacing:.12em;margin-bottom:23px}
+.dt8-hb-v2 .dt8-hb-benefit h3 {margin:0 0 12px}
+.dt8-hb-v2 .dt8-hb-benefit p {font-size:15px;line-height:1.65}
+.dt8-hb-v2 .dt8-hb-resource-links {display:flex;gap:14px 32px;flex-wrap:wrap;padding-top:25px;margin-top:32px;border-top:1px solid #e4e1db}
+.dt8-hb-v2 .dt8-hb-dealer {background:var(--hb-sand)}
+.dt8-hb-v2 .dt8-hb-dealer-head {display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start;gap:clamp(26px,5vw,70px)}
+.dt8-hb-v2 .dt8-hb-dealer-head &gt; p {font-size:18px;line-height:1.66;margin-top:13px}
+.dt8-hb-v2 .dt8-hb-dealer h2 {max-width:570px}
+.dt8-hb-v2 .dt8-hb-dealer-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:31px;margin-top:52px}
+.dt8-hb-v2 .dt8-hb-dealer-grid article {padding-top:23px;border-top:1px solid #bcb5aa}
+.dt8-hb-v2 .dt8-hb-dealer-grid h3 {margin-bottom:12px}
+.dt8-hb-v2 .dt8-hb-dealer-grid p {font-size:15px;line-height:1.68}
+.dt8-hb-v2 .dt8-hb-dealer-actions {display:flex;align-items:center;flex-wrap:wrap;gap:13px;margin-top:36px}
+
+/* DT8_HB_FIRST_PROJECT_PATH_V1_20261101: one optional 3-step guide; native details, no new form or transaction. */
+.dt8-hb-v2 .dt8-hb-first-project {margin-top:32px;max-width:1100px;border:1px solid #d4ccc0;background:#fff}
+.dt8-hb-v2 .dt8-hb-first-project summary {display:flex;align-items:center;justify-content:space-between;gap:20px;list-style:none;cursor:pointer;padding:19px 23px;color:#304035}
+.dt8-hb-v2 .dt8-hb-first-project summary::-webkit-details-marker {display:none}
+.dt8-hb-v2 .dt8-hb-first-project summary:focus-visible {outline:2px solid #8d765b;outline-offset:3px}
+.dt8-hb-v2 .dt8-hb-first-project summary strong {font-size:17px;line-height:1.4}
+.dt8-hb-v2 .dt8-hb-first-project summary small {display:block;margin-top:4px;font-size:13px;line-height:1.5;color:#687068}
+.dt8-hb-v2 .dt8-hb-first-chevron {font-size:25px;line-height:1;flex:0 0 auto;color:#796d5d}
+.dt8-hb-v2 .dt8-hb-first-project[open] .dt8-hb-first-chevron {transform:rotate(45deg)}
+.dt8-hb-v2 .dt8-hb-first-project ol {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin:0;padding:23px 30px 17px 44px;border-top:1px solid #e5e0d7}
+.dt8-hb-v2 .dt8-hb-first-project li {min-width:0;padding-right:8px;font-size:14px;line-height:1.6}
+.dt8-hb-v2 .dt8-hb-first-project li strong {display:block;margin-bottom:5px;color:#2c3830;font-size:15px;line-height:1.35}
+.dt8-hb-v2 .dt8-hb-first-project .dt8-hb-first-footer {margin:0;padding:2px 23px 22px;font-size:13px;line-height:1.6;color:#5c625b}
+.dt8-hb-v2 .dt8-hb-first-project .dt8-hb-first-footer a {color:#355c45!important;font-weight:700;text-decoration:underline!important}
+@media(max-width:760px) {.dt8-hb-v2 .dt8-hb-first-project ol {grid-template-columns:minmax(0,1fr);gap:17px;padding:20px 20px 13px 39px}.dt8-hb-v2 .dt8-hb-first-project summary {padding:17px 18px}.dt8-hb-v2 .dt8-hb-first-project .dt8-hb-first-footer {padding:0 18px 19px}}
+
+.dt8-hb-v2 .dt8-hb-dealer .dt8-hb-note {margin-top:18px;max-width:890px}
+.dt8-hb-v2 .dt8-hb-planner {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.98fr);align-items:center;gap:clamp(26px,5vw,75px);padding:clamp(58px,7vw,92px) clamp(27px,5.2vw,75px);background:#fff}
+.dt8-hb-v2 .dt8-hb-planner-copy h2 {max-width:640px}
+.dt8-hb-v2 .dt8-hb-planner-copy &gt; p {font-size:17px;margin-top:18px;max-width:590px}
+.dt8-hb-v2 .dt8-hb-planner .dt8-hb-note {margin-top:20px}
+.dt8-hb-v2 .dt8-hb-planner-media {height:clamp(360px,42vw,540px);position:relative;overflow:hidden;background:#dfddd6}
+.dt8-hb-v2 .dt8-hb-planner-media img {object-position:center 48%}
+.dt8-hb-v2 .dt8-hb-planner-media figcaption {position:absolute;right:0;bottom:0;left:0;padding:10px 14px;background:rgba(40,42,38,.77);color:#fff;font-size:11px}
+.dt8-hb-v2 .dt8-hb-referral {display:flex;gap:30px;align-items:center;justify-content:space-between;border-top:1px solid #ddd7ce;border-bottom:1px solid #ddd7ce;padding:28px clamp(27px,5.2vw,75px);background:#faf9f6}
+.dt8-hb-v2 .dt8-hb-referral h3 {font-family:Georgia,serif!important;font-size:clamp(22px,2.3vw,30px)!important;font-weight:400!important;margin-bottom:7px}
+.dt8-hb-v2 .dt8-hb-referral p {font-size:14px;max-width:730px}
+.dt8-hb-v2 .dt8-hb-systems {padding:clamp(58px,6vw,82px) clamp(27px,5.2vw,75px) 45px}
+.dt8-hb-v2 .dt8-hb-systems-head {max-width:820px;margin-bottom:38px}
+.dt8-hb-v2 .dt8-hb-systems-head p {margin-top:15px}
+.dt8-hb-v2 .dt8-hb-system-links {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.dt8-hb-v2 .dt8-hb-system-links a {display:flex;min-width:0;align-items:center;gap:14px;justify-content:space-between;border:1px solid #dad7cf;background:#faf9f7;color:#30352f!important;min-height:85px;padding:18px 20px;transition:background .15s,border-color .15s}
+.dt8-hb-v2 .dt8-hb-system-links a:hover {background:#f1ede7;border-color:#928577}
+.dt8-hb-v2 .dt8-hb-system-links .dt8-hb-system-text {font-size:17px;font-weight:700;line-height:1.3}
+.dt8-hb-v2 .dt8-hb-system-links .dt8-hb-system-arrow {font-size:23px;line-height:1;color:#927b60}
+.dt8-hb-v2 .dt8-hb-catalogue-intro {border-top:1px solid #dedbd4;padding:28px 0 12px;margin-top:48px}
+.dt8-hb-v2 .dt8-hb-catalogue-intro h2 {font-size:clamp(28px,2.9vw,38px)!important;margin-bottom:8px}
+.dt8-hb-v2 .dt8-hb-catalogue-intro p {font-size:14px;max-width:730px}
+@media(max-width:1000px) {
+.dt8-hb-v2 .dt8-hb-hero {grid-template-columns:minmax(0,1fr) minmax(0,.95fr);min-height:470px}
+.dt8-hb-v2 .dt8-hb-hero-copy {padding:38px 29px}
+.dt8-hb-v2 .dt8-hb-hero h1 {font-size:clamp(37px,4.8vw,48px)!important}
+.dt8-hb-v2 .dt8-hb-dealer-grid {gap:20px}
+.dt8-hb-v2 .dt8-hb-benefits {gap:20px}
+.dt8-hb-v2 .dt8-hb-planner {gap:28px}
+}
+@media(max-width:760px) {
+.dt8-hb-v2 .dt8-hb-hero,.dt8-hb-v2 .dt8-hb-dealer-head,.dt8-hb-v2 .dt8-hb-planner {grid-template-columns:minmax(0,1fr)}
+.dt8-hb-v2 .dt8-hb-hero {min-height:0}
+.dt8-hb-v2 .dt8-hb-hero-copy {padding:40px 27px 36px}
+.dt8-hb-v2 .dt8-hb-hero h1 {font-size:clamp(37px,7.2vw,53px)!important}
+.dt8-hb-v2 .dt8-hb-hero-media {min-height:310px}
+.dt8-hb-v2 .dt8-hb-quick-nav {gap:12px 22px;padding:12px 27px}
+.dt8-hb-v2 .dt8-hb-benefits,.dt8-hb-v2 .dt8-hb-dealer-grid {grid-template-columns:minmax(0,1fr);gap:25px;margin-top:36px}
+.dt8-hb-v2 .dt8-hb-benefit-num {margin-bottom:13px}
+.dt8-hb-v2 .dt8-hb-dealer-head &gt; p {margin-top:0}
+.dt8-hb-v2 .dt8-hb-planner-media {height:360px}
+.dt8-hb-v2 .dt8-hb-referral {align-items:flex-start;flex-direction:column;gap:18px}
+.dt8-hb-v2 .dt8-hb-system-links {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:480px) {
+.dt8-hb-v2 .dt8-hb-hero-copy {padding:36px 22px 32px}
+.dt8-hb-v2 .dt8-hb-hero h1 {font-size:37px!important;line-height:1.12!important}
+.dt8-hb-v2 .dt8-hb-hero-copy &gt; p {font-size:16px}
+.dt8-hb-v2 .dt8-hb-hero-media {min-height:250px}
+.dt8-hb-v2 .dt8-hb-section,.dt8-hb-v2 .dt8-hb-planner,.dt8-hb-v2 .dt8-hb-systems {padding-left:22px;padding-right:22px}
+.dt8-hb-v2 .dt8-hb-quick-nav {padding-left:22px;padding-right:22px}
+.dt8-hb-v2 .dt8-hb-buttons,.dt8-hb-v2 .dt8-hb-dealer-actions {align-items:stretch;flex-direction:column}
+.dt8-hb-v2 .dt8-hb-btn {width:100%}
+.dt8-hb-v2 .dt8-hb-system-links {grid-template-columns:minmax(0,1fr)}
+.dt8-hb-v2 .dt8-hb-system-links a {min-height:69px}
+.dt8-hb-v2 .dt8-hb-planner-media {height:285px}
+.dt8-hb-v2 .dt8-hb-referral {padding:26px 22px}
+.dt8-hb-v2 .dt8-hb-resource-links {flex-direction:column;gap:13px}
+}
+@media(prefers-reduced-motion:reduce) {.dt8-hb-v2 .dt8-hb-btn,.dt8-hb-v2 .dt8-hb-system-links a {transition:none!important}}
+
+/* DT8_HB_DUAL_IMAGE_BRAND_HERO_V3_20261030: strictly hero-only branding and official matched manufacturer images. */
+.dt8-hb-v2 .dt8-hb-brand-lockup{display:flex;align-items:center;gap:15px;min-width:0;max-width:100%;margin:0 0 27px}
+.dt8-hb-v2 .dt8-hb-brand-dt{font-family:Georgia,'Times New Roman',serif;color:#2e3530;font-weight:600;font-size:clamp(21px,2vw,27px);line-height:1.08;letter-spacing:-.035em;white-space:nowrap;flex:0 0 auto}
+.dt8-hb-v2 .dt8-hb-brand-dt small{display:block;font-family:inherit;font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;line-height:1.6;color:#676b64;margin-top:2px}
+.dt8-hb-v2 .dt8-hb-brand-plus{font-size:23px;line-height:1;color:#907f6b;flex:0 0 auto}
+.dt8-hb-v2 .dt8-hb-brand-logo{display:block!important;width:190px!important;max-width:43%!important;height:auto!important;max-height:75px!important;object-fit:contain!important;object-position:left center!important;flex:0 1 auto}
+.dt8-hb-v2 .dt8-hb-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;min-width:0;background:#efede6}
+.dt8-hb-v2 .dt8-hb-compare-panel{position:relative;margin:0;min-width:0;min-height:0;overflow:hidden;background:#c2c0ba}
+.dt8-hb-v2 .dt8-hb-compare-panel img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover;object-position:center center}
+.dt8-hb-v2 .dt8-hb-compare-panel figcaption{left:14px;right:auto;bottom:16px;font-size:12px;line-height:1.4;font-weight:700;letter-spacing:.02em;padding:9px 12px;max-width:calc(100% - 28px);background:rgba(32,36,32,.84);color:#fff}
+.dt8-hb-v2 .dt8-hb-compare-panel figcaption span{display:block;font-size:10px;font-weight:500;color:#f2efe8}
+@media(max-width:1000px){.dt8-hb-v2 .dt8-hb-brand-lockup{gap:11px}.dt8-hb-v2 .dt8-hb-brand-dt{font-size:21px}.dt8-hb-v2 .dt8-hb-brand-logo{width:160px!important}}
+@media(max-width:480px){.dt8-hb-v2 .dt8-hb-brand-lockup{gap:9px;margin-bottom:23px}.dt8-hb-v2 .dt8-hb-brand-dt{font-size:18px}.dt8-hb-v2 .dt8-hb-brand-dt small{font-size:8px}.dt8-hb-v2 .dt8-hb-brand-plus{font-size:18px}.dt8-hb-v2 .dt8-hb-brand-logo{width:143px!important;max-width:47%!important;max-height:56px!important}.dt8-hb-v2 .dt8-hb-compare-panel figcaption{bottom:8px;left:8px;max-width:calc(100% - 16px);padding:7px 8px;font-size:10px}.dt8-hb-v2 .dt8-hb-compare-panel figcaption span{font-size:9px}}
+
+/* DT8_HB_SHOWROOM_EDUCATION_V4_20261030: Reuse Showroom Flooring's existing proven media and educational content, scoped to this DT8 HYDRO-BLOK category. */
+.dt8-hb-v2 .dt8-hb-learn{padding:clamp(56px,6.8vw,92px) clamp(27px,5.2vw,75px);background:#f6f4f0;border-top:1px solid #e1ded7}
+.dt8-hb-v2 .dt8-hb-learn-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(25px,5vw,70px);align-items:center}
+.dt8-hb-v2 .dt8-hb-learn-copy&gt;p{max-width:600px;font-size:17px;margin-top:20px}
+.dt8-hb-v2 .dt8-hb-learn-notes{list-style:none;padding:0;margin:25px 0;display:grid;gap:13px}
+.dt8-hb-v2 .dt8-hb-learn-notes li{padding:0 0 0 16px;border-left:2px solid #89795e;font-size:14px;line-height:1.68;color:#5a6059}
+.dt8-hb-v2 .dt8-hb-learn-notes strong{color:#2b342d}
+.dt8-hb-v2 .dt8-hb-video-poster{display:block;position:relative;aspect-ratio:16/10;overflow:hidden;color:#fff!important;background:#2c3430}
+.dt8-hb-v2 .dt8-hb-video-poster img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .2s}
+.dt8-hb-v2 .dt8-hb-video-poster:hover img{transform:scale(1.025)}
+.dt8-hb-v2 .dt8-hb-video-poster:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(13,21,17,.88));pointer-events:none}
+.dt8-hb-v2 .dt8-hb-video-play{display:grid;place-items:center;position:absolute;z-index:1;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border-radius:50%;background:rgba(253,252,250,.93);color:#29342b;font-size:27px;box-shadow:0 9px 36px rgba(0,0,0,.27)}
+.dt8-hb-v2 .dt8-hb-video-poster-title{position:absolute;z-index:1;left:23px;bottom:23px;right:23px;color:#fff;font-size:17px;font-weight:700;line-height:1.4}
+.dt8-hb-v2 .dt8-hb-video-meta{padding-top:15px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.dt8-hb-v2 .dt8-hb-video-meta p{font-size:12px;line-height:1.55}
+.dt8-hb-v2 .dt8-hb-video-meta a{font-size:13px;color:#385740!important;text-decoration:underline!important;text-underline-offset:4px!important}
+.dt8-hb-v2 .dt8-hb-video-resources{display:flex;align-items:center;flex-wrap:wrap;gap:12px 28px;margin-top:22px}
+.dt8-hb-v2 .dt8-hb-video-resources a{font-size:14px;font-weight:700;color:#355341!important;text-decoration:underline!important;text-underline-offset:4px!important}
+.dt8-hb-v2 .dt8-hb-knowledge{padding:clamp(55px,6.4vw,84px) clamp(27px,5.2vw,75px) clamp(60px,6.8vw,92px);background:#fff}
+.dt8-hb-v2 .dt8-hb-knowledge-head{max-width:820px;margin-bottom:34px}
+.dt8-hb-v2 .dt8-hb-knowledge-head p{max-width:710px;font-size:17px;margin-top:18px}
+.dt8-hb-v2 .dt8-hb-faqs{border-top:1px solid #dad7cf}
+.dt8-hb-v2 .dt8-hb-faqs details{border-bottom:1px solid #dad7cf}
+.dt8-hb-v2 .dt8-hb-faqs summary{position:relative;cursor:pointer;list-style:none;padding:21px 40px 21px 0;color:#29332c;font-size:17px;font-weight:600;line-height:1.45}
+.dt8-hb-v2 .dt8-hb-faqs summary::-webkit-details-marker{display:none}
+.dt8-hb-v2 .dt8-hb-faqs summary:after{content:"+";position:absolute;right:6px;top:18px;font-weight:400;font-size:26px;color:#59685d}
+.dt8-hb-v2 .dt8-hb-faqs details[open] summary:after{content:"−"}
+.dt8-hb-v2 .dt8-hb-faqs details&gt;p{font-size:15px;line-height:1.7;max-width:830px;padding:0 30px 20px 0}
+.dt8-hb-v2 .dt8-hb-faqs details a{color:#355844!important;text-decoration:underline!important;text-underline-offset:4px!important}
+.dt8-hb-v2 .dt8-hb-comp{margin-top:43px;border:1px solid #dbd8d0;background:#f6f4f0}
+.dt8-hb-v2 .dt8-hb-comp&gt;summary{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:24px 29px;list-style:none;cursor:pointer}
+.dt8-hb-v2 .dt8-hb-comp&gt;summary::-webkit-details-marker{display:none}
+.dt8-hb-v2 .dt8-hb-comp&gt;summary strong{display:block;color:#26302a;font-family:Georgia,'Times New Roman',serif;font-size:clamp(23px,2.6vw,31px);font-weight:400;line-height:1.2}
+.dt8-hb-v2 .dt8-hb-comp&gt;summary small{display:block;color:#686c65;font-size:13px;line-height:1.6;margin-top:8px}
+.dt8-hb-v2 .dt8-hb-comp .dt8-hb-plus{font-size:28px;color:#536552}
+.dt8-hb-v2 .dt8-hb-comp[open] .dt8-hb-plus{transform:rotate(45deg)}
+.dt8-hb-v2 .dt8-hb-comp-body{border-top:1px solid #dbd8d0;padding:27px 29px 33px}
+.dt8-hb-v2 .dt8-hb-comp-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dt8-hb-v2 .dt8-hb-comp-cards article{padding:23px;background:#fff;border:1px solid #e3e1d9;min-width:0}
+.dt8-hb-v2 .dt8-hb-comp-cards .dt8-hb-featured{border-top:4px solid #667b6b}
+.dt8-hb-v2 .dt8-hb-comp-cards h3{margin-bottom:10px;font-size:21px!important}
+.dt8-hb-v2 .dt8-hb-comp-cards .dt8-hb-approach{display:block;margin:0 0 14px;color:#777364;font-size:12px;font-weight:700}
+.dt8-hb-v2 .dt8-hb-comp-cards p{font-size:14px;line-height:1.7}
+.dt8-hb-v2 .dt8-hb-comp-note{font-size:13px!important;margin:22px 0 0!important;line-height:1.65!important}
+.dt8-hb-v2 .dt8-hb-comp-sources{margin-top:17px;display:flex;gap:13px 25px;flex-wrap:wrap}
+.dt8-hb-v2 .dt8-hb-comp-sources a{color:#385640!important;font-size:13px;text-decoration:underline!important;text-underline-offset:4px!important}
+@media(max-width:760px){.dt8-hb-v2 .dt8-hb-learn-grid{grid-template-columns:minmax(0,1fr)}.dt8-hb-v2 .dt8-hb-comp-cards{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){.dt8-hb-v2 .dt8-hb-learn,.dt8-hb-v2 .dt8-hb-knowledge{padding-left:22px;padding-right:22px}.dt8-hb-v2 .dt8-hb-comp&gt;summary,.dt8-hb-v2 .dt8-hb-comp-body{padding-left:18px;padding-right:18px}.dt8-hb-v2 .dt8-hb-video-poster-title{bottom:16px;left:16px;right:16px;font-size:14px}.dt8-hb-v2 .dt8-hb-video-play{width:60px;height:60px}}
+
+/* DT8_HB_SYSTEM_BROWSER_V5_20261030: Category-only visual HYDRO-BLOK family browser; no product, price, inventory, or portal changes. */
+.dt8-hb-v2 .dt8-hb-product-browser{background:#faf9f6;border-top:1px solid #dedbd5;padding:clamp(54px,6vw,86px) clamp(25px,5.2vw,75px) clamp(64px,6vw,88px)}
+.dt8-hb-v2 .dt8-hb-browser-header{max-width:850px;margin-bottom:35px}
+.dt8-hb-v2 .dt8-hb-browser-header h2{max-width:710px}
+.dt8-hb-v2 .dt8-hb-browser-header p{margin-top:15px;font-size:17px;max-width:740px}
+.dt8-hb-v2 .dt8-hb-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 44px}
+.dt8-hb-v2 .dt8-hb-path{display:flex;align-items:center;justify-content:space-between;gap:17px;min-width:0;padding:25px 26px;border:1px solid #d7d4cb;background:#fff;color:#2d382f!important;text-decoration:none!important;transition:transform .15s,border-color .15s,background .15s}
+.dt8-hb-v2 .dt8-hb-path:hover{border-color:#8a7962;background:#f3f0ea;transform:translateY(-2px)}
+.dt8-hb-v2 .dt8-hb-path strong{display:block;font-size:18px;line-height:1.25}
+.dt8-hb-v2 .dt8-hb-path small{display:block;font-size:14px;line-height:1.55;color:#697069;margin-top:8px}
+.dt8-hb-v2 .dt8-hb-path-icon{display:block;font-size:23px;color:#88775e;white-space:nowrap}
+.dt8-hb-v2 .dt8-hb-browser-subhead{font-size:22px!important;font-weight:600!important;letter-spacing:-.02em;margin:0 0 21px!important;font-family:inherit!important}
+.dt8-hb-v2 .dt8-hb-family-switch{position:relative}
+.dt8-hb-v2 .dt8-hb-family-radio{position:absolute;opacity:0;width:1px;height:1px;left:0;top:0}
+.dt8-hb-v2 .dt8-hb-family-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:22px}
+.dt8-hb-v2 .dt8-hb-family-tile{display:flex;flex-direction:column;min-width:0;background:#fff;border:2px solid #e5e2dc;cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .15s}
+.dt8-hb-v2 .dt8-hb-family-tile:hover{border-color:#a09280;transform:translateY(-2px)}
+.dt8-hb-v2 .dt8-hb-family-tile-photo{display:grid;place-items:center;height:clamp(140px,16.5vw,215px);padding:15px;background:#f2f1ed}
+.dt8-hb-v2 .dt8-hb-family-tile-photo img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.dt8-hb-v2 .dt8-hb-family-tile-copy{display:flex;flex-direction:column;flex:1;padding:17px 18px 20px}
+.dt8-hb-v2 .dt8-hb-family-tile-copy strong{font-size:18px;line-height:1.3;color:#2f362f}
+.dt8-hb-v2 .dt8-hb-family-tile-copy small{display:block;color:#72756e;font-size:13px;line-height:1.45;margin-top:6px;flex:1}
+.dt8-hb-v2 .dt8-hb-family-tile-copy em{font-size:12px;letter-spacing:.02em;font-style:normal;font-weight:700;color:#526b54;margin-top:12px}
+.dt8-hb-v2 #dt8-hb-radio-pan:checked ~ .dt8-hb-family-tiles label[for="dt8-hb-radio-pan"],
+.dt8-hb-v2 #dt8-hb-radio-wall:checked ~ .dt8-hb-family-tiles label[for="dt8-hb-radio-wall"],
+.dt8-hb-v2 #dt8-hb-radio-drain:checked ~ .dt8-hb-family-tiles label[for="dt8-hb-radio-drain"],
+.dt8-hb-v2 #dt8-hb-radio-feature:checked ~ .dt8-hb-family-tiles label[for="dt8-hb-radio-feature"],
+.dt8-hb-v2 #dt8-hb-radio-seal:checked ~ .dt8-hb-family-tiles label[for="dt8-hb-radio-seal"],
+.dt8-hb-v2 #dt8-hb-radio-extra:checked ~ .dt8-hb-family-tiles label[for="dt8-hb-radio-extra"]{border-color:#3d5745;background:#fff;box-shadow:0 4px 15px rgba(38,52,40,.07)}
+.dt8-hb-v2 .dt8-hb-family-radio:focus-visible ~ .dt8-hb-family-tiles{outline:2px solid #8c795f;outline-offset:4px}
+.dt8-hb-v2 .dt8-hb-family-panel{display:none;border:1px solid #dfdbd2;background:#fff;padding:clamp(22px,3.6vw,41px)}
+.dt8-hb-v2 #dt8-hb-radio-pan:checked ~ .dt8-hb-panel-pan,
+.dt8-hb-v2 #dt8-hb-radio-wall:checked ~ .dt8-hb-panel-wall,
+.dt8-hb-v2 #dt8-hb-radio-drain:checked ~ .dt8-hb-panel-drain,
+.dt8-hb-v2 #dt8-hb-radio-feature:checked ~ .dt8-hb-panel-feature,
+.dt8-hb-v2 #dt8-hb-radio-seal:checked ~ .dt8-hb-panel-seal,
+.dt8-hb-v2 #dt8-hb-radio-extra:checked ~ .dt8-hb-panel-extra{display:block}
+.dt8-hb-v2 .dt8-hb-family-head{display:flex;align-items:flex-start;justify-content:space-between;gap:22px;margin-bottom:24px}
+.dt8-hb-v2 .dt8-hb-family-head h3{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(27px,3vw,37px)!important;font-weight:400!important;line-height:1.16!important;margin:0 0 13px}
+.dt8-hb-v2 .dt8-hb-family-head p{font-size:15px;line-height:1.65;max-width:730px}
+.dt8-hb-v2 .dt8-hb-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dt8-hb-v2 .dt8-hb-choice{display:flex;gap:15px;align-items:center;padding:14px;border:1px solid #e2ded8;background:#faf9f7;color:#26342b!important;text-decoration:none!important;min-height:104px;transition:border-color .15s,background .15s}
+.dt8-hb-v2 .dt8-hb-choice:hover{background:#f2f0e9;border-color:#9c947f}
+.dt8-hb-v2 .dt8-hb-choice-photo{display:grid;place-items:center;background:#f1efeb;width:75px;height:75px;flex:0 0 75px}
+.dt8-hb-v2 .dt8-hb-choice-photo img{display:block;width:100%;height:100%;object-fit:contain}
+.dt8-hb-v2 .dt8-hb-choice-main{display:block;flex:1;min-width:0}
+.dt8-hb-v2 .dt8-hb-choice-main strong{display:block;font-size:15px;line-height:1.36;font-weight:700}
+.dt8-hb-v2 .dt8-hb-choice-main small{display:block;font-size:12px;line-height:1.5;color:#73746f;margin-top:6px}
+.dt8-hb-v2 .dt8-hb-choice-arrow{font-size:20px;color:#627a64;align-self:center;flex:0 0 auto}
+.dt8-hb-v2 .dt8-hb-family-note{margin-top:24px!important;font-size:13px!important;color:#63695f!important}
+.dt8-hb-v2 .dt8-hb-quick-restock{margin-top:32px;padding:clamp(22px,3vw,34px);background:#e9eee9;border:1px solid #d5dcd5;scroll-margin-top:80px}
+.dt8-hb-v2 .dt8-hb-quick-restock h3{font-size:23px!important;line-height:1.25!important;margin-bottom:10px}
+.dt8-hb-v2 .dt8-hb-quick-restock p{font-size:14px;max-width:730px}
+.dt8-hb-v2 .dt8-hb-quick-restock-list{display:flex;align-items:stretch;gap:9px;flex-wrap:wrap;margin-top:19px}
+.dt8-hb-v2 .dt8-hb-quick-restock-list a{display:inline-flex;align-items:center;gap:8px;padding:12px 15px;background:#fff;border:1px solid #c9d2c9;color:#2f4534!important;font-size:13px;font-weight:700;min-height:46px}
+.dt8-hb-v2 .dt8-hb-quick-restock-list a:hover{border-color:#687b68;background:#f8faf7}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure{margin-top:33px;border-top:1px solid #d4cfc5;border-bottom:1px solid #d4cfc5;padding:0}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure summary{list-style:none;position:relative;cursor:pointer;padding:24px 45px 24px 0;display:block}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure summary::-webkit-details-marker{display:none}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure summary:after{content:"+";position:absolute;top:18px;right:4px;font-size:30px;font-weight:300;color:#617662}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure[open] summary:after{content:"−"}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure strong{display:block;color:#28352d;font-size:18px;line-height:1.4}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure small{display:block;margin-top:6px;font-size:13px;color:#71746e;line-height:1.55}
+.dt8-hb-v2 .dt8-hb-catalogue-disclosure p{font-size:13px;margin:0 0 23px}
+#products_grid:has(#dt8-hb-native-catalogue:not([open])) .o_wsale_products_grid_table_wrapper{display:none!important}
+#products_grid:has(#dt8-hb-native-catalogue:not([open])) #o_wsale_pager{display:none!important}
+@media(max-width:980px){.dt8-hb-v2 .dt8-hb-family-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.dt8-hb-v2 .dt8-hb-family-tile-photo{height:170px}}
+@media(max-width:700px){.dt8-hb-v2 .dt8-hb-paths,.dt8-hb-v2 .dt8-hb-choice-grid{grid-template-columns:minmax(0,1fr)}.dt8-hb-v2 .dt8-hb-family-tile-photo{height:165px}.dt8-hb-v2 .dt8-hb-family-tile-copy strong{font-size:16px}}
+@media(max-width:480px){.dt8-hb-v2 .dt8-hb-product-browser{padding-left:22px;padding-right:22px}.dt8-hb-v2 .dt8-hb-path{padding:18px 19px}.dt8-hb-v2 .dt8-hb-path strong{font-size:17px}.dt8-hb-v2 .dt8-hb-family-tiles{gap:9px}.dt8-hb-v2 .dt8-hb-family-tile-photo{height:115px;padding:12px}.dt8-hb-v2 .dt8-hb-family-tile-copy{padding:12px 12px 15px}.dt8-hb-v2 .dt8-hb-family-tile-copy strong{font-size:15px}.dt8-hb-v2 .dt8-hb-family-tile-copy small{font-size:11px}.dt8-hb-v2 .dt8-hb-family-panel{padding:18px}.dt8-hb-v2 .dt8-hb-choice-photo{width:62px;height:62px;flex-basis:62px}.dt8-hb-v2 .dt8-hb-choice{padding:10px;gap:10px}.dt8-hb-v2 .dt8-hb-choice-main strong{font-size:14px}}
+
+/* DT8_HB_FAMILY_BROWSER_INTERACTION_V6_20261030: Replace unreliable radio-label selection with native anchor navigation. Bound all imagery and show a compact useful second step. */
+.dt8-hb-v2 .dt8-hb-family-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px;scroll-margin-top:108px}
+.dt8-hb-v2 .dt8-hb-family-tile{display:flex;flex-direction:column;position:relative;z-index:0;isolation:isolate;overflow:hidden;min-width:0;max-width:100%;background:#fff;border:2px solid #e5e2dc;color:#29352c!important;text-decoration:none!important;cursor:pointer;touch-action:manipulation}
+.dt8-hb-v2 .dt8-hb-family-tile:focus-visible{outline:3px solid #597661!important;outline-offset:3px!important}
+.dt8-hb-v2 .dt8-hb-family-tile-photo{display:flex;align-items:center;justify-content:center;flex:0 0 148px;height:148px;min-height:0;max-height:148px;min-width:0;padding:14px;overflow:hidden;position:relative;z-index:0;background:#f2f1ed;pointer-events:none}
+.dt8-hb-v2 .dt8-hb-family-tile-photo img{display:block!important;position:static!important;width:auto!important;height:auto!important;max-width:88%!important;max-height:116px!important;min-width:0!important;min-height:0!important;object-fit:contain!important;object-position:center!important;mix-blend-mode:multiply;pointer-events:none!important}
+.dt8-hb-v2 .dt8-hb-family-tile-copy{display:flex;flex-direction:column;flex:1 0 auto;position:relative;z-index:1;min-height:109px;max-width:100%;padding:15px 17px 17px;background:#fff;pointer-events:none}
+.dt8-hb-v2 .dt8-hb-family-tile-copy strong{font-size:17px;line-height:1.3;color:#29352c}
+.dt8-hb-v2 .dt8-hb-family-tile-copy small{font-size:12px;line-height:1.5;margin-top:6px;color:#676d68;flex:1}
+.dt8-hb-v2 .dt8-hb-family-tile-copy em{margin-top:12px;font-size:12px;line-height:1.4;font-weight:700;color:#476c4c}
+.dt8-hb-v2 .dt8-hb-family-switch:not(:has(.dt8-hb-family-panel:target)) .dt8-hb-panel-pan{display:block}
+.dt8-hb-v2 .dt8-hb-family-switch .dt8-hb-family-panel:target{display:block}
+.dt8-hb-v2 .dt8-hb-family-switch:not(:has(.dt8-hb-family-panel:target)) .dt8-hb-family-tile[href="#dt8-hb-family-pan"]{border-color:#46684d;box-shadow:0 3px 14px rgba(45,75,54,.08)}
+.dt8-hb-v2 .dt8-hb-family-switch:has(#dt8-hb-family-pan:target) .dt8-hb-family-tile[href="#dt8-hb-family-pan"]{border-color:#46684d;box-shadow:0 3px 14px rgba(45,75,54,.08)}
+.dt8-hb-v2 .dt8-hb-family-switch:has(#dt8-hb-family-wall:target) .dt8-hb-family-tile[href="#dt8-hb-family-wall"]{border-color:#46684d;box-shadow:0 3px 14px rgba(45,75,54,.08)}
+.dt8-hb-v2 .dt8-hb-family-switch:has(#dt8-hb-family-drain:target) .dt8-hb-family-tile[href="#dt8-hb-family-drain"]{border-color:#46684d;box-shadow:0 3px 14px rgba(45,75,54,.08)}
+.dt8-hb-v2 .dt8-hb-family-switch:has(#dt8-hb-family-feature:target) .dt8-hb-family-tile[href="#dt8-hb-family-feature"]{border-color:#46684d;box-shadow:0 3px 14px rgba(45,75,54,.08)}
+.dt8-hb-v2 .dt8-hb-family-switch:has(#dt8-hb-family-seal:target) .dt8-hb-family-tile[href="#dt8-hb-family-seal"]{border-color:#46684d;box-shadow:0 3px 14px rgba(45,75,54,.08)}
+.dt8-hb-v2 .dt8-hb-family-switch:has(#dt8-hb-family-extra:target) .dt8-hb-family-tile[href="#dt8-hb-family-extra"]{border-color:#46684d;box-shadow:0 3px 14px rgba(45,75,54,.08)}
+.dt8-hb-v2 .dt8-hb-family-panel{scroll-margin-top:110px}
+.dt8-hb-v2 .dt8-hb-family-head{align-items:start;gap:20px}
+.dt8-hb-v2 .dt8-hb-back{display:inline-block;color:#395b41!important;font-size:13px!important;font-weight:700;white-space:nowrap;text-decoration:underline!important;text-underline-offset:4px!important;padding-top:4px}
+.dt8-hb-v2 .dt8-hb-choice{position:relative;isolation:isolate;overflow:hidden;cursor:pointer}
+.dt8-hb-v2 .dt8-hb-choice-photo{display:flex;align-items:center;justify-content:center;min-width:0;overflow:hidden;flex:0 0 68px;width:68px;height:68px;padding:5px;background:#f3f2ee;pointer-events:none}
+.dt8-hb-v2 .dt8-hb-choice-photo img{display:block!important;position:static!important;max-width:100%!important;max-height:100%!important;width:auto!important;height:auto!important;object-fit:contain!important;min-height:0!important;min-width:0!important;pointer-events:none!important}
+.dt8-hb-v2 .dt8-hb-choice-main,.dt8-hb-v2 .dt8-hb-choice-arrow{pointer-events:none}
+@media(max-width:980px){.dt8-hb-v2 .dt8-hb-family-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.dt8-hb-v2 .dt8-hb-family-tile-photo{height:136px;max-height:136px;flex-basis:136px}.dt8-hb-v2 .dt8-hb-family-tile-photo img{max-height:108px!important}}
+@media(max-width:700px){.dt8-hb-v2 .dt8-hb-family-head{flex-direction:column;gap:8px}.dt8-hb-v2 .dt8-hb-back{padding:0 0 6px}.dt8-hb-v2 .dt8-hb-choice-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){.dt8-hb-v2 .dt8-hb-family-tiles{gap:10px}.dt8-hb-v2 .dt8-hb-family-tile-photo{height:108px;max-height:108px;flex-basis:108px;padding:9px}.dt8-hb-v2 .dt8-hb-family-tile-photo img{max-width:90%!important;max-height:88px!important}.dt8-hb-v2 .dt8-hb-family-tile-copy{padding:12px;min-height:103px}.dt8-hb-v2 .dt8-hb-family-tile-copy strong{font-size:15px}.dt8-hb-v2 .dt8-hb-family-tile-copy small{font-size:11px}.dt8-hb-v2 .dt8-hb-choice-photo{width:60px;height:60px;flex-basis:60px}}
+
+/* DT8_HB_PK_PREFERRED_FORM_V1_20261030: dealer-only request, no booking calendar */
+.dt8-hb-v2 .dt8-hb-pk-wrap{padding:0 clamp(27px,5.2vw,75px) clamp(58px,5vw,70px);margin-top:-12px;background:#f2efe9}
+.dt8-hb-v2 .dt8-hb-pk{border:1px solid #d1d9ce;background:#fff;scroll-margin-top:100px}
+.dt8-hb-v2 .dt8-hb-pk&gt;summary{display:flex;justify-content:space-between;align-items:center;gap:20px;list-style:none;cursor:pointer;min-height:85px;padding:21px clamp(22px,3vw,34px);color:#304a37}
+.dt8-hb-v2 .dt8-hb-pk&gt;summary::-webkit-details-marker{display:none}
+.dt8-hb-v2 .dt8-hb-pk&gt;summary strong{display:block;font-size:19px;line-height:1.35;color:#253c2e}
+.dt8-hb-v2 .dt8-hb-pk&gt;summary small{display:block;margin-top:6px;font-size:13px;line-height:1.55;color:#667168}
+.dt8-hb-v2 .dt8-hb-pk&gt;summary .dt8-hb-pk-chevron{font-size:27px;color:#48694d}
+.dt8-hb-v2 .dt8-hb-pk[open]&gt;summary .dt8-hb-pk-chevron{transform:rotate(45deg)}
+.dt8-hb-v2 .dt8-hb-pk-content{border-top:1px solid #e0e5db;padding:clamp(20px,3vw,34px)}
+.dt8-hb-v2 .dt8-hb-pk-content&gt;p{font-size:15px;max-width:800px;margin-bottom:20px}
+.dt8-hb-v2 .dt8-hb-pk-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;max-width:810px}
+.dt8-hb-v2 .dt8-hb-pk-field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.dt8-hb-v2 .dt8-hb-pk-field label{font-size:14px;line-height:1.4;font-weight:700;color:#324438}
+.dt8-hb-v2 .dt8-hb-pk-field input,.dt8-hb-v2 .dt8-hb-pk-field select,.dt8-hb-v2 .dt8-hb-pk-field textarea{display:block;width:100%;background:#fff;border:1px solid #bec9bb;border-radius:4px;min-height:47px;padding:11px 12px;font-size:15px!important;line-height:1.4;color:#243d2d;outline-offset:3px}
+.dt8-hb-v2 .dt8-hb-pk-field textarea{min-height:86px;resize:vertical}
+.dt8-hb-v2 .dt8-hb-pk-field--wide,.dt8-hb-v2 .dt8-hb-pk-actions{grid-column:1 / -1}
+.dt8-hb-v2 .dt8-hb-pk-actions{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin-top:4px}
+.dt8-hb-v2 .dt8-hb-pk-actions button{border:1px solid #254a32;border-radius:3px;background:#254a32;color:white;padding:14px 26px;min-height:48px;font-size:14px;font-weight:700;cursor:pointer}
+.dt8-hb-v2 .dt8-hb-pk-actions button:hover:not(:disabled){background:#3c6146}
+.dt8-hb-v2 .dt8-hb-pk-actions button:disabled{opacity:.65;cursor:wait}
+.dt8-hb-v2 .dt8-hb-pk-feedback{font-size:14px;line-height:1.65;min-height:22px;color:#2c6740;font-weight:600}
+.dt8-hb-v2 .dt8-hb-pk-hint{font-size:13px!important;line-height:1.6!important;color:#656c65!important;margin:16px 0 0!important}
+@media(max-width:600px){.dt8-hb-v2 .dt8-hb-pk-wrap{padding-left:22px;padding-right:22px}.dt8-hb-v2 .dt8-hb-pk-form{grid-template-columns:1fr}.dt8-hb-v2 .dt8-hb-pk-field--wide,.dt8-hb-v2 .dt8-hb-pk-actions{grid-column:1}.dt8-hb-v2 .dt8-hb-pk-actions button{width:100%}}
+</style>
+            
+<div class="dt8-hb-landing dt8-hb-v2" id="dt8-hb-start">
+  <section class="dt8-hb-hero" aria-labelledby="dt8-hb-title">
+    <div class="dt8-hb-hero-copy">
+      <div class="dt8-hb-brand-lockup" aria-label="Dalla Terra and HYDRO-BLOK">
+        <span class="dt8-hb-brand-dt">Dalla Terra<small>Tile &amp; Stone</small></span>
+        <span class="dt8-hb-brand-plus" aria-hidden="true">+</span>
+        <img class="dt8-hb-brand-logo" src="https://global.hydroblok.com/wp-content/uploads/2023/10/hydro-blok_web_2000_tagline-448px.png" width="200" height="60" loading="eager" alt="HYDRO-BLOK logo"/>
+      </div>
+      <h1 id="dt8-hb-title">Beautiful tile gets the attention. <span>Smart construction earns the trust.</span></h1>
+      <p>Give every shower a better start. Explore coordinated pans, drainage, tile-ready wallboard and finishing details—then plan your project with confidence.</p>
+      <div class="dt8-hb-buttons">
+        <a class="dt8-hb-btn" href="/shower-calculator">Plan a shower <span aria-hidden="true">→</span></a>
+        <a class="dt8-hb-btn dt8-hb-btn--outline" href="#dt8-hb-products">Explore products <span aria-hidden="true">→</span></a>
+      </div>
+      <p style="margin-top:20px;font-size:13px">Already a dealer? <a href="/web/login?redirect=/my/home" class="dt8-hb-text-link">Sign in to your account</a></p>
+    </div>
+    <div class="dt8-hb-hero-media dt8-hb-compare" role="group" aria-label="The same HYDRO-BLOK shower before and after tile installation">
+      <figure class="dt8-hb-compare-panel">
+        <img src="/web/image/113404/SF_Website2_Hydroblok_Clean_Construction_Approved_20261017.webp" width="860" height="1000" loading="eager" fetchpriority="high" alt="HYDRO-BLOK coated wallboards, pan and sealed joints before tiling; preparation photo lightly adjusted for presentation"/>
+        <figcaption>Before tile <span>Prepared shower system</span></figcaption>
+      </figure>
+      <figure class="dt8-hb-compare-panel">
+        <img src="https://global.hydroblok.com/wp-content/uploads/2021/05/HYDRO-BLOK-before-after-2-scaled.jpg" width="860" height="1000" loading="eager" alt="Same shower finished with tile, glass, niche and drain"/>
+        <figcaption>After <span>Finished shower</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <nav class="dt8-hb-quick-nav" aria-label="Explore HYDRO-BLOK">
+    <a href="#dt8-hb-design">The complete system</a>
+    <a href="#dt8-hb-dealers">For dealers</a>
+    <a href="#dt8-hb-plan">Shower Planner</a>
+    <a href="#dt8-hb-installation">Install &amp; compare</a>
+    <a href="#dt8-hb-products">Browse components</a>
+  </nav>
+
+  <section id="dt8-hb-design" class="dt8-hb-section" aria-labelledby="dt8-hb-why-title">
+    <div class="dt8-hb-section-intro">
+      <span class="dt8-hb-eyebrow">Why HYDRO-BLOK</span>
+      <h2 id="dt8-hb-why-title">One coordinated system. More room for beautiful ideas.</h2>
+      <p>From the foundation to the finishing details, HYDRO-BLOK helps dealers, designers and installers think through the whole shower—not just the waterproofing.</p>
+    </div>
+    <div class="dt8-hb-benefits">
+      <article class="dt8-hb-benefit">
+        <span class="dt8-hb-benefit-num">01 / THE FOUNDATION</span>
+        <h3>Components designed together.</h3>
+        <p>Pre-sloped shower pans, drains, wallboard, curbs, sealant and accessories form a coordinated, tile-ready approach.</p>
+      </article>
+      <article class="dt8-hb-benefit">
+        <span class="dt8-hb-benefit-num">02 / DESIGN FREEDOM</span>
+        <h3>Details that make the room.</h3>
+        <p>Plan an open entry, discreet drain, well-placed niche or bench as part of a complete shower conversation.</p>
+      </article>
+      <article class="dt8-hb-benefit">
+        <span class="dt8-hb-benefit-num">03 / PROJECT CONFIDENCE</span>
+        <h3>Plan before you install.</h3>
+        <p>Use product guidance, training resources and the Shower Planner to review components before final specifications are confirmed.</p>
+      </article>
+    </div>
+    <div class="dt8-hb-resource-links" id="dt8-hb-build">
+      <a class="dt8-hb-text-link" href="https://global.hydroblok.com/how-it-works/" target="_blank" rel="noopener noreferrer">How the system works ↗</a>
+      <a class="dt8-hb-text-link" href="https://global.hydroblok.com/training/" target="_blank" rel="noopener noreferrer">Installation and training ↗</a>
+      <a class="dt8-hb-text-link" href="https://global.hydroblok.com/hydro-blok-lifetime-limited-warranty/" target="_blank" rel="noopener noreferrer">Manufacturer warranty terms ↗</a>
+    </div>
+  </section>
+
+  <section id="dt8-hb-dealers" class="dt8-hb-section dt8-hb-dealer" aria-labelledby="dt8-hb-dealer-title">
+    <span class="dt8-hb-eyebrow">A practical program for flooring and tile dealers</span>
+    <div class="dt8-hb-dealer-head">
+      <h2 id="dt8-hb-dealer-title">Sell more showers.<br/>Stock less product.</h2>
+      <p>Help customers choose a complete HYDRO-BLOK system without carrying every pan, drain and specialty piece. Start with one project or keep a sensible range of essentials on hand. Dalla Terra helps you coordinate the rest when the job is ready.</p>
+    </div>
+    <div class="dt8-hb-dealer-grid">
+      <!-- DT8_HB_DEALER_TWO_PATH_OFFER_V1_20261101: clear, qualification-safe project and stocking paths. -->
+      <article><h3>Order for a project.</h3><p>Start with one actual shower. Select the components and request availability and freight for the destination before your order is accepted. You do not need to stock every pan configuration.</p></article>
+      <article><h3>Stock the essentials.</h3><p>Keep practical wallboard, sealant, fasteners and accessories based on local demand. Order pans and specialty components for each project, and ask Dalla Terra which stocking-dealer terms apply to your account.</p></article>
+      <article><h3>Use the portal you already have.</h3><p>Approved dealers can review account pricing and submit stock checks, quotes, freight requests and orders for confirmation.</p></article>
+    </div>
+    <details id="dt8-hb-first-project" class="dt8-hb-first-project">
+      <summary>
+        <span><strong>New to HYDRO-BLOK? Start with one shower.</strong><small>Three steps from an idea to a reviewed project request</small></span>
+        <span class="dt8-hb-first-chevron" aria-hidden="true">+</span>
+      </summary>
+      <ol>
+        <li><strong>Capture the basics.</strong>Bring approximate shower dimensions, entrance and drain preferences, any niches or benches, and the delivery postal code.</li>
+        <li><strong>Explore the options.</strong>Use the current Shower Planner or browse components. A preliminary materials list still needs product and installer review.</li>
+        <li><strong>Request a review.</strong>Sign in to your dealer dashboard, choose <em>New Quote / Check Availability</em>, and request stock and freight checks as needed. Dalla Terra confirms the details before accepting an order.</li>
+      </ol>
+      <p class="dt8-hb-first-footer">No dealer account yet, or unsure where to begin? <a href="/contact-us">Ask Dalla Terra for help</a>. An enquiry does not reserve inventory or confirm shipping.</p>
+    </details>
+    <t t-if="request.env.user._is_public()">
+      <div class="dt8-hb-dealer-actions">
+        <a href="/web/login?redirect=/my/home" class="dt8-hb-btn">Dealer sign in <span aria-hidden="true">→</span></a>
+        <a href="/contact-us" class="dt8-hb-btn dt8-hb-btn--outline">Ask about the dealer program <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="dt8-hb-note">Public prices are suggested retail (MSRP). Approved dealers sign in for their assigned pricing and requests. Availability and freight are confirmed by Dalla Terra. Tax and shipping are additional.</p>
+    </t>
+    <t t-else="">
+      <div class="dt8-hb-dealer-actions">
+        <a href="/my/home" class="dt8-hb-btn">Open dealer dashboard <span aria-hidden="true">→</span></a>
+        <a href="/shower-calculator" class="dt8-hb-btn dt8-hb-btn--outline">Plan a shower <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="dt8-hb-note">Availability, freight and acceptance are confirmed by Dalla Terra before an order is finalized. <a href="/contact-us" class="dt8-hb-text-link">Questions? Contact our team.</a></p>
+    </t>
+  </section>
+
+
+  <!-- DT8_HB_PK_PREFERRED_FORM_V1_20261030: Authenticated company8 dealer self-service request only; no rep calendars or email notifications. -->
+  <t t-set="dt8_pk_eligible_auth" t-value="request.website and request.website.id == 1 and request.website.company_id.id == 8 and not request.env.user._is_public() and request.env.user.has_group('base.group_portal') and 8 in request.env.user.company_ids.ids"/>
+  <t t-set="dt8_pk_assigned_pricelist" t-value="request.env.user.partner_id.commercial_partner_id.sudo().with_company(8).property_product_pricelist if dt8_pk_eligible_auth else False"/>
+  <t t-set="dt8_pk_is_dealer" t-value="dt8_pk_eligible_auth and (any(role in request.env.user.partner_id.category_id.ids for role in (47,48,49,50)) or (dt8_pk_assigned_pricelist and dt8_pk_assigned_pricelist.id != 279 and (dt8_pk_assigned_pricelist.company_id and dt8_pk_assigned_pricelist.company_id.id == 8)))"/>
+  <div t-if="dt8_pk_is_dealer" class="dt8-hb-pk-wrap">
+    <details class="dt8-hb-pk" id="dt8-hb-pk">
+      <summary><span><strong>Request a HYDRO-BLOK product knowledge session</strong><small>Tell us your preferred time · 15, 30, 45 or 60 minutes · No rep calendar to coordinate</small></span><span class="dt8-hb-pk-chevron" aria-hidden="true">+</span></summary>
+      <div class="dt8-hb-pk-content">
+        <p>Choose a preferred date and time that works for your team. Dalla Terra will review the request and confirm a session or propose another time.</p>
+        <form id="dt8-hb-pk-form" class="dt8-hb-pk-form" t-att-data-user-id="request.env.user.id">
+          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+          <div class="dt8-hb-pk-field"><label for="dt8-pk-day">Preferred date</label><input type="date" id="dt8-pk-day" name="preferred_day" required="required"/></div>
+          <div class="dt8-hb-pk-field"><label for="dt8-pk-time">Preferred local time</label><input type="time" id="dt8-pk-time" name="preferred_time" required="required" step="900"/></div>
+          <div class="dt8-hb-pk-field"><label for="dt8-pk-duration">Session length</label><select id="dt8-pk-duration" name="preferred_duration" required="required"><option value="15">15 minutes</option><option value="30" selected="selected">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select></div>
+          <div class="dt8-hb-pk-field"><label for="dt8-pk-zone">Your time zone</label><select id="dt8-pk-zone" name="preferred_zone" required="required"><option value="America/Vancouver">Pacific (Vancouver)</option><option value="America/Whitehorse">Yukon (Whitehorse)</option><option value="America/Edmonton">Mountain (Alberta)</option><option value="America/Regina">Saskatchewan</option><option value="America/Winnipeg">Central (Manitoba)</option><option value="America/Toronto" selected="selected">Eastern (Ontario/Quebec)</option><option value="America/Halifax">Atlantic</option><option value="America/St_Johns">Newfoundland</option></select></div>
+          <div class="dt8-hb-pk-field dt8-hb-pk-field--wide"><label for="dt8-pk-topics">Anything you'd like to focus on? (optional)</label><textarea name="preferred_topics" id="dt8-pk-topics" maxlength="450" rows="2" placeholder="For example: pans, waterproofing, the Shower Studio, or selling complete systems."/></div>
+          <div class="dt8-hb-pk-actions"><button type="submit">Request preferred time</button><span class="dt8-hb-pk-feedback" aria-live="polite" role="status"/></div>
+        </form>
+        <p class="dt8-hb-pk-hint">This is a request, not a confirmed appointment. No calendar booking is made when you submit.</p>
+      </div>
+    </details>
+  </div>
+  <script t-if="dt8_pk_is_dealer" type="text/javascript">(function(){
+ function init(){
+  var root=document.getElementById('dt8-hb-pk'),form=document.getElementById('dt8-hb-pk-form');
+  if(!root||!form||form.dataset.ready)return;
+  form.dataset.ready='1';
+  if(location.hash==='#dt8-hb-pk')root.open=true;
+  window.addEventListener('hashchange',function(){if(location.hash==='#dt8-hb-pk')root.open=true;});
+  var date=form.querySelector('[name="preferred_day"]'),zone=form.querySelector('[name="preferred_zone"]');
+  function format(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');}
+  var now=new Date();date.min=format(now);var future=new Date(now.getTime());future.setDate(future.getDate()+90);date.max=format(future);
+  try{var tz=Intl.DateTimeFormat().resolvedOptions().timeZone;if(zone.querySelector('option[value="'+tz+'"]'))zone.value=tz;}catch(e){}
+  var button=form.querySelector('button[type="submit"]'),feedback=form.querySelector('.dt8-hb-pk-feedback');
+  var tokenKey='dt8-hb-pk-'+form.getAttribute('data-user-id');
+  function token(){
+    var saved='';try{saved=sessionStorage.getItem(tokenKey)||'';}catch(e){}
+    if(saved)return saved;
+    var key=(window.crypto&amp;&amp;crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+    try{sessionStorage.setItem(tokenKey,key);}catch(e){}return key;
+  }
+  form.addEventListener('submit',async function(e){
+   e.preventDefault();
+   if(!form.reportValidity())return;
+   button.disabled=true;feedback.textContent='Submitting your preferred time…';
+   var payload={dt8_pk_request:true,dt8_pk_day:date.value,dt8_pk_time:form.querySelector('[name="preferred_time"]').value,
+     dt8_pk_zone:zone.value,dt8_pk_duration:Number(form.querySelector('[name="preferred_duration"]').value),
+     dt8_pk_topics:form.querySelector('[name="preferred_topics"]').value,
+     dt8_pk_token:token()};
+   try{
+    var res=await fetch('/web/dataset/call_kw/ir.actions.server/run',{
+      method:'POST',credentials:'same-origin',
+      headers:{'Content-Type':'application/json','Accept':'application/json',
+        'X-CSRF-Token':form.querySelector('[name="csrf_token"]').value},
+      body:JSON.stringify({jsonrpc:'2.0',method:'call',params:{model:'ir.actions.server',method:'run',args:[[1768]],kwargs:{context:payload}}})
+    });
+    if(!res.ok)throw new Error('The request could not be received. Please try again.');
+    var data=await res.json();
+    if(data.error)throw new Error((data.error.data&amp;&amp;data.error.data.message)||data.error.message||'The request could not be received.');
+    if(!data.result||data.result.dt8_pk_saved!==true)throw new Error('The request was not confirmed. Please try again.');
+    feedback.textContent='Your preferred time request has been received. Dalla Terra will confirm the session or suggest another time. No appointment has been booked yet.';
+    button.textContent='Request received';button.disabled=true;
+   }catch(err){feedback.textContent=err.message||'Unable to submit this request.';button.disabled=false;}
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script>
+
+  <section id="dt8-hb-plan" class="dt8-hb-planner" aria-labelledby="dt8-hb-plan-title">
+    <div class="dt8-hb-planner-copy">
+      <span class="dt8-hb-eyebrow">From the idea to a practical materials list</span>
+      <h2 id="dt8-hb-plan-title">Plan it before you build it.</h2>
+      <p>Explore your shower layout, see 2D and 3D planning views, and review estimated HYDRO-BLOK components. Use the result to guide an informed conversation with your dealer or installer.</p>
+      <div class="dt8-hb-buttons">
+        <a href="/shower-calculator" class="dt8-hb-btn">Open the Shower Planner <span aria-hidden="true">→</span></a>
+        <a href="#dt8-hb-products" class="dt8-hb-btn dt8-hb-btn--outline">Browse components <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="dt8-hb-note">A planning estimate is not a construction drawing or an accepted order. Final measurements, assembly compatibility and quantities must be confirmed.</p>
+    </div>
+    <figure class="dt8-hb-planner-media">
+      <img src="https://global.hydroblok.com/wp-content/uploads/2021/05/HYDROBLOK_4224lineardrain_B_webhome-scaled.jpg" loading="lazy" width="1200" height="1000" alt="Finished tiled shower with a minimal linear-drain detail"/>
+      <figcaption>HYDRO-BLOK manufacturer project photography.</figcaption>
+    </figure>
+  </section>
+
+
+  <!-- DT8_HB_SHOWROOM_EDUCATION_V4_20261030: Existing Showroom Flooring approved education adapted to Dalla Terra dealer needs. -->
+  <section id="dt8-hb-installation" class="dt8-hb-learn" aria-labelledby="dt8-hb-installation-title">
+    <div class="dt8-hb-learn-grid">
+      <div class="dt8-hb-learn-copy">
+        <span class="dt8-hb-eyebrow">See how the shower goes together</span>
+        <h2 id="dt8-hb-installation-title">The finish is beautiful. The groundwork makes it possible.</h2>
+        <p>Our preferred story starts beneath the tile: a correctly selected pre-sloped pan, coated tile-ready panels and waterproofing details that are considered from the beginning.</p>
+        <ul class="dt8-hb-learn-notes">
+          <li><strong>Plan the foundation.</strong> Match the pan and drain to the room, elevations and the finished tile.</li>
+          <li><strong>Seal every connection.</strong> Follow HYDRO-BLOK's specifications for seams, corners, pan transitions and fastener penetrations.</li>
+          <li><strong>Show installers how it works.</strong> Real demonstrations can help dealer teams explain what matters before the first order.</li>
+        </ul>
+        <p class="dt8-hb-note">The videos illustrate installation techniques, not proof of the performance of any completed shower. Follow current manufacturer instructions and any required testing.</p>
+        <div class="dt8-hb-video-resources">
+          <a href="https://www.youtube.com/watch?v=xnpRTghSUFc" target="_blank" rel="noopener noreferrer">Watch the sealant demonstration ↗</a>
+          <a href="https://global.hydroblok.com/training/" target="_blank" rel="noopener noreferrer">Manufacturer training resources ↗</a>
+        </div>
+      </div>
+      <div>
+        <a href="https://www.youtube.com/watch?v=RxKrma80ViU" target="_blank" rel="noopener noreferrer" class="dt8-hb-video-poster" aria-label="Watch That Tile Chick's genuine HYDRO-BLOK installation demonstration on YouTube in a new tab">
+          <img src="https://i.ytimg.com/vi/RxKrma80ViU/hqdefault.jpg" alt="Professional tile installer demonstrating the HYDRO-BLOK shower waterproofing system" width="480" height="360" loading="lazy"/>
+          <span class="dt8-hb-video-play" aria-hidden="true">▶</span>
+          <span class="dt8-hb-video-poster-title">Watch a real HYDRO-BLOK installation ▶</span>
+        </a>
+        <div class="dt8-hb-video-meta"><p>Schannon · That Tile Chick · Professional tile installer</p><a href="https://www.youtube.com/watch?v=RxKrma80ViU" target="_blank" rel="noopener noreferrer">Watch original video ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dt8-hb-answers" class="dt8-hb-knowledge" aria-labelledby="dt8-hb-answers-title">
+    <div class="dt8-hb-knowledge-head">
+      <span class="dt8-hb-eyebrow">Questions we hear from dealers and installers</span>
+      <h2 id="dt8-hb-answers-title">Good questions deserve clear answers.</h2>
+      <p>Understand the system, the design options and the details that matter before quoting or installing a shower.</p>
+    </div>
+    <div class="dt8-hb-faqs" aria-label="Frequently asked questions about HYDRO-BLOK">
+      <details><summary>What is HYDRO-BLOK, and what does the customer see?</summary><p>HYDRO-BLOK provides the shower base, coated tile-ready panels and waterproofing system beneath the finished tile. Customers see the tile, glass, drain trim, niches and benches selected for their design. Properly detailed seams, corners and connections are essential to the assembly.</p></details>
+      <details><summary>Does a dealer have to stock every shower pan and drain?</summary><p>No. Start with one project, or discuss a practical assortment of wallboard, sealant, screws and washers. Dalla Terra's existing dealer portal accepts requests for project-specific product availability, freight quotations and orders. Availability and freight are confirmed before acceptance.</p></details>
+      <details><summary>Can I plan a curbless shower, bench, niche or concealed drain?</summary><p>These can be considered when the building structure and specified system permit them. Plan elevations, suitable pans, drain positions, waterproofing transitions, glass and tile together. Different drain appearances require their matching components; use the Shower Planner to explore options, then confirm compatibility.</p></details>
+      <details><summary>What makes the system waterproof?</summary><p>The pan and coated panels are only part of the assembly. Use the specified joint sealant and fastening details, with the required treatment of every seam, corner, drain connection and penetration. Follow current manufacturer instructions and complete any applicable tests before tiling.</p></details>
+      <details><summary>How can a concealed drain be cleaned?</summary><p>Appropriate drain and trim combinations retain their intended cleaning and service access. Confirm the exact selected product's access method before finalizing drain position, tile and glass layout.</p></details>
+      <details><summary>Can HYDRO-BLOK work with heated floors or steam showers?</summary><p>Some heating designs are possible with a compatible assembly, but electrical heating, waterproofing and tile layers must all be approved for the intended application. Steam showers have additional vapour-control requirements. Do not assume a standard shower assembly automatically qualifies.</p></details>
+      <details><summary>How does a dealer plan components and submit a request?</summary><p>Use the <a href="/shower-calculator">Shower Planner</a> to explore dimensions and estimate materials. Sign in to the existing Dalla Terra dealer portal to prepare a stock check, quote, freight or order request. Final quantities, unit or carton details and availability must be confirmed.</p></details>
+      <details><summary>What does HYDRO-BLOK's limited lifetime warranty cover?</summary><p>It is a limited lifetime <em>product</em> warranty subject to specified defects, installation conditions, registration and other exclusions—not a guarantee against every leak or workmanship issue. <a href="https://global.hydroblok.com/hydro-blok-lifetime-limited-warranty/" target="_blank" rel="noopener noreferrer">Read the manufacturer's current written terms ↗</a>.</p></details>
+    </div>
+    <details id="dt8-hb-compare" class="dt8-hb-comp">
+      <summary><span><strong>Compare shower waterproofing systems.</strong><small>HYDRO-BLOK · Schluter KERDI · wedi Fundo · LATICRETE HYDRO BAN</small></span><span aria-hidden="true" class="dt8-hb-plus">+</span></summary>
+      <div class="dt8-hb-comp-body">
+        <div class="dt8-hb-comp-cards">
+          <article class="dt8-hb-featured"><h3>HYDRO-BLOK</h3><span class="dt8-hb-approach">Coated closed-cell XPS + specified joint sealant</span><p>Pre-sloped pans, reinforced cement-coated tile-ready wallboards and matched components. The specified joint sealant connects the waterproof assembly, with additional manufacturer's reinforcement details at some transitions.</p></article>
+          <article><h3>Schluter KERDI</h3><span class="dt8-hb-approach">Bonded sheet membrane and compatible components</span><p>KERDI sheets bond to a suitable substrate with specified overlapped seams. Schluter also offers prefabricated pans and waterproof KERDI-BOARD. It is not accurate to describe every Schluter installation as membrane over drywall.</p></article>
+          <article><h3>wedi Fundo</h3><span class="dt8-hb-approach">Coated XPS panels with specified joint sealant</span><p>Prefabricated shower bases and cement-coated waterproof building panels use a comparable broad construction approach, with their own approved connections, drainage and installation details.</p></article>
+          <article><h3>LATICRETE HYDRO BAN</h3><span class="dt8-hb-approach">Boards, liquid membranes and prepared shower pans</span><p>The system family includes waterproof board, liquid-applied membrane and modular pan options. The complete waterproofing assembly depends on the selected products.</p></article>
+        </div>
+        <p class="dt8-hb-comp-note"><strong>Compare the whole project—not a single component.</strong> Product cost, labour, waterproofing transitions, compatible pan and drain, actual delivery costs, dealer inventory commitment and written warranty terms all matter. Individual board and tray strength measurements are not head-to-head system rankings.</p>
+        <div class="dt8-hb-comp-sources">
+          <a href="https://global.hydroblok.com/how-it-works/" target="_blank" rel="noopener noreferrer">HYDRO-BLOK system ↗</a>
+          <a href="https://learn.hydroblok.com/wp-content/uploads/2024/11/Hydro-Blok-Technical-Specification-Sheet-1.pdf" target="_blank" rel="noopener noreferrer">HYDRO-BLOK technical data ↗</a>
+          <a href="https://www.schluter.ca/schluter-ca/en_CA/" target="_blank" rel="noopener noreferrer">Schluter documentation ↗</a>
+          <a href="https://wedicorp.com/" target="_blank" rel="noopener noreferrer">wedi documentation ↗</a>
+          <a href="https://www.laticrete.com/" target="_blank" rel="noopener noreferrer">LATICRETE documentation ↗</a>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="dt8-hb-referral" aria-labelledby="dt8-hb-referral">
+    <div>
+      <h3 id="dt8-hb-referral">Looking for a dealer?</h3>
+      <p>Tell Dalla Terra about your project. We'll help connect you with an appropriate participating dealer for product selection and purchasing.</p>
+    </div>
+    <a href="/contact-us" class="dt8-hb-btn dt8-hb-btn--outline">Ask for a dealer introduction <span aria-hidden="true">→</span></a>
+  </section>
+
+
+  <!-- DT8_HB_SYSTEM_BROWSER_V5_20261030: One visual family browser rather than duplicated cards plus default raw grid. -->
+  <section id="dt8-hb-products" class="dt8-hb-product-browser" aria-labelledby="dt8-hb-products-title">
+    <div class="dt8-hb-browser-header">
+      <span class="dt8-hb-eyebrow">Explore the complete HYDRO-BLOK system</span>
+      <h2 id="dt8-hb-products-title">Find the right components for your shower.</h2>
+      <p>Start with your project, or go straight to everyday essentials. Select a product family to see the available options without searching through a long list of individual parts.</p>
+    </div>
+    <div class="dt8-hb-paths" aria-label="Start with your project">
+      <a class="dt8-hb-path" href="/shower-calculator"><span><strong>Planning a complete shower?</strong><small>Use the existing Shower Planner to visualize your layout and estimate materials.</small></span><span class="dt8-hb-path-icon" aria-hidden="true">↗</span></a>
+      <a class="dt8-hb-path" href="#dt8-hb-essentials-quick"><span><strong>Restocking essentials?</strong><small>Skip directly to everyday wallboard, joint sealant, screws and seals.</small></span><span class="dt8-hb-path-icon" aria-hidden="true">↓</span></a>
+    </div>
+    <h3 class="dt8-hb-browser-subhead">Or browse by component type</h3>
+    <div class="dt8-hb-family-switch" aria-label="Choose a HYDRO-BLOK product family">
+      <nav class="dt8-hb-family-tiles" id="dt8-hb-family-choices" aria-label="HYDRO-BLOK product categories"><a class="dt8-hb-family-tile" href="#dt8-hb-family-pan" aria-label="Explore Shower pans"><span class="dt8-hb-family-tile-photo"><img src="/web/image/product.product/10521/image_512" width="250" height="200" loading="lazy" alt=""/></span><span class="dt8-hb-family-tile-copy"><strong>Shower pans</strong><small>Start with a correctly sized, pre-sloped base</small><em>Explore options →</em></span></a>
+<a class="dt8-hb-family-tile" href="#dt8-hb-family-wall" aria-label="Explore Wallboard"><span class="dt8-hb-family-tile-photo"><img src="/web/image/product.product/10238/image_512" width="250" height="200" loading="lazy" alt=""/></span><span class="dt8-hb-family-tile-copy"><strong>Wallboard</strong><small>Panels, formats and thicknesses</small><em>Explore options →</em></span></a>
+<a class="dt8-hb-family-tile" href="#dt8-hb-family-drain" aria-label="Explore Drains and trims"><span class="dt8-hb-family-tile-photo"><img src="/web/image/product.product/10159/image_512" width="250" height="200" loading="lazy" alt=""/></span><span class="dt8-hb-family-tile-copy"><strong>Drains &amp; trims</strong><small>Drain kits, covers and finishing options</small><em>Explore options →</em></span></a>
+<a class="dt8-hb-family-tile" href="#dt8-hb-family-feature" aria-label="Explore Niches and benches"><span class="dt8-hb-family-tile-photo"><img src="/web/image/product.product/10206/image_512" width="250" height="200" loading="lazy" alt=""/></span><span class="dt8-hb-family-tile-copy"><strong>Niches &amp; benches</strong><small>Storage, seating and shower details</small><em>Explore options →</em></span></a>
+<a class="dt8-hb-family-tile" href="#dt8-hb-family-seal" aria-label="Explore Waterproofing"><span class="dt8-hb-family-tile-photo"><img src="/web/image/product.product/10274/image_512" width="250" height="200" loading="lazy" alt=""/></span><span class="dt8-hb-family-tile-copy"><strong>Waterproofing</strong><small>Sealant, screws and pipe seals</small><em>Explore options →</em></span></a>
+<a class="dt8-hb-family-tile" href="#dt8-hb-family-extra" aria-label="Explore Curbs and extras"><span class="dt8-hb-family-tile-photo"><img src="/web/image/product.product/10181/image_512" width="250" height="200" loading="lazy" alt=""/></span><span class="dt8-hb-family-tile-copy"><strong>Curbs &amp; extras</strong><small>Ramps, extensions and useful accessories</small><em>Explore options →</em></span></a></nav>
+      <div class="dt8-hb-family-panel dt8-hb-panel-pan" id="dt8-hb-family-pan" role="region" aria-label="Shower pans product choices" tabindex="-1"><div class="dt8-hb-family-head"><div><span class="dt8-hb-eyebrow">Step 2 · Choose the exact product range</span><h3>Choose your shower pan.</h3><p>First choose the pan and drainage approach. Select the exact size, configuration and compatible options on the product page.</p></div><a class="dt8-hb-back" href="#dt8-hb-family-choices">← All component types</a></div><div class="dt8-hb-choice-grid"><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-standard-drain-shower-pans-6621"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10521/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Standard-drain shower pans</strong><small>Centre and offset drain options; select size and style</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-invisible-drain-shower-pans-6620"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10346/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Invisible-drain shower pans</strong><small>Single-slope and low-visibility drainage options</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-standard-drain-shower-pan-extensions-6622"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10733/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Standard pan extensions</strong><small>Extend a matching standard-drain shower layout</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-invisible-drain-shower-pan-extensions-6623"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10761/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Invisible pan extensions</strong><small>Extensions for applicable invisible-drain designs</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a></div><p class="dt8-hb-family-note">Next: confirm drain compatibility and exact pan dimensions. The Shower Planner helps estimate the full materials list; existing product pages remain the source of current options and prices.</p></div>
+<div class="dt8-hb-family-panel dt8-hb-panel-wall" id="dt8-hb-family-wall" role="region" aria-label="Wallboard product choices" tabindex="-1"><div class="dt8-hb-family-head"><div><span class="dt8-hb-eyebrow">Step 2 · Choose the exact product range</span><h3>Choose your wallboard.</h3><p>View the available panel formats and choose size and thickness on the existing product page.</p></div><a class="dt8-hb-back" href="#dt8-hb-family-choices">← All component types</a></div><div class="dt8-hb-choice-grid"><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-wallboard-and-panels-6604"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10238/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>HYDRO-BLOK wallboard and panels</strong><small>Board sizes and thicknesses for your selected assembly</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a></div><p class="dt8-hb-family-note">Use the new Shower Studio for board-layout calculations once its Dalla Terra replacement is accepted. Until then the existing Planner remains available.</p></div>
+<div class="dt8-hb-family-panel dt8-hb-panel-drain" id="dt8-hb-family-drain" role="region" aria-label="Drains and trims product choices" tabindex="-1"><div class="dt8-hb-family-head"><div><span class="dt8-hb-eyebrow">Step 2 · Choose the exact product range</span><h3>Complete the drainage system.</h3><p>Choose the correct drain kit first, then compatible covers and trim for your preferred appearance.</p></div><a class="dt8-hb-back" href="#dt8-hb-family-choices">← All component types</a></div><div class="dt8-hb-choice-grid"><a class="dt8-hb-choice" href="/shop/hydroblok-1/hbld73-hydroblok-invisible-drain-kit-6598"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10159/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Invisible drain kit</strong><small>Matching drain components for an invisible-drain layout</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-drain-covers-6611"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10187/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Drain covers</strong><small>Choose the look and finish for compatible drains</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-invisible-drain-trims-6600"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10200/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Invisible drain trims</strong><small>In-Sight and In-Shadow trim styles and available sizes</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-invisible-drain-accessories-6602"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10236/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Invisible drain accessories</strong><small>Additional components for compatible invisible-drain assemblies</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a></div><p class="dt8-hb-family-note">Drain location, drain-kit type, cover and trim must be compatible with the selected pan. Verify specifications before ordering.</p></div>
+<div class="dt8-hb-family-panel dt8-hb-panel-feature" id="dt8-hb-family-feature" role="region" aria-label="Niches and benches product choices" tabindex="-1"><div class="dt8-hb-family-head"><div><span class="dt8-hb-eyebrow">Step 2 · Choose the exact product range</span><h3>Add niches and seating.</h3><p>Select the features your customer wants, then choose dimensions and configurations on the product page.</p></div><a class="dt8-hb-back" href="#dt8-hb-family-choices">← All component types</a></div><div class="dt8-hb-choice-grid"><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-niches-6606"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10206/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Recessed niches</strong><small>Common niche sizes and arrangements</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-benches-6607"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10177/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Benches</strong><small>Diamond and suspended bench options</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hbdsc-hydro-blok-diamond-shampoo-caddy-8-x-8-38942"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/209161/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Diamond shampoo caddy</strong><small>Additional compact storage option</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a></div><p class="dt8-hb-family-note">Allow sufficient clearance and follow the current installation guidance for anchoring and waterproofing each accessory.</p></div>
+<div class="dt8-hb-family-panel dt8-hb-panel-seal" id="dt8-hb-family-seal" role="region" aria-label="Waterproofing product choices" tabindex="-1"><div class="dt8-hb-family-head"><div><span class="dt8-hb-eyebrow">Step 2 · Choose the exact product range</span><h3>Complete the waterproofing details.</h3><p>The essential sealants, connections and fasteners—ideal for frequent dealer replenishment.</p></div><a class="dt8-hb-back" href="#dt8-hb-family-choices">← All component types</a></div><div class="dt8-hb-choice-grid"><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-sealant-6608"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10274/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>HYDRO-BLOK joint sealant</strong><small>Available cartridges, sausages and packaging options</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-screws-and-washers-6610"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10294/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Screws and washers</strong><small>Fasteners intended for the appropriate board installation</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-pipe-valve-seals-6613"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10290/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Pipe and valve seals</strong><small>Sealing components for suitable penetrations</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-sealant-accessories-6614"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10286/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Sealant tools and accessories</strong><small>Application tools and jobsite essentials</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a></div><p class="dt8-hb-family-note">The manufacturer specifies joint and fastening treatment. Order the required quantities for the actual installation; do not substitute non-system sealants.</p></div>
+<div class="dt8-hb-family-panel dt8-hb-panel-extra" id="dt8-hb-family-extra" role="region" aria-label="Curbs and accessories product choices" tabindex="-1"><div class="dt8-hb-family-head"><div><span class="dt8-hb-eyebrow">Step 2 · Choose the exact product range</span><h3>Finish the system.</h3><p>Choose the compatible curb, accessibility or finishing components your project requires.</p></div><a class="dt8-hb-back" href="#dt8-hb-family-choices">← All component types</a></div><div class="dt8-hb-choice-grid"><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-curbs-6605"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10181/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Curbs</strong><small>Standard and mini curb selections</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hbsr1272-hydro-blok-ez-access-shower-ramp-12-x-72-38941"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/209160/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>EZ Access shower ramp</strong><small>Purpose-built transition accessory</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-sealant-guns-6609"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10284/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Sealant guns</strong><small>Tools for the correct sealant packaging</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a><a class="dt8-hb-choice" href="/shop/hydroblok-1/hydroblok-uncoupling-membrane-6615"><span class="dt8-hb-choice-photo"><img src="/web/image/product.product/10292/image_512" width="90" height="90" loading="lazy" alt=""/></span><span class="dt8-hb-choice-main"><strong>Uncoupling membrane</strong><small>Compatible substrate and membrane application options</small></span><span class="dt8-hb-choice-arrow" aria-hidden="true">↗</span></a></div><p class="dt8-hb-family-note">Only purchase accessories appropriate for the selected assembly; confirm compatibility in the manufacturer documentation.</p></div>
+    </div>
+    <div id="dt8-hb-essentials-quick" class="dt8-hb-quick-restock">
+      <h3>Everyday dealer essentials.</h3>
+      <p>Quick access to high-use products. Choose the actual pack or size on its product page, then use your existing dealer account for availability, pricing and ordering.</p>
+      <div class="dt8-hb-quick-restock-list">
+        <a href="/shop/hydroblok-1/hydroblok-wallboard-and-panels-6604">Wallboard <span aria-hidden="true">↗</span></a>
+        <a href="/shop/hydroblok-1/hydroblok-sealant-6608">Joint sealant <span aria-hidden="true">↗</span></a>
+        <a href="/shop/hydroblok-1/hydroblok-screws-and-washers-6610">Screws &amp; washers <span aria-hidden="true">↗</span></a>
+        <a href="/shop/hydroblok-1/hydroblok-pipe-valve-seals-6613">Pipe &amp; valve seals <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <details id="dt8-hb-native-catalogue" class="dt8-hb-catalogue-disclosure" t-att-open="'open' if ('/page/' in request.httprequest.path or request.params.get('order') or request.params.get('attrib')) else None">
+      <summary><strong>View the complete HYDRO-BLOK product catalogue</strong><small>All published product families, the existing Odoo listing, sorting and filters</small></summary>
+      <p>Browse every listed HYDRO-BLOK family below. Catalogue card prices represent the displayed selection; confirm the exact MSRP or assigned dealer price after choosing your product options.</p>
+    </details>
+  </section>
+</div>
+        </t>
+    </xpath>
+
+</data>
