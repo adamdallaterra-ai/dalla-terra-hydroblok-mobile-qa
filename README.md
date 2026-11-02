@@ -2,6 +2,8 @@
 
 **Public website:** https://www.dallaterra.ca · **Odoo company:** 8 · **Website:** 1
 
+**LATEST USER RULE — STRICT NO EMAILS:** Never send supplier/customer/internal/test/campaign mail or execute automatic notification actions for this HYDRO-BLOK project. Preserve existing unsent drafts; older approve/send suggestions are superseded. Only read-only/historical replay + manually invoked public/dealer QA are permitted. See the newest Master Campaign release gate for exact owners.
+
 This private repository runs **manual-only, non-transactional** browser QA for Dalla Terra HYDRO-BLOK. The public suites do not log in; the separate approved dealer suite signs in only as the temporary QA account and reads the existing cart/checkout screens **without editing, submitting an order or making a payment**. No suite modifies product data or accesses Showroom Flooring company 2.
 
 ## Run a live mobile audit
