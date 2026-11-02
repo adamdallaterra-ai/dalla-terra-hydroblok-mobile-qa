@@ -205,6 +205,11 @@ async function main(){
             if(!copy.includes('request availability and freight')||!copy.includes('which stocking-dealer terms apply'))issues.push('Dealer offer confirmation/qualification wording missing');
             if(!(await dealer.locator('a[href="/web/login?redirect=/my/home"]').count()))issues.push('Dealer sign-in action missing');
             if(!(await dealer.locator('a[href="/contact-us"]').count()))issues.push('Dealer enquiry action missing');
+            // DT8_HB_PUBLIC_PK_PRIVATE_GUARD_V1_20261101: anonymous visitors must never see a dealer-only PK request form.
+            const pkInGuest=await page.locator('#dt8-hb-pk-form, #dt8-hb-pk').count();
+            entry.guestPkControlsPresent=pkInGuest;
+            if(pkInGuest)issues.push('Dealer-only PK controls disclosed to anonymous visitor');
+
 
             // DT8_HB_FIRST_PROJECT_PATH_V1_20261101: exercise native guide at every viewport, not just static HTML.
             const first=dealer.locator('#dt8-hb-first-project').first();
