@@ -1,5 +1,9 @@
 # Dalla Terra HYDRO-BLOK mobile QA
 
+<!-- DT8_HB_CONTINUATION_LINK_20261102 -->
+**Latest copy-ready handoff:** [Nov 2 supplier-unavailable wallboard & campaign V2 status](docs/continuation-ready-2026-11-02-dt8-hbwb-unavailable.md). Product-owner decision resolved; website 1 views **7920 `0799e4fe`** and **7936 `0e9614d8`** verified; 41/41 Chromium, 41/41 WebKit and signed-in GET-only Chromium/WebKit passes. **Backend new-order rejection remains unimplemented and issue #3 stays open.**
+
+
 **Public website:** https://www.dallaterra.ca · **Odoo company:** 8 · **Website:** 1
 
 **LATEST USER RULE — STRICT NO EMAILS:** Never send supplier/customer/internal/test/campaign mail or execute automatic notification actions for this HYDRO-BLOK project. Preserve existing unsent drafts; older approve/send suggestions are superseded. Only read-only/historical replay + manually invoked public/dealer QA are permitted. See the newest Master Campaign release gate for exact owners.
