@@ -4,6 +4,15 @@
 
 **LATEST USER RULE — STRICT NO EMAILS:** Never send supplier/customer/internal/test/campaign mail or execute automatic notification actions for this HYDRO-BLOK project. Preserve existing unsent drafts; older approve/send suggestions are superseded. Only read-only/historical replay + manually invoked public/dealer QA are permitted. See the newest Master Campaign release gate for exact owners.
 
+### November 2: company8/site1 held-wallboard SSR guard installed; broad mobile QA PASS
+<!-- DT8_HB_SSR_INSTALLED_BROWSER_41_OF_41_20261102 -->
+
+**LIVE / independently read back:** Odoo view **7920** changed from `344,925 / FNV32 a2089897` to `345,340 / FNV32 79bc40de` with one company8/site1-only native form exclusion for historical wallboard **HBWB2548112 / variant 10972**. Exact prior view backed up in [QA baseline](qa-baselines/odoo-view-7920-dt8-before-held-wallboard-2026-11-02-fnv-a2089897.xml), exact new view saved in [QA staged source](qa-staged/odoo-view-7920-dt8-held-wallboard-ssr-form-hold-v1.xml). **No product/price/company2 write.** Correct direct-link 25x48 × 1.5in GET (and reversed/combined query variants) now renders **no native form, no hidden selected product input, no public price**; standard wallboards and all 21 other families remain unchanged.
+
+**NEW live regression:** public [Chromium 41/41 PASS](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41384791570) and [WebKit 41/41 PASS](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41384803666) from **fresh November 2 reruns**, plus **22/22** fresh product-family GET HTML/form smokes. Each rerun had historical **12/12** CBS offline tests; the separately updated **20/20** strict vendor replay was run locally, not in those historic-sha workflow attempts. [New standalone SSR 390px/1280px test](tests/held-wallboard-ssr-smoke.js) passed local syntax/parser checks and is staged in the manual [held-variant release workflow](.github/workflows/held-wallboard-manual-guard.yml), **not yet dispatched**.
+
+**STILL OPEN (issue [#3](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/issues/3)):** A QWeb form hold is **not** an authenticated portal/cart/order-API backend rejection; no order may be submitted. Company8 product and technical reviewer must validate the historical SKU's intended saleability and design an actual isolated backend exclusion, with independent tests. Asset rights, correct GSC property, physical iPhone, separate Studio acceptance, and real dealer pilot remain gated. **No emails, bookings, orders, unauthorized launches or Showroom company2 modifications.** [Full current source-backed release gates](docs/campaign-offer-release-gates-2026-11-01.md). **Next: Assistant** continues QA/evidence; **User action now: none.**
+
 ### Newest release hold — held 25x48 wallboard direct URL (Nov 1 Toronto)
 <!-- DT8_HB_HELD_DEEPLINK_README_RELEASE_HOLD -->
 
