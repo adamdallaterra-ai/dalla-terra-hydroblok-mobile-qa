@@ -78,7 +78,7 @@ async function productCheck(page,p,issues){
  return {product:p.sku,before:start,after};
 }
 async function runEngine(kind){
- const record={engine:kind,status:'REVIEW',issues:[],products:[],cart:null,checkout:null,extraInfo:null,errors:[]};
+ const record={engine:kind,status:'REVIEW',issues:[],products:[],pk:null,cart:null,checkout:null,extraInfo:null,errors:[]};
  let browser;
  try{
    browser=await (kind==='webkit'?webkit:chromium).launch({headless:true});
@@ -106,6 +106,42 @@ async function runEngine(kind){
    }
    record.authenticated=record.products.every(x=>x.before.accountLabel);
    if(!record.authenticated)throw Error('Dealer account authentication not verified; checkout inspection prohibited');
+   // DT8_HB_PK_NO_SEND_READONLY_V1_20261101: GET/DOM-only; never click, submit, or save a dealer PK request.
+   const pkResp=await page.goto(BASE+'/shop/category/hydroblok-1',{waitUntil:'domcontentloaded',timeout:45000});
+   record.pk=await page.evaluate(()=>{
+     const form=document.querySelector('#dt8-hb-pk-form');
+     const select=form?.querySelector('select[name="preferred_duration"]');
+     const options=[...(select?.options||[])].map(x=>({value:x.value,label:x.textContent.trim()}));
+     const detail=document.querySelector('#dt8-hb-pk');
+     const text=detail?.textContent||'';
+     return {
+       width:document.documentElement.clientWidth,
+       overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+2,
+       formPresent:!!form,
+       options:options.map(x=>x.value),
+       labels:options.map(x=>x.label),
+       defaultValue:select?.value||null,
+       dateField:!!form?.querySelector('input[name="preferred_day"][type="date"]'),
+       timeField:!!form?.querySelector('input[name="preferred_time"][type="time"]'),
+       zoneField:!!form?.querySelector('select[name="preferred_zone"]'),
+       topicsField:!!form?.querySelector('textarea[name="preferred_topics"]'),
+       requestNotBooking:/request, not a confirmed appointment/i.test(text),
+       staffConfirms:/will review the request and confirm/i.test(text),
+       studioLinkOld:!!document.querySelector('a[href="/shower-calculator"]'),
+       noNewStudioClaims:!text.includes('new Shower Studio is live')
+     };
+   });
+   record.pk.http=pkResp?.status();
+   const expectedPk=['15','30','45','60'];
+   if(record.pk.http!==200||record.pk.width!==390||record.pk.overflow)
+     record.issues.push('Dealer PK page HTTP/viewport/overflow');
+   if(!record.pk.formPresent||JSON.stringify(record.pk.options)!==JSON.stringify(expectedPk)||record.pk.defaultValue!=='30')
+     record.issues.push('Dealer PK choices/default not as published');
+   if(!record.pk.dateField||!record.pk.timeField||!record.pk.zoneField||!record.pk.topicsField)
+     record.issues.push('Dealer PK fields missing');
+   if(!record.pk.requestNotBooking||!record.pk.staffConfirms||!record.pk.studioLinkOld||!record.pk.noNewStudioClaims)
+     record.issues.push('Dealer PK booking caveat/legacy Studio link inconsistent');
+   // NEVER submit #dt8-hb-pk-form (Odoo server action 1768), which can create a request.
    // Only safe GET routes below. No clicks that save, modify or confirm a cart/order.
    const cartResp=await page.goto(BASE+'/shop/cart',{waitUntil:'domcontentloaded',timeout:45000});
    let cartText=await page.locator('body').innerText({timeout:12000});
@@ -171,9 +207,9 @@ async function main(){
  fs.writeFileSync(path.join(OUT,'results.json'),json);
  const lines=['# Dalla Terra authenticated dealer mobile acceptance — test account only','',
   'Emulated mobile Chromium + WebKit at 390×844; no real Safari device. No cart/order write or payment.','',
-  '| Engine | Result | Cart | Address | Extra Info | Findings |','|---|---|---|---|---|---|'];
+  '| Engine | Result | PK GET | Cart | Address | Extra Info | Findings |','|---|---|---|---|---|---|---|'];
  for(const e of report.engines)lines.push('| '+e.engine+' | '+e.status+' | '+(e.cart?.http||'not tested')+
- ' | '+(e.checkout?.http||'not tested')+' | '+(e.extraInfo?.http||'not tested')+
+ ' | '+(e.pk?.http||'not tested')+' | '+(e.checkout?.http||'not tested')+' | '+(e.extraInfo?.http||'not tested')+
  ' | '+e.issues.join('; ').replace(/\|/g,'/')+' |');
  fs.writeFileSync(path.join(OUT,'report.md'),lines.join('\n'));
  process.exitCode=report.passed?0:1;
