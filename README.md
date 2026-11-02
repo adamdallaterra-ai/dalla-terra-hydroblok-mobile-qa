@@ -4,6 +4,17 @@
 
 **LATEST USER RULE — STRICT NO EMAILS:** Never send supplier/customer/internal/test/campaign mail or execute automatic notification actions for this HYDRO-BLOK project. Preserve existing unsent drafts; older approve/send suggestions are superseded. Only read-only/historical replay + manually invoked public/dealer QA are permitted. See the newest Master Campaign release gate for exact owners.
 
+### Latest Milestone 05 G3 checkpoint — three essentials metadata families (Nov 1 Toronto)
+<!-- DT8_HB_SEO_ESSENTIALS_THREE_HANDOFF_V1_20261101 -->
+
+**IMPLEMENTED AND VERIFIED (company 8, website 1 only):** existing QWeb product view **7920** now also scopes product-specific SEO titles/meta descriptions for **6608 sealant, 6610 screws/washers and 6605 curbs**. Before **343,638 UTF-16 / FNV32 a93b63c4**, after independent Odoo readback **344,925 / FNV32 a2089897**, active inherited parent **3256**. Existing 6604/6621 SEO, 17 option-neutral descriptions, sealant stock-schema protection, variants/prices and site2/company2 are unchanged. Fresh GET checks passed on three short canonical URLs, three category-prefixed URLs, the older two SEO families, hub and unrelated niche control; no unverified stock or dealer-cost assertion in sampled ProductGroup.
+
+**Regression:** [public Chromium run 41384791570](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41384791570) **41/41 + 12/12 PASS**; [public WebKit run 41384803666](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41384803666) **41/41 + 12/12 PASS**; [signed-in dealer run 41384812621](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41384812621) **Chromium PASS + WebKit PASS**, GET-only, no submissions. Existing public scripts gained exact title/meta/canonical/variant-count/no-public-stock assertions; no new scheduled workflows. Previous intermittent signed-in WebKit `/mail/data` warning is tracked, not declared permanently resolved.
+
+**Technical G2 HOLD:** Dalla Terra/CBS 100-pack fastener `HBSCREWWASH100` (product 10294, seller 76212) vs manufacturer's `HBSCREWWASHER100` **not proven interchangeable**. Do not edit SKU/stock/order data. Both existing invisible-drain and curbless SEO guide drafts remain unreleased pending assembly versions and image licence. Correct Dalla Terra Search Console property not connected for indexing data. All five original campaign emails and saved CBS draft **UNSENT**; **NO EMAILS**. Studio and physical iPhone Safari remain separate acceptance gates.
+
+**Next owner/action:** Technical/product reviewer validates exact pack label/CBS code + manufacturer guide/trim crosswalk; marketing owner verifies image permissions; SEO property owner shares correct Dalla Terra property for indexing measurements when available. Assistant continues only targeted offline/authorized QA, not new forms, duplicate tracking, automation or unsupported marketing claims. **User action now: none.**
+
 This private repository runs **manual-only, non-transactional** browser QA for Dalla Terra HYDRO-BLOK. The public suites do not log in; the separate approved dealer suite signs in only as the temporary QA account and reads the existing cart/checkout screens **without editing, submitting an order or making a payment**. No suite modifies product data or accesses Showroom Flooring company 2.
 
 ## Run a live mobile audit
