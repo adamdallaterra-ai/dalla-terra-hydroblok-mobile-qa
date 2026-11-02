@@ -105,3 +105,16 @@ Existing Dalla Terra company-8 sale.order **SO74539** (Odoo ID 3076, state sale)
 The transaction preceded November 1 Master Campaign V2 guidance, so the **current guided first-project request/response pilot remains NOT ACCEPTED**. A narrow Order Desk subject search returned no post-November-1 acknowledgement in that exact subject set; it does not prove no other submissions occurred. Staff must pick **one legitimate newly authorized case** and approve the specific vendor/customer communication before running a supervised real-world acceptance test. Assistant owns proof/QA once authorized. Five campaign emails unsent, company 2 untouched, Studio held.
 
 Full chronology, source IDs, safeguards and approval-owner actions: [Master Campaign V2 release gates](docs/campaign-offer-release-gates-2026-11-01.md). **User action now: none to complete the retrospective verification.**
+
+### Approved pilot preparation, supplier-code guard and one UNSENT CBS draft — Nov 1
+<!-- DT8_HB_PILOT_APPROVAL_EMAIL_TEMPLATE_GUARD_V1_20261101 -->
+
+User approved advancing the supervised, legitimate dealer pilot. **No eligible current HYDRO-BLOK dealer project** was identified in scoped recent company-8 SO and CRM searches: only "test" and "Dalla Terra Testco" accounts had open recent HYDRO-BLOK draft orders. No fabricated dealer request, order, booking or customer email is permitted.
+
+A direct check of the September 23 **outbound CBS stock-check email** exposed wrong vendor item codes for **HBJSSAUS** and **HBSAUSGUN**. Current product and PO-line vendor item code records are correct. Source of the historic issue is **Dalla Terra mail.template 19**, which still uses the first supplier row from a template's sellers (variant-unsafe). Current **server action 1559** provides a **variant-exact, read-after-verified correction inside its stock-check composer** and refuses incorrect renders; current webhook action **1781** also selects exact seller variant. Treat native/direct template-19 bypass as **unsafe** until a scoped source repair is accepted. No Odoo template mutation was attempted in this checkpoint.
+
+One draft **HYDRO-BLOK | CBS stock and SKU verification** was created using existing Dalla Terra **Order Desk** draft-only Make scenario **6711557**, read back in Zoho Drafts and confirmed **NOT SENT**. It requests fresh supplier quantities, ETAs and exact 10 oz/20 oz, applicator and 100-pack SKU confirmations. No new automated scenario, customer data, campaign mail or supplier email was transmitted.
+
+**Next owner:** **Dalla Terra Order Desk** must (a) identify a real, current eligible HYDRO-BLOK dealer case with proper account consent/owner and (b) specifically approve/send the exact CBS draft if appropriate. **Dalla Terra technical/Odoo owner** confirms/fixes the variant-unsound raw template path when a safe company-8 template-edit route is available. **Assistant** then verifies any current case/response using existing Odoo/Zoho and manual Chromium/WebKit QA, no fake order or repeat broad audit. User's general pilot approval is recorded; it does not substitute for exact recipient/message release authorization. Five original campaign emails unsent; Studio and company 2 protected.
+
+Full source IDs, approval boundaries and rollback/QA evidence: [Master Campaign V2 release gates](docs/campaign-offer-release-gates-2026-11-01.md).
