@@ -81,3 +81,38 @@ Copied from the existing Milestone 05 SEO copy bank, not newly asserted claims. 
 - **Immediate next owner/action — assistant:** prepare a **two-template, metadata-only, Odoo view-7920 scoped implementation/rollback diff OFFLINE**, with regression assertions; do not write production or repeat a broad catalogue audit. Then give the Dalla Terra website/SEO owner the two exact proposals for approval before deploying any live SEO edit.
 - **Release owner/action — Dalla Terra website/SEO owner:** approve/revise only these two targeted product metadata pairs and confirm the Dalla Terra Search Console property. Once authorized, assistant can apply minimal change and read back the XML + public pages, then run on-demand guest/dealer, mobile, canonical and schema QA.
 - **Parallel evidence owners:** Dalla Terra technical/product reviewer confirms SKU/manual/assembly crosswalk before counter-PK distribution; dealer operations separately accepts a supervised actual dealer request/staff response pilot; marketing/compliance retains five-email hard no-send until specific recipient/sender/message/consent/suppression approval.
+
+
+## Metadata-only patch staged, not deployed (2026-11-01)
+<!-- DT8_HB_SEO_METADATA_STAGED_V1_20261101 -->
+
+**Scope locked:** Dalla Terra Odoo **company 8**, **website 1**; single existing inherited product QWeb view **7920**; only product templates **6604** and **6621**. This is the **implementation preparation** of the existing Milestone 05 SEO proposal, not a new product system or a blanket website release. No change to company 2, Showroom Shower Studio, company-8 Shower Planner, product masters, pricelists, taxes, stock, freight or order flows.
+
+**Exact two-family proposed copy:**
+
+| Product template | Proposed page title | Proposed meta description |
+|---|---|---|
+| 6604 / HYDRO-BLOK Wallboard | HYDRO-BLOK Wallboard Sizes & Thicknesses \| Dalla Terra | Compare HYDRO-BLOK wallboard formats for shower installations. Review product options and public MSRP; approved dealers sign in for assigned pricing. |
+| 6621 / HYDRO-BLOK Standard Drain Pans | HYDRO-BLOK Standard Drain Shower Pans \| Dalla Terra | Explore HYDRO-BLOK shower pan formats and drain-position options. Confirm the selected size, compatible assembly and per-unit price before ordering. |
+
+**Existing Odoo mechanism:** The active view **7920** has one inherited `website.layout` block setting `title` and `website_meta_description`. The product.template model does support stored, writable native `website_meta_title` and `website_meta_description`, but the current view forces one generic description across the entire site. Merely setting native SEO fields for the two products is therefore **not a reliable release mechanism** until the view override is reconciled.
+
+**Safeguarded patch:** [Offline two-tag patch / rollback script](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/blob/main/scripts/seo_metadata_patch_20261101.py). It patches only the two `t-set` assignments, adding a condition to return the proposed strings **only when** `website.id == 1 and website.company_id.id == 8 and product.id in (6604, 6621)`. Every other combination executes the **unchanged original QWeb expression**; no CSS, JS, JSON-LD, offer, price, variant or checkout node is edited. It is strictly an offline text transformer with no Odoo network/write functionality, and can reverse its change byte-for-byte.
+
+**Read-before/write-after validation completed for preparation:**
+- Read live Odoo view 7920 before preparing patch: **341,320 characters** and active. Exact expected title and description assignment tags each occurred **once**, in the expected inherited website.layout block; established HYDRO-BLOK description and pricing guard markers present.
+- Applied proposed replacement **in memory only**, length **342,062** characters (+742). Reverse replacement produced the **exact original full XML string**; text before the first changed assignment and **337,726 characters after the metadata block** compared equal to source. All unrelated QWeb content was preserved.
+- Isolated XML parsing and Python expression checks pass; corresponding locally executed self-test covers **40 combinations** of company/website/product/existing SEO title and checks full round-trip patch/rollback plus missing-anchor/marker fail-closed logic. The GitHub script was content-read-back verified after commit. **No production QWeb compile/runtime verification yet**, and the GitHub-stored script was not separately executed in GitHub Actions.
+- GitHub QA workflows remain **manual workflow_dispatch only**; adding this script does not activate a run, automation, email, scheduled send, payment or booking.
+
+**Required deployment/release sequence (not yet performed):**
+1. **Website/SEO owner approval:** confirm the exact two pairs above and Dalla Terra SEO/Google Search Console property. Keep product-specific canonical and current valid JSON-LD unchanged.
+2. **Assistant pre-write checks:** fresh read of full view 7920; fail closed if either assignment/marker changed, record complete rollback copy, verify view/company/website and precise two-node diff. Use existing Odoo controlled-write connector only after release approval; do not publish new guides.
+3. **Immediate write-after readback:** compare returned full `arch_db` byte-for-byte to submitted XML. Recheck active status and protected markers. Any Odoo rejection or mismatch => do not declare release.
+4. **Production acceptance:** anonymously fetch both shorter canonical product URLs and the category-prefixed pan URL; require expected title/description and unchanged self/canonical relationships. Compare unmodified HYDRO-BLOK niche family, a non-HYDRO-BLOK tile product, and the hub to pre-change metadata; verify availability is not invented and no dealer/customer cost leaks in public JSON-LD.
+5. **Change-focused regression:** run existing on-demand Chromium + WebKit mobile QA (public product variants/pricebook/guest privacy/cart gates), plus relevant previously accepted authenticated dealer-price and cart/address/extra-info **non-order-submitting** checks. Verify no production JS errors, no held SKU reappears, no wrong site/company content changes. Physical iPhone Safari and actual dealer request/response pilot stay separate, incomplete gates.
+6. **Rollback** if unexpected SEO/head, price, identity, login, canonical, schema, checkout or mobile behaviour appears. Restore full original view 7920 and read back exact, then recheck public pages. Do not use TinyFish unless absolutely unavoidable.
+
+**Current gate:** **STAGED / NO ODOO WRITE / NO SEO RELEASE CLAIM**. The previous November 1 public 41/41 Chromium and WebKit passes describe the *pre-metadata-change site*, not a hypothetical new version. Emails 01–05 and original release holds remain intact; especially **03 Studio HARD HOLD**, **05 designer approval HOLD**, **NO SEND**. Do not change the existing Shower Studio or Rosedale/A.C.E. work.
+
+**Exact next owner/action:** **Dalla Terra website/SEO release owner** — approve/revise these two exact metadata pairs and confirm the correct Dalla Terra Search Console property before a production metadata write. **Assistant**, upon that authorization, performs the surgical Odoo change, production readback, canonical/schema/guest/dealer checks, and on-demand browser QA; otherwise keep the staged patch offline. Parallel product/technical and dealer request-response pilot owners are unchanged.
