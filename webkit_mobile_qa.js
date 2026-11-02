@@ -261,6 +261,30 @@ async function main(){
               }
             }
           }
+          // DT8_HB_SEALANT_JSONLD_AVAILABILITY_GUARD_V1_20261101: existing public mobile suite must fail if unsupported inventory claims return.
+          if(id==='sealant-6608') {
+            const schema=await page.evaluate(() => {
+              for(const node of document.querySelectorAll('script[type="application/ld+json"]')) {
+                try {
+                  const parsed=JSON.parse(node.textContent||'null');
+                  const all=Array.isArray(parsed)?parsed:[parsed];
+                  const group=all.find(item=>item && item['@type']==='ProductGroup');
+                  if(!group)continue;
+                  return (Array.isArray(group.hasVariant)?group.hasVariant:[]).map(v=>({
+                    sku:v.sku||null,price:v.offers?.price??null,
+                    currency:v.offers?.priceCurrency||null,
+                    availability:v.offers?.availability||null
+                  }));
+                }catch(e){}
+              }
+              return [];
+            });
+            entry.sealantSchema=schema;
+            const expected={HBJSCART:20.43,HBJSSAUS:36.22};
+            if(schema.length!==2||schema.some(v=>!(v.sku in expected)))issues.push('Sealant ProductGroup missing/unexpected SKUs');
+            if(schema.some(v=>v.currency!=='CAD'||v.price!==expected[v.sku]))issues.push('Sealant ProductGroup MSRP/currency changed');
+            if(schema.some(v=>v.availability))issues.push('Unsupported sealant stock assertion in public ProductGroup JSON-LD');
+          }
           if(id!=='category'&&!entry.metrics.hasPriceBox)issues.push('Guest price box missing');
           if(!entry.metrics.title)issues.push('Product title missing');
           const initial=id+'-'+width+'-initial.png';
