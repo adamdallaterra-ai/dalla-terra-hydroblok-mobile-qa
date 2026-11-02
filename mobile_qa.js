@@ -61,6 +61,45 @@ const EXPECTED_DESCRIPTIONS = {
   "6622": "Choose a compatible standard-drain shower-pan extension by style and size. Check the item code and per-unit price for your selected configuration.",
   "6623": "Choose a compatible invisible-drain shower-pan extension by slope profile and size. Check the item code and per-unit price for your selected configuration."
 };
+// DT8_HB_SEO_ESSENTIALS_THREE_REGRESSION_V1_20261101: exact company-8 public metadata and no inventory-claim regression.
+const SEO_EXACT={
+  "6604": {
+    "title": "HYDRO-BLOK Wallboard Sizes & Thicknesses | Dalla Terra",
+    "description": "Compare HYDRO-BLOK wallboard formats for shower installations. Review product options and public MSRP; approved dealers sign in for assigned pricing.",
+    "canonical": "https://www.dallaterra.ca/shop/hydroblok-wallboard-and-panels-6604",
+    "variantCount": 9
+  },
+  "6605": {
+    "title": "HYDRO-BLOK Shower Curbs: Styles & Sizes | Dalla Terra",
+    "description": "Compare HYDRO-BLOK shower curb styles and lengths. Check the selected configuration and installation details for your project.",
+    "canonical": "https://www.dallaterra.ca/shop/hydroblok-curbs-6605",
+    "variantCount": 4
+  },
+  "6606": {
+    "title": "Hydroblok Niches | Dalla Terra Tile & Stone",
+    "description": "Explore Hydroblok Niches at Dalla Terra Tile & Stone. Compare colours, sizes, specifications, packaging and suggested retail prices. Approved dealers can sign in to order.",
+    "canonical": "https://www.dallaterra.ca/shop/hydroblok-niches-6606",
+    "variantCount": 5
+  },
+  "6608": {
+    "title": "HYDRO-BLOK Joint Sealant: Cartridge & Sausage | Dalla Terra",
+    "description": "Explore HYDRO-BLOK joint sealant in 10 oz cartridge and 20 oz sausage formats. Choose the matching applicator and confirm quantities for your project.",
+    "canonical": "https://www.dallaterra.ca/shop/hydroblok-sealant-6608",
+    "variantCount": 2
+  },
+  "6610": {
+    "title": "HYDRO-BLOK Screws & Washers for Showers | Dalla Terra",
+    "description": "Explore HYDRO-BLOK screws, washers and combination packs for shower assemblies. Confirm the selected item code, package size and installation requirements.",
+    "canonical": "https://www.dallaterra.ca/shop/hydroblok-screws-and-washers-6610",
+    "variantCount": 3
+  },
+  "6621": {
+    "title": "HYDRO-BLOK Standard Drain Shower Pans | Dalla Terra",
+    "description": "Explore HYDRO-BLOK shower pan formats and drain-position options. Confirm the selected size, compatible assembly and per-unit price before ordering.",
+    "canonical": "https://www.dallaterra.ca/shop/hydroblok-standard-drain-shower-pans-6621",
+    "variantCount": 13
+  }
+};
 const report = { created: new Date().toISOString(), target: BASE, company: 8, website: 1,
   readonly: true, widths, allAt390, entries: [], summary: {} };
 const short = e => String(e && e.message || e).slice(0, 500);
@@ -191,6 +230,37 @@ async function main(){
           entry.metrics=await snapshot(page);
           checkSnapshot(entry.metrics,sku,msrp,issues,width);
           const familyId=(id.match(/-(\d+)$/)||[])[1];
+          if(familyId && SEO_EXACT[familyId]) {
+            const expected=SEO_EXACT[familyId];
+            const observed=await page.evaluate(()=>{
+              const docTitle=document.title;
+              const metaDescription=document.querySelector('meta[name="description"]')?.content||'';
+              const canonical=document.querySelector('link[rel="canonical"]')?.href||'';
+              let variants=[],availability=[],privateLeak=false;
+              for(const script of document.querySelectorAll('script[type="application/ld+json"]')){
+                try{
+                  const items=JSON.parse(script.textContent||'null');
+                  for(const block of (Array.isArray(items)?items:[items])){
+                    if(block?.['@type']!=='ProductGroup')continue;
+                    const v=Array.isArray(block.hasVariant)?block.hasVariant:[];
+                    variants=v.map(x=>({sku:x.sku,price:x.offers?.price,currency:x.offers?.priceCurrency}));
+                    availability=v.filter(x=>!!x.offers?.availability).map(x=>x.sku);
+                    privateLeak=/dealer_price|purchase_price|wholesale|profit_margin|vendor_cost/i.test(JSON.stringify(block));
+                  }
+                }catch(e){}
+              }
+              return {title:docTitle,description:metaDescription,canonical,variants,availability,privateLeak};
+            });
+            entry.seo={title:observed.title,description:observed.description,canonical:observed.canonical,variantCount:observed.variants.length,stockClaims:observed.availability.length};
+            if(observed.title!==expected.title)issues.push('Public SEO title drift: '+familyId);
+            if(observed.description!==expected.description)issues.push('Public SEO description drift: '+familyId);
+            if(observed.canonical!==expected.canonical)issues.push('Public SEO canonical drift: '+familyId);
+            if(observed.variants.length!==expected.variantCount || observed.variants.some(v=>!v.sku||v.currency!=='CAD'||typeof v.price!=='number'))
+              issues.push('ProductGroup variant/price data drift: '+familyId);
+            if(observed.availability.length)issues.push('Unverified ProductGroup availability assertion: '+familyId);
+            if(observed.privateLeak)issues.push('Private catalog data in public schema: '+familyId);
+          }
+
           if(familyId && EXPECTED_DESCRIPTIONS[familyId]) {
             const familyCopy=await page.locator('#product_full_description').first().innerText({timeout:5000}).catch(()=>'');
             entry.descriptionText=familyCopy.trim().slice(0,200);
