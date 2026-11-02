@@ -63,12 +63,38 @@ async function main() {
           row.status = response.status();
           row.nativeForm = nativeForm(html);
           row.productId = productId(html);
+          // DT8_HB_CONFIRMED_UNAVAILABLE_COPY_QA_V2_20261102
           row.hasLegacyCode = html.includes('HBWB2548112');
           row.hasExpectedNotice = html.includes('This product has no valid combination.');
+          row.heldUnavailableCopy = html.includes('id="dt8-hb-wallboard-unavailable"')
+            && html.includes("This wallboard size isn't available to order")
+            && html.includes('Our supplier does not stock the 25 x 48-inch');
+          row.hasVerifiedPriceBox = html.includes('id="dt8-hb-pricebox"');
+          row.hasHeldPriceRow = /data-code=["']HBWB2548112["']/.test(html);
+          const ui = await page.evaluate(() => {
+            const generic = document.querySelector('#o_wsale_product_details_content .o_wsale_product_details_content_section_title .alert.alert-warning');
+            const selected = document.querySelector('#dt8-hb-wallboard-unavailable');
+            const heldChoice = document.querySelector('li.js_attribute_value:has(input[data-attribute-value-id="346"])');
+            return {
+              genericWarningVisible: !!generic && getComputedStyle(generic).display !== 'none' && getComputedStyle(generic).visibility !== 'hidden',
+              unavailableNoteVisible: !!selected && getComputedStyle(selected).display !== 'none' && getComputedStyle(selected).visibility !== 'hidden',
+              heldSizeChoiceHidden: !!heldChoice && getComputedStyle(heldChoice).display === 'none'
+            };
+          });
+          row.ui = ui;
           if(row.status !== 200) row.issues.push('HTTP '+row.status);
           if(row.nativeForm !== c.form) row.issues.push('Expected native form '+c.form+', got '+row.nativeForm);
           if(row.productId !== c.product) row.issues.push('Expected native form product '+c.product+', got '+row.productId);
-          if(c.form === false && !row.hasExpectedNotice) row.issues.push('Expected held-SKU unavailable notice absent');
+          if(c.form === false) {
+            if(!row.hasExpectedNotice) row.issues.push('Original server unavailable state missing');
+            if(!row.heldUnavailableCopy || !ui.unavailableNoteVisible) row.issues.push('Confirmed-unavailable friendly notice absent or hidden');
+            if(ui.genericWarningVisible) row.issues.push('Cold native warning still visible');
+            if(row.hasVerifiedPriceBox || row.hasHeldPriceRow) row.issues.push('Held variant MSRP box/data unexpectedly exposed');
+          } else {
+            if(row.heldUnavailableCopy) row.issues.push('Held unavailable copy leaked to normal product');
+            if(!row.hasVerifiedPriceBox) row.issues.push('Ordinary HYDRO-BLOK product lost its price panel');
+            if(c.name === 'wallboard-default' && !ui.heldSizeChoiceHidden) row.issues.push('Held 25x48 selector remains visibly selectable');
+          }
           if(/\bInternal Server Error\b|QWebException|Traceback/.test(html.slice(0,6000))) row.issues.push('Server exception text');
         } catch(e) { row.issues.push('GET_FAILED: '+String(e.message || e).slice(0,220)); }
         cases.push(row);
