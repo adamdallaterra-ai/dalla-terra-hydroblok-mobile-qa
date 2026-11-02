@@ -74,3 +74,14 @@ The original offline-validated v2 source pack is retained in the ChatGPT convers
 **External owners at their gates:** Dalla Terra technical/product reviewer signs off product-specific instruction and warranty claims; Order Desk/commercial owner accepts any real dealer pilot; Dalla Terra website/GSC administrator grants correct Search Console property access; separate Studio owner accepts cutover; credential owner rotates/deletes the temporary QA secret. **User action for current assistant-led work: none.**
 
 The documented availability/inventory discrepancy on company-8 sealant is an evidence issue, not permission to advertise stock or change Odoo stock/structured-data logic without a verified source-of-truth and narrow QA.
+
+
+## Sealant availability assertion and regression guard — accepted (2026-11-01)
+<!-- DT8_HB_SEALANT_SCHEMA_POST_RELEASE_V1_20261101 -->
+
+A narrowly scoped, reversible company-8/website-1 correction to the **existing** product QWeb view **7920** now omits the **unverified** ProductGroup `InStock` assertion for **HBJSCART** and **HBJSSAUS** (family **6608**) without touching actual inventory, vendor snapshots, MSRP/dealer prices, order eligibility, checkout or other products. Corrected view read back at **343,638 characters** and passed eight public target/control URLs including selected sealant variant, original SEO families, unrelated tile and category hub. The manufacturer's stock source is still NOT proven, so do not advertise ready-stock or dispatch promises.
+
+The existing public Chromium and WebKit suites now include `DT8_HB_SEALANT_JSONLD_AVAILABILITY_GUARD_V1_20261101` within their sealant cases. The [new Chromium run](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41377447885) and [new WebKit run](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41377460697) both independently passed **41/41**, with sealant asserted at **375/390/430/768**. The [separate signed-in dealer run](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41377145431) passed **Chromium + WebKit**, with **no order/payment/submission**.
+
+**Next owner and exact action:** Dalla Terra stock/availability operations must confirm the vendor status source, timestamp and whether positive customer-facing stock claims can ever be authorized for these SKUs; the Dalla Terra technical/product reviewer must reconcile **HBSCREWWASH100** in the Dalla Terra catalogue against manufacturer's **HBSCREWWASHER100** in the linked **2026** brochure, and confirm reuse rights for imagery. The assistant owns subsequent source verification and any explicitly supported scoped correction using these same direct connectors and tests. No user action for this checkpoint, no emails, and no company-2 or new Studio edits. Full evidence and rollback are in the [authoritative campaign gates](docs/campaign-offer-release-gates-2026-11-01.md).
+
