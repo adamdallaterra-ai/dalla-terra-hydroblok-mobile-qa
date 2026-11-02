@@ -32,6 +32,8 @@ jobs:
           node-version: "22"
       - name: Validate WebKit test JavaScript syntax
         run: node --check webkit_mobile_qa.js
+      - name: Offline CBS variant-code replay (no email, no order)
+        run: node --test tests/vendor-sku-routing-no-email.test.js
       - name: Install test dependencies
         run: npm install --no-audit --no-fund
       - name: Install WebKit browser
