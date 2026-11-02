@@ -251,7 +251,7 @@ async function main(){
             });
             entry.sealantSchema=schema;
             const expected={HBJSCART:20.43,HBJSSAUS:36.22};
-            if(schema.length!==2||schema.some(v=>!(v.sku in expected)))issues.push('Sealant ProductGroup missing/unexpected SKUs');
+            if(schema.length!==2||!Object.keys(expected).every(sku=>schema.some(v=>v.sku===sku))||schema.some(v=>!Object.hasOwn(expected,v.sku)))issues.push('Sealant ProductGroup missing/unexpected SKUs');
             if(schema.some(v=>v.currency!=='CAD'||v.price!==expected[v.sku]))issues.push('Sealant ProductGroup MSRP/currency changed');
             if(schema.some(v=>v.availability))issues.push('Unsupported sealant stock assertion in public ProductGroup JSON-LD');
           }
