@@ -85,3 +85,15 @@ The existing public Chromium and WebKit suites now include `DT8_HB_SEALANT_JSONL
 
 **Next owner and exact action:** Dalla Terra stock/availability operations must confirm the vendor status source, timestamp and whether positive customer-facing stock claims can ever be authorized for these SKUs; the Dalla Terra technical/product reviewer must reconcile **HBSCREWWASH100** in the Dalla Terra catalogue against manufacturer's **HBSCREWWASHER100** in the linked **2026** brochure, and confirm reuse rights for imagery. The assistant owns subsequent source verification and any explicitly supported scoped correction using these same direct connectors and tests. No user action for this checkpoint, no emails, and no company-2 or new Studio edits. Full evidence and rollback are in the [authoritative campaign gates](docs/campaign-offer-release-gates-2026-11-01.md).
 
+
+### CBS company-8 vendor-status source clarified (2026-11-01)
+<!-- DT8_HB_CBS_VENDOR_STOCK_PROVENANCE_V1_20261101 -->
+
+The two sealant SKUs **HBJSCART** (10274) and **HBJSSAUS** (10277) have verified Odoo stock-log records from **May 11** and **September 23, 2026**, linked through company-8 supplier **CBS** stock-check-origin purchase orders **PS27523** and **PS31009**. The latest PS31009 per-line response says **Available** but **reported vendor quantity = 0** with no ETA, while the product's undated latest-check fields remain unset. Current shelf stock, dispatch and Quick Ship claims **are not proven**. Public page 6608's targeted omission of unverified JSON-LD `InStock` remains correct; do not silently reintroduce that markup.
+
+For screws-and-washers 100-pack, Dalla Terra **HBSCREWWASH100** variant 10294 and CBS's supplier product code match, as do historical company-8 vendor check lines. Official manufacturer website uses **HBSCREWWASHER100** for a 100ct combo. A third-party retailer also uses HBSCREWWASH100, so an alias is plausible but **not manufacturer/CBS-confirmed**. Maintain the existing SKU, products and prices until verified.
+
+**Next responsible owner/action:** **Dalla Terra Order Desk / stock operations** obtains a fresh CBS check with explicit quantity, UoM/pack, warehouse/source, timestamp and ETA or unavailable; **Dalla Terra technical/product reviewer** confirms the manufacturer's exact 100-pack equivalent code and applicable manuals. **Assistant** keeps the existing release-gates document current, verifies evidence once available and uses the existing QA/regression tools for approved changes. **User: no action now; no emails, orders or test requests were sent.**
+
+Full internal IDs, precise source links and rollout safeguards: [Master Campaign V2 release gates](docs/campaign-offer-release-gates-2026-11-01.md).
+
