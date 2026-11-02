@@ -40,14 +40,20 @@ function legacyFirstSeller(list, partner = CBS) {
   return list.find(s => s.partner === partner)?.code || null;
 }
 
-// An independently modelled, fail-closed candidate rule for the raw template.
+// An independently modelled, STRICTER fail-closed candidate rule for the raw template.
 // In live Odoo, action 1559 has its own exact-variant composer/readback guards.
 function resolveVendorSku(line, list, partner = CBS) {
-  const usable = list.filter(s => s.partner === partner && typeof s.code === 'string' && s.code.trim());
-  const exact = usable.filter(s => s.variant === line.variant);
-  const generic = usable.filter(s => s.variant == null);
+  if (!line || !Number.isInteger(line.variant) || !Array.isArray(list) || !Number.isInteger(partner)) return null;
+  // A missing/blank exact-variant seller code is a HARD STOP; never silently fall back
+  // to a template-level or sibling SKU. This is an OFFLINE model, not live QWeb.
+  const belonging = list.filter(s => s && s.partner === partner && (s.variant === line.variant || s.variant == null));
+  const exact = belonging.filter(s => s.variant === line.variant);
+  const generic = belonging.filter(s => s.variant == null);
   const candidates = exact.length ? exact : generic;
-  const uniqueCodes = [...new Set(candidates.map(s => s.code.trim()))];
+  if (!candidates.length) return null;
+  const codes = candidates.map(s => typeof s.code === 'string' ? s.code.trim() : '');
+  if (codes.some(code => !code)) return null;
+  const uniqueCodes = [...new Set(codes)];
   return uniqueCodes.length === 1 ? uniqueCodes[0] : null;
 }
 
@@ -96,4 +102,58 @@ test('Contradictory exact variant CBS codes fail closed', () => {
 test('Blank and foreign-supplier codes never become proof of vendor availability', () => {
   assert.equal(resolveVendorSku(lines[1], [seller(99996, lines[1].variant, '  ')]), null);
   assert.equal(resolveVendorSku(lines[1], [seller(99995, lines[1].variant, 'FOREIGN', 999)]), null);
+});
+
+
+/* DT8_HB_TEMPLATE19_STRICT_AMBIGUITY_FIXTURE_V2_20261101:
+ * Tests the OFFLINE decision model and rejects the older staged first-exact
+ * suggestion. These cases do not exercise Odoo QWeb, authorize edits or send mail.
+ */
+test('Same-code duplicate CBS exact sellers are safe, order independent', () => {
+  const c = seller(99991, 10277, ' HBJSSAUS ');
+  assert.equal(resolveVendorSku(lines[1], [c, ...families[6608]]), 'HBJSSAUS');
+  assert.equal(resolveVendorSku(lines[1], [...families[6608], c]), 'HBJSSAUS');
+});
+
+test('Contradictory CBS generic codes fail closed instead of picking first', () => {
+  const onlyGeneric = [seller(99992, null, 'GENERIC_A'), seller(99993, null, 'GENERIC_B')];
+  assert.equal(resolveVendorSku(lines[1], onlyGeneric), null);
+});
+
+test('Blank exact variant seller blocks a generic fallback', () => {
+  const blankExact = seller(99994, 10277, ' ');
+  const generic = seller(99995, null, 'GENERIC_CBS');
+  assert.equal(resolveVendorSku(lines[1], [blankExact, generic]), null);
+});
+
+test('Conflicting exact variant seller blocks a generic fallback', () => {
+  const conflict = seller(99996, 10277, 'NOT_HBJSSAUS');
+  const generic = seller(99997, null, 'GENERIC_CBS');
+  assert.equal(resolveVendorSku(lines[1], [...families[6608], conflict, generic]), null);
+});
+
+test('Whitespace-normalized exact variant duplicates are one unambiguous code', () => {
+  assert.equal(resolveVendorSku(lines[1], [
+    seller(99998, 10277, '  HBJSSAUS  '), seller(99999, 10277, 'HBJSSAUS')
+  ]), 'HBJSSAUS');
+});
+
+test('Wrong vendor and unrelated variant never qualify as a fallback', () => {
+  assert.equal(resolveVendorSku(lines[1], [
+    seller(99910, 10277, 'WRONG_VENDOR', 111), seller(99911, 10274, 'SIBLING')
+  ]), null);
+});
+
+test('Historical first-exact candidate would incorrectly accept conflicting codes', () => {
+  const list = [...families[6608], seller(99912, 10277, 'DIFFERENT_CODE')];
+  const firstExact = list.filter(s => s.partner === CBS && s.variant === lines[1].variant)[0].code;
+  assert.equal(firstExact, 'HBJSSAUS'); // historic proposed QWeb shortcut
+  assert.equal(resolveVendorSku(lines[1], list), null); // strict candidate must stop
+});
+
+test('Malformed or absent line/records are rejected, never guessed', () => {
+  assert.equal(resolveVendorSku(null, families[6608]), null);
+  assert.equal(resolveVendorSku({ variant: null }, families[6608]), null);
+  assert.equal(resolveVendorSku(lines[1], null), null);
+  assert.equal(resolveVendorSku(lines[1], [{ partner: CBS, variant: 10277, code: null }]), null);
 });
