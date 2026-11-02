@@ -4,6 +4,17 @@
 
 **LATEST USER RULE — STRICT NO EMAILS:** Never send supplier/customer/internal/test/campaign mail or execute automatic notification actions for this HYDRO-BLOK project. Preserve existing unsent drafts; older approve/send suggestions are superseded. Only read-only/historical replay + manually invoked public/dealer QA are permitted. See the newest Master Campaign release gate for exact owners.
 
+### Newest release hold — held 25x48 wallboard direct URL (Nov 1 Toronto)
+<!-- DT8_HB_HELD_DEEPLINK_README_RELEASE_HOLD -->
+
+**CONFIRMED live, NOT FIXED:** Site1/company8 product 6604 still exposes held variant **10972 / HBWB2548112** using the exact, read-only link `?attribute_values=346%2C305` (25x48 × 1 1/2in). Fresh HTML contains `product_id=10972`; a live browser showed visible SKU `HBWB2548112`, **“Price on request”**, and no **guest** ordering button. CSS hiding, JSON-LD exclusion, and missing MSRP do **NOT** prohibit direct selection. A signed-in order was **not** attempted, so actual order acceptance is **unverified**. See [open issue #3](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/issues/3).
+
+**New QA safeguards:** [GET-only public guard](tests/held-wallboard-public-readonly.js) (8,088 UTF-16 units, FNV32 `ba06609d`) + [4/4 locally passing parser cases](tests/held-wallboard-parser.test.js) + [manual-only Chromium/WebKit workflow](.github/workflows/held-wallboard-manual-guard.yml). New workflow **NOT RUN**; it intentionally fails while the held variant remains selected and additionally checks four hero images for positive natural dimensions. No push/schedule triggers and all non-GET requests are aborted. The 20-case vendor-code fixture also passed locally (20/20). Earlier 41/41 suites are still valid only for their historic coverage.
+
+**Other readback:** The three newly accepted SEO pages **6605, 6608, 6610** retain exact public title/canonical, and their slugs appear in the sitemap referenced by robots.txt; indexing/GSC still unverified. Hero/manufacturer images were visually present in bounded agent QA, but only the logo supplied numeric natural dimensions, not a full image-load pass. **No production changes, email, quote submission, order, freight booking, or Showroom company-2 changes.** [Controlling Master Campaign release record](docs/campaign-offer-release-gates-2026-11-01.md) has the exact next actions.
+
+**Owner/next action:** **Dalla Terra product and Odoo website owner** must verify whether legacy 10972 should remain saleable and establish a company8/site1-only **server-enforced** prohibition or documented approved alternative without touching globally shared product data. **Assistant** owns guard/QA documentation and targeted read-only verification. **User action now: none.**
+
 ### Continued V2 no-email source/QA checkpoint (Nov 1 Toronto)
 <!-- DT8_HB_CONTINUATION_SUMMARY_20261101 -->
 
