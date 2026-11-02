@@ -4,6 +4,19 @@
 
 **LATEST USER RULE — STRICT NO EMAILS:** Never send supplier/customer/internal/test/campaign mail or execute automatic notification actions for this HYDRO-BLOK project. Preserve existing unsent drafts; older approve/send suggestions are superseded. Only read-only/historical replay + manually invoked public/dealer QA are permitted. See the newest Master Campaign release gate for exact owners.
 
+### Continued V2 no-email source/QA checkpoint (Nov 1 Toronto)
+<!-- DT8_HB_CONTINUATION_SUMMARY_20261101 -->
+
+**Newly independently completed:** Verified active Odoo product view **7920** still `344,925 UTF-16 / FNV32 a2089897`; category view **7936** active with two-path offer, first-project and dealer PK controls. A fresh company-8 read confirmed CBS product **10294 / HBSCREWWASH100** and CBS supplierinfo **76212** still match; **NO PRODUCT EDIT**.
+
+**Safer offline replay:** [Existing supplier-code test](tests/vendor-sku-routing-no-email.test.js) strengthened to 20 cases, and its exact read-back source (**7,398 units / FNV32 `d9072f28`**) independently executed with Node **20/20 PASS locally**. Both public Github workflows remain `workflow_dispatch` only. The preceding browser runs below were **12-case** executions **before** this test-only update; the new 20-case test has **NOT** had a GitHub Actions rerun. No raw Odoo template-19 fix, render or email occurred.
+
+**Additional source holds:** The archived `Hydroblok_2026_Implementation_and_Shipping_Audit.xlsx` distinguishes priced **HBSCREWWASH100** (2026 catalogue sheet row 73) from shipping-only legacy **HBSCREWWASHER100** (shipping sheet row 72); its freight exception sheet **explicitly forbids** using the older carton data without a supplier-confirmed crosswalk. The same workbook holds unpriced wallboard **HBWB2548112** (variant 10972); Odoo `list_price=65.76` is an unverified fallback, **not approved MSRP**. Website QWeb hides the legacy picker and JSON-LD offer; deep-link server-side acceptance was NOT independently tested. Do not change SKU, use old carton sizes, approve old MSRP or assume deep links cannot order.
+
+**Image/marketing evidence:** [Exact source and rights register](docs/hydroblok-asset-rights-register-2026-11-01.md) now inventories 21 internally served, 3 manufacturer-hosted and 1 YouTube-hosted category image references; actual commercial licence, same-shower before/after claim and positive image loads remain separate evidence gates. Manufacturer's March 2026 Terms restrict commercial redistribution without permission. Existing live site unchanged.
+
+**Status/next owner:** [Master V2 controlling release and QA gates](docs/campaign-offer-release-gates-2026-11-01.md) have been read back with exact workbook crosswalk and safety cases. **Assistant** continues only justified read-only/nonsending QA; **technical/product and logistics** owner verifies code and cartons, **asset** owner verifies photo rights/authenticity, **SEO property** owner grants Dalla Terra GSC, and **separate Studio/physical iPhone** owners complete those releases. Actual guided dealer response and mail remain HOLD; **user action now: none; no emails.**
+
 ### Latest Milestone 05 G3 checkpoint — three essentials metadata families (Nov 1 Toronto)
 <!-- DT8_HB_SEO_ESSENTIALS_THREE_HANDOFF_V1_20261101 -->
 
