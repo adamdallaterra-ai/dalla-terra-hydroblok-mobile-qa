@@ -2,7 +2,7 @@
 
 **Public website:** https://www.dallaterra.ca · **Odoo company:** 8 · **Website:** 1
 
-This private repository runs **read-only, manual-only** browser tests on the public Dalla Terra HYDRO-BLOK catalogue. It does **not** log in, send forms, add to carts, create orders, submit payments, change product data, or access Showroom Flooring company 2.
+This private repository runs **manual-only, non-transactional** browser QA for Dalla Terra HYDRO-BLOK. The public suites do not log in; the separate approved dealer suite signs in only as the temporary QA account and reads the existing cart/checkout screens **without editing, submitting an order or making a payment**. No suite modifies product data or accesses Showroom Flooring company 2.
 
 ## Run a live mobile audit
 
@@ -42,8 +42,8 @@ This is a remote-site smoke and responsive interaction regression suite, **not**
 
 - **Public WebKit mobile emulation** is available via `.github/workflows/webkit-audit.yml`, triggered directly on demand through Make scenario **6856534**. It uses Playwright WebKit on Linux (Safari engine), **not physical iPhone Safari**. [Live run #3](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41278146019) passed **41/41** viewport/page checks, including six mobile variant taps and 17 family-description assertions, with zero JavaScript errors. Early false positives arose from automated navigation interrupting a lazy recently-viewed RPC; a controlled cross-engine timing diagnostic isolated the cause, and only the **QA runner dwell time** was changed. [QA issue #2](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/issues/2) is closed; no Odoo production fix was required.
 - **Signed-in dealer checkout mobile QA** is prepared at `.github/workflows/dealer-mobile-readonly.yml` using `dealer_mobile_qa.js`. It tests the authorized test account at 390px in **Chromium and WebKit**; it checks assigned account prices, public MSRP, variant taps, guest/dealer controls, and GET-only cart/address/extra-info navigation. It NEVER adds lines to cart, edits addresses, confirms an order, or submits payment. No screenshots of private checkout data are saved.
-- The authenticated workflow requires a **temporary GitHub Actions secret** named `DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026`. The password must be entered directly through GitHub's encrypted Actions Secret UI, **never committed to source code, provided in workflow-dispatch inputs, or printed in logs**. This secret has **not** been configured or tested by the assistant. After acceptance, delete the temporary repository secret and rotate the test password because it previously appeared in a screenshot.
-- Once the user configures the encrypted secret, the assistant can trigger the workflow via on-demand Make scenario **6856567** and review its sanitized reports. No TinyFish is needed.
+- The authenticated workflow uses a **temporary GitHub Actions secret** named `DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026`. The November 1 authenticated run succeeded using the configured secret; the secret value was not written to source or printed in the reports. After acceptance, the responsible credential owner must delete that temporary Actions secret and rotate the test password because it previously appeared in a screenshot. Never commit or expose it.
+- The assistant can trigger the already-approved on-demand workflow through existing Make scenario **6856567** and inspect sanitized reports. Do not request new credentials or use TinyFish for the same test unless direct tools genuinely cannot perform the required check. A future run still requires a valid secret; a successful past run is not proof the credential remains valid after rotation.
 
 ## Authenticated mobile acceptance — verified (2026-11-01)
 
@@ -61,6 +61,16 @@ This is a remote-site smoke and responsive interaction regression suite, **not**
 
 ## Change controls
 
-Only run when requested. Treat new failures as potential application issues but independently verify before modifying the production site. Never modify Showroom company 2 or the Showroom shower-studio QA repository in response to this project.
+Run on demand during an approved change or regression checkpoint **without requiring another user 'Proceed'**; never schedule or auto-send. Treat new failures as potential application issues, and independently reproduce before any production modification. The assistant owns the next executable, in-scope task unless a specifically named human owner must approve a commercial release, email, customer-facing submission, credential or physical-device action. At each checkpoint state **Completed and verified / Assistant's next action / Other owner's later action / User action now**. Never modify Showroom company 2 or its separate Shower Studio QA repository from this campaign. See [the controlling company-8 campaign gates](docs/campaign-offer-release-gates-2026-11-01.md).
 
 The original offline-validated v2 source pack is retained in the ChatGPT conversation. The deployed runner uses the same 22-family scope and a consolidated live-audit implementation; do not describe the deployed code as having passed offline fixtures unless those tests are separately executed.
+
+## Current post-SEO checkpoint (2026-11-01)
+
+**Completed:** Dalla Terra company 8/website 1 product-6604 and product-6621 metadata update, exact QWeb 7920 readback, public SEO/canonical check, public Chromium [41/41](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41374558748), public WebKit [41/41](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41374565164), and authenticated Chromium + WebKit [PASS](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41374571050). No checkout/order submitted.
+
+**Now owner: assistant** — continue manufacturer/asset and stock-schema source evidence and offline dealer-pilot readiness documented in the [current campaign release gates](docs/campaign-offer-release-gates-2026-11-01.md), without starting emails or modifying other systems.
+
+**External owners at their gates:** Dalla Terra technical/product reviewer signs off product-specific instruction and warranty claims; Order Desk/commercial owner accepts any real dealer pilot; Dalla Terra website/GSC administrator grants correct Search Console property access; separate Studio owner accepts cutover; credential owner rotates/deletes the temporary QA secret. **User action for current assistant-led work: none.**
+
+The documented availability/inventory discrepancy on company-8 sealant is an evidence issue, not permission to advertise stock or change Odoo stock/structured-data logic without a verified source-of-truth and narrow QA.
