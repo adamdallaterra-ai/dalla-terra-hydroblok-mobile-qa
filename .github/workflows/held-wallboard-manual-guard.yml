@@ -1,7 +1,8 @@
-name: Dalla Terra HYDRO-BLOK held wallboard release gate (manual HOLD)
+name: Dalla Terra HYDRO-BLOK held wallboard public QA (backend HOLD)
 
-# Explicit manual-only negative release control; expected to FAIL until the
-# company-8 website-only held-variant deep-link gap is properly resolved.
+# Manual-only, read-only regression of the company-8 public hold and image loads.
+# A PASS is FRONTEND ONLY; backend/API/order-line write-time acceptance remains HOLD
+# on issue #3 until separately tested. Do not convert this to push/schedule.
 # NO login, no emails, no order, no booking and no Odoo writes.
 on:
   workflow_dispatch:
@@ -39,7 +40,7 @@ jobs:
         run: node tests/held-wallboard-ssr-smoke.js ${{ matrix.browser }}
       - name: Verify exact unstocked SKU search banner and normal SKU control (GET only)
         run: node tests/unstocked-wallboard-search-readonly.js ${{ matrix.browser }}
-      - name: Run full held SKU and positive image-load release gate (expected HOLD)
+      - name: Validate held SKU public frontend + image loads (backend still HOLD)
         run: node tests/held-wallboard-public-readonly.js ${{ matrix.browser }}
       - name: Store sanitized public screenshots and results
         if: always()
