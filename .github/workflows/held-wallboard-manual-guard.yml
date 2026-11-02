@@ -1,0 +1,44 @@
+name: Dalla Terra HYDRO-BLOK held wallboard release gate (manual HOLD)
+
+# Explicit manual-only negative release control; expected to FAIL until the
+# company-8 website-only held-variant deep-link gap is properly resolved.
+# NO login, no emails, no order, no booking and no Odoo writes.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  held-wallboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate syntax of GET-only guard
+        run: node --check tests/held-wallboard-public-readonly.js
+      - name: Validate strict offline code and URL fixtures
+        run: |
+          node --test tests/vendor-sku-routing-no-email.test.js
+          node --test tests/held-wallboard-parser.test.js
+      - name: Install Playwright
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Run public-only held SKU and positive image-load release gate
+        run: node tests/held-wallboard-public-readonly.js ${{ matrix.browser }}
+      - name: Store sanitized public screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dt8-hydroblok-held-guard-${{ matrix.browser }}
+          path: qa-output-held-${{ matrix.browser }}/
+          if-no-files-found: warn
+          retention-days: 14
