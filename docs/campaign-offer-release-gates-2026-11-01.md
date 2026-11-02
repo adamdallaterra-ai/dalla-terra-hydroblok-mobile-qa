@@ -403,3 +403,28 @@ An existing, connected **read-only** Search Console property inventory returned 
 - The only changed artifacts in this work are these **existing-repository QA assets and this gate document**. Production Odoo, mail.template, company 2, Studio, live stock, quotations and scheduling are unchanged.
 
 **Ownership — next exact action:** **Assistant** completed the fresh 12/12+41/41 Chromium and 12/12+41/41 WebKit proof and readbacks, plus unchanged Odoo company-8 view/Make configuration checks. **Assistant next** continues existing manufacturer/toolkit source proof and prepares the *offline-only* exact mail.template-19 QWeb patch/rollback acceptance notes if a safe authorized writer becomes available; do not attempt to render/send an email. **Dalla Terra technical/product owner** reviews CBS code equivalence internally using historical purchase/supplierinfo, with no supplier contact. **Order Desk** can identify a genuine dealer project using existing records only, without a send or form submission; no live new request/response is permitted in this no-email scope. **User action now: none.**
+
+### Verified minimal, reversible template-19 source candidate — OFFLINE ONLY
+<!-- DT8_HB_TEMPLATE19_OFFLINE_REVERSIBLE_CANDIDATE_V1_20261101 -->
+
+After the strict zero-email technical checks passed, the assistant re-read company-8 **mail.template 19** directly through the existing scoped Odoo lookup, and verified that its two original QWeb seller-selection assignments were each **unique** in the current **66,166-character** body (last written **2026-10-07**). The current expression still chooses the first seller row for the vendor without matching the product variant, which is the demonstrated historical code confusion.
+
+**No production changes were made.** The following candidate is a *source patch to be tested only through a future authorized, no-send QWeb render and exact readback*, not a live fix. Keep all other HTML, product images, quote/pricing/freight, website-1 and company-2 structures untouched.
+
+Original:
+```xml
+<t t-set="matching_sellers" t-value="line.product_id.seller_ids.filtered(lambda s: s.partner_id and s.partner_id.commercial_partner_id == object.partner_id.commercial_partner_id)"/>
+<t t-set="vendor_item_code" t-value="matching_sellers[0].product_code if matching_sellers and matching_sellers[0].product_code else ''"/>
+```
+
+Proposed:
+```xml
+<t t-set="matching_sellers" t-value="line.product_id.seller_ids.filtered(lambda s: s.partner_id and s.partner_id.commercial_partner_id == object.partner_id.commercial_partner_id and (not s.product_id or s.product_id.id == line.product_id.id))"/>
+<t t-set="exact_sellers" t-value="matching_sellers.filtered(lambda s: s.product_id and s.product_id.id == line.product_id.id and s.product_code)"/>
+<t t-set="generic_sellers" t-value="matching_sellers.filtered(lambda s: not s.product_id and s.product_code)"/>
+<t t-set="vendor_item_code" t-value="exact_sellers[0].product_code if exact_sellers else (generic_sellers[0].product_code if generic_sellers else '')"/>
+```
+
+Offline string-level preflight: original assignments each found **exactly once**; new full body would be **66,545 characters** (**+379**); applying the inverse replacements reconstructs the exact unmodified original body, and each critical assignment remains unique. This is a **textual/structural diff check, NOT compiled Odoo QWeb verification**. In the event of no matching vendor/variant supplier row, the modelled rule returns blank rather than substituting another variant; a future production source correction must additionally ensure blank/ambiguous codes cannot be sent by any bypass path. Existing guarded server action **1559** keeps its read-after and error handling.
+
+**Next owner/action:** **Assistant** has completed the offline patch candidate and passed read-only/no-email QA. **Dalla Terra Odoo technical owner** only acts when a safe, company-8-scoped template-19 write/rollback and *no-email* compiled QWeb preview path are available; neither unsafe direct editing nor a send-only validation is acceptable. In the meantime the **no-email ban remains absolute**, actual vendor/dealer communication remains held, the five campaign drafts and CBS inquiry remain unsent, and no other Odoo/company-2 systems were touched.
