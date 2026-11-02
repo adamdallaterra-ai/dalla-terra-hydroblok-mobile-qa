@@ -1,6 +1,8 @@
 # Dalla Terra HYDRO-BLOK — Commercial offer & release gates
 **Internal campaign workpaper · 2026-11-01 · Company 8 / Website 1 only · NO EMAIL SEND**
 
+**LATEST USER OVERRIDE — ZERO EMAILS:** Do not send supplier, customer, dealer, internal, test, notification, campaign or scheduled emails, and do not trigger a form or Odoo action that sends them. Previously approved pilot preparation does NOT authorize email. Keep existing CBS and five campaign drafts unsent. Use the offline/read-only acceptance path and exact owner/action at the newest gate below. This overrides older notes telling Order Desk to approve/send anything.
+
 Authoritative control: *Dalla_Terra_Hydroblok_Master_Campaign_V2* (2026-10-30), *Phase-1 Dealer Offer*, *Internal Dealer Enablement Toolkit*, and the *Milestone 05 SEO Release Pack*. This file records actual verification, not authorization to publish new commercial terms, send mail, or switch the Shower Studio.
 
 ## CURRENT ACTION / OWNER — operating rule (2026-11-01)
