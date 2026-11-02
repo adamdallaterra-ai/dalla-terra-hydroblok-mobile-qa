@@ -118,3 +118,18 @@ One draft **HYDRO-BLOK | CBS stock and SKU verification** was created using exis
 **Next owner:** **Dalla Terra Order Desk** must (a) identify a real, current eligible HYDRO-BLOK dealer case with proper account consent/owner and (b) specifically approve/send the exact CBS draft if appropriate. **Dalla Terra technical/Odoo owner** confirms/fixes the variant-unsound raw template path when a safe company-8 template-edit route is available. **Assistant** then verifies any current case/response using existing Odoo/Zoho and manual Chromium/WebKit QA, no fake order or repeat broad audit. User's general pilot approval is recorded; it does not substitute for exact recipient/message release authorization. Five original campaign emails unsent; Studio and company 2 protected.
 
 Full source IDs, approval boundaries and rollback/QA evidence: [Master Campaign V2 release gates](docs/campaign-offer-release-gates-2026-11-01.md).
+
+## LATEST OVERRIDE — NO EMAILS, including tests and pilot communications
+<!-- DT8_HB_ZERO_EMAIL_TEST_RULE_V1_20261101 -->
+
+**Explicit user instruction (Nov 1 checkpoint): DO NOT SEND ANY EMAILS.** No CBS/vendor, customer/dealer, internal/test, campaign, automated or scheduled email. Do not initiate portal/order actions that generate mail. The previously saved CBS inquiry draft must **remain unsent and unused**; all five campaign drafts stay preserved and unsent. Any older action suggesting "approve/send" is **superseded**. No email or request/send approval is needed to proceed with authorized offline work.
+
+**Current replacement pilot QA (no emails, no customer/order writes):**
+- Read-only historical company-8 SO74539 / PS31009 linked request, vendor response and SKU lines.
+- Company-8 Odoo CBS supplierinfo source codes independently checked for five variants (10274/10277/10284/10184/10294).
+- Existing repo `tests/vendor-sku-routing-no-email.test.js` replays the historical incorrect first-seller behavior, validates exact variant matches and row-order/vendor isolation, and fails closed for missing/ambiguous codes. It has no network, email, Odoo or transaction APIs.
+- Existing manual-only Chromium and WebKit GitHub workflows run this `node:test` replay **before** their read-only 41-case public mobile suite. No new automation, sender or external system.
+- Existing signed-in Chromium/WebKit dealer browser checks are safe GET-only for cart/checkout (login only); none submit a request or order. Prior PASS remains evidence, not acceptance of a new commercial response pilot.
+- Raw Odoo mail.template **19** remains known variant-unsafe if bypassed; server action **1559** includes the existing exact-variant composer/readback guard. The offline replay alone **is not** a server-side template correction or an actual no-email Odoo QWeb render. No raw template send or manual external reply allowed.
+
+**Next action owner: assistant**, not the user — read the fresh manual GitHub job conclusions and update the authoritative [campaign release gates](docs/campaign-offer-release-gates-2026-11-01.md). The **no-email technical QA** can be completed without a supplier response. **Real dealer request/response pilot and physical iPhone Safari remain separate, unaccepted gates**; do not claim they passed by simulation. **No action required from user now; no emails or company-2 changes.**
