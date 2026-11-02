@@ -97,3 +97,11 @@ For screws-and-washers 100-pack, Dalla Terra **HBSCREWWASH100** variant 10294 an
 
 Full internal IDs, precise source links and rollout safeguards: [Master Campaign V2 release gates](docs/campaign-offer-release-gates-2026-11-01.md).
 
+### Historical dealer workflow proof (not a V2 pilot) — Nov 1 checkpoint
+<!-- DT8_HB_RETRO_PILOT_EVIDENCE_V1_20261101 -->
+
+Existing Dalla Terra company-8 sale.order **SO74539** (Odoo ID 3076, state sale) and vendor stock-check **PS31009** (Odoo PO ID 3344, CBS) were linked through bounded **read-only** Odoo and Order Desk Zoho searches. September 23 messages verify portal request, CBS inquiry, vendor reply, customer availability update, and later order confirmation. The initial request-to-customer-update interval was about **63.5 minutes** in this single historical case, **not** a new service-level promise. Vendor lines reported *Available* while numeric supplier availability was 0/unset and no ETA given; keep this separate from positive confirmed stock. No new send/order or booking occurred during proofing.
+
+The transaction preceded November 1 Master Campaign V2 guidance, so the **current guided first-project request/response pilot remains NOT ACCEPTED**. A narrow Order Desk subject search returned no post-November-1 acknowledgement in that exact subject set; it does not prove no other submissions occurred. Staff must pick **one legitimate newly authorized case** and approve the specific vendor/customer communication before running a supervised real-world acceptance test. Assistant owns proof/QA once authorized. Five campaign emails unsent, company 2 untouched, Studio held.
+
+Full chronology, source IDs, safeguards and approval-owner actions: [Master Campaign V2 release gates](docs/campaign-offer-release-gates-2026-11-01.md). **User action now: none to complete the retrospective verification.**
