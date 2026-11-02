@@ -311,3 +311,41 @@ An existing, connected **read-only** Search Console property inventory returned 
 
 **Verification and restoration:** Existing on-demand, company-8 read-only Make scenario **6816443** was temporarily extended for bounded exact-ID reads of product fields, vendor-stock log rows, and two linked source RFQs/lines. Each session was concurrency-guarded and immediately restored to the exact prior mapper configuration, confirmed active and on-demand. No persistent scenario, Odoo data or website change occurred in this evidence pass. The previously released limited sealant structured-data correction and all five unsent campaign drafts remain intact.
 
+## Retrospective real-dealer workflow evidence and no-send pilot handoff — November 1, 2026
+<!-- DT8_HB_RETROSPECTIVE_DEALER_FLOW_V1_20261101 -->
+
+**Decision: PRIOR REAL WORKFLOW VERIFIED, NEW CAMPAIGN V2 PILOT STILL NOT ACCEPTED.** Historical real order, not a fresh test request or license to send vendor/customer emails. Company 8 / website 1 only; no changes to Showroom 2, the Shower Studio, orders, stock or freight.
+
+### Production historical sequence (company 8, September 23, 2026)
+- Real dealer SO74539 is sale.order ID **3076**, company 8, customer partner 222, state **sale**, B2B stock-check requested **true**, vendor stock-check status **Results Received**. Its six existing SO lines include **HBJSCART 120 units**, **HBJSSAUS 40 units**, **HBSCREWWASH100 20 units**, other components and freight. These are **requested sales quantities**, not supplier warehouse on-hand quantities.
+- Real linked vendor stock check PS31009 is purchase.order ID **3344**, CBS partner **964**, company 8, origin **Stock Check: SO74539**, first vendor reply timestamp **2026-09-23 16:28:55 UTC**. Vendor line responses 6673, 6674 and 6677 use status *Available* with numeric available quantity **0**, no ETA or notes. Zero in that field is **not proven to mean literally no stock**; it is equally not a positive, count-confirmed availability commitment. The exact semantics and current ETA need CBS confirmation before new promises.
+- An existing Odoo order PDF attachment (ID 76562) was present and left unchanged. The order is confirmed, but neither complete shipment/payment nor present inventory was established in this review.
+- Existing read-only Dalla Terra Order Desk Zoho history shows the following approximate **Toronto local** timestamps and elapsed times:
+  1. **11:40 a.m.** dealer portal availability request / acknowledgement (initial event)
+  2. **11:53 a.m.** vendor availability request PS31009 to CBS (**12.7 min** later)
+  3. **12:28 p.m.** CBS portal availability update received (**35.5 min** after vendor request)
+  4. **12:44 p.m.** customer quote/availability update issued (**15.4 min** after vendor update, **63.5 min** after initial request)
+  5. **3:35 p.m.** order-confirmation email already sent (**234.8 min** after initial request)
+- These are **historical timestamps, not SLA or future lead-time promises**; all associated emails pre-existed this audit and no new message was sent. The September workflow **predates** the November 1 first-project dealer guidance; it validates the underlying actual portal-to-staff-to-vendor-to-customer-to-order path, **not** the new V2 copy or device journey.
+
+### Mailbox source/freshness check, limitations
+- Existing active on-demand **read-only** Dalla Terra Zoho/Make scenario **6744706** searched Order Desk and Dalla Terra manager accounts (no email-send modules or mailbox mutations).
+- Among the returned exact-SKU hits, latest Order Desk results for **HBJSCART** and **HBSCREWWASH100** were **September 25**, primarily related to the September historical order. A search for the exact PS31009 number returned six September 23 Order Desk messages, none newer. These searches have a **100-result limit** for broad matches: absence of a recent returned hit is **not evidence of no supplier stock or no other newer emails**.
+- The narrow subject search **Availability request received** returned six historical Order Desk acknowledgements; the latest was **October 28** and no hit was dated November 1 or later. Do not generalize this one subject pattern to all possible website requests or claim zero post-launch site usage.
+- A trial sender-specific search produced unrelated results, so it is **not relied upon as evidence** of CBS not replying. Do not claim a fresh supplier reply or current stock status.
+- Dalla Terra/CBS product/supplierinfo still uses **HBSCREWWASH100**, while manufacturer uses **HBSCREWWASHER100** for a 100-screws/100-washers kit. A plausible abbreviated alias is **not** proven authorized. No product or supplier code was changed.
+
+### Existing-system pilot acceptance, no-send staff handoff
+**Never create a synthetic real sales order, second stock system or automatic correspondence.** Use a single genuine authorized dealer/project within the current portal and quotation/SO workflow. The following is staff preparation and review-only copy, **not** an outbound draft already approved for transmission:
+- For an eventual **fresh** CBS stock inquiry: request verified current quantity or requested-quantity fulfilment for **HBJSCART** and **HBJSSAUS**; ask source/warehouse, pack UoM, dated response, whether it is immediate on-hand vs source-to-order, and ETA for the chosen shipment. Independently ask if CBS's **HBSCREWWASH100** is equivalent to manufacturer **HBSCREWWASHER100**, with pack contents confirmed. No Quick Ship, guaranteed availability, labour-saving, discount or freight commitment.
+- **Pass — dealer intake:** authorized, consenting, assigned real dealer and project, company 8 and website 1, legitimate portal-guidance path, clear request confirmation and no automatic stock reservation.
+- **Pass — vendor:** selected exact SKU/pack/quantity; supplier-specific response timestamp and available quantity or explicitly qualified sourcing, ETA if reliable, distinction between qualitative *Available* and numeric actual stock.
+- **Pass — staff:** reviewed actual account price and taxes, complete freight/handling destination, open compatibility exceptions, single existing SO reference and responsible staff owner; no confidential data on public pages, no duplicate CRM/PO, and separately approved customer reply.
+- **Fail:** wrong company/customer, price leak, duplicate order, invalid pan/drain/trim, unresolved stock/ETA disguised as confirmed, unsanctioned email, booking or order placement. Read back via existing Odoo and Chromium/WebKit tools after an authorized real pilot.
+
+### Exact responsible owner/action at this checkpoint
+- **Assistant — completed now:** tied real historical portal request to the same Odoo SO, vendor RFQ, staff response and already-sent customer order confirmation; checked targeted mailbox freshness; documented a **non-sending** acceptance matrix in this existing gate, not a duplicate system.
+- **Dalla Terra Order Desk / stock operations — next approval-controlled action:** designate a real post-November-1 dealer case and human case owner, authorize the **specific** fresh CBS inquiry and any customer communication. Request current quantitative/status/ETA evidence; nothing may be sent automatically or under blanket user "Proceed".
+- **Dalla Terra product/technical reviewer — next evidence decision:** confirm the 100-pack manufacturer/CBS SKU mapping, exact assembly manuals and image rights. Current five campaign email drafts and G5 Studio remain HOLD/UNSENT; physical iPhone Safari and GSC remain independent unaccepted gates.
+- **Assistant — next only when case/supplier evidence exists:** verify that specific new case from source IDs and publish a focused PASS/FAIL gate update after read-only regression; do not claim this historical transaction is the new pilot.
+- **User action now: none** to complete this verified retrospective work; external send/real-pilot authorization requires explicit consent from its authorized owner.
