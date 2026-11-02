@@ -116,3 +116,40 @@ Copied from the existing Milestone 05 SEO copy bank, not newly asserted claims. 
 **Current gate:** **STAGED / NO ODOO WRITE / NO SEO RELEASE CLAIM**. The previous November 1 public 41/41 Chromium and WebKit passes describe the *pre-metadata-change site*, not a hypothetical new version. Emails 01–05 and original release holds remain intact; especially **03 Studio HARD HOLD**, **05 designer approval HOLD**, **NO SEND**. Do not change the existing Shower Studio or Rosedale/A.C.E. work.
 
 **Exact next owner/action:** **Dalla Terra website/SEO release owner** — approve/revise these two exact metadata pairs and confirm the correct Dalla Terra Search Console property before a production metadata write. **Assistant**, upon that authorization, performs the surgical Odoo change, production readback, canonical/schema/guest/dealer checks, and on-demand browser QA; otherwise keep the staged patch offline. Parallel product/technical and dealer request-response pilot owners are unchanged.
+
+
+## Two-product SEO production release — verified November 1, 2026 (Toronto)
+<!-- DT8_HB_SEO_METADATA_PROD_ACCEPTED_V1_20261101 -->
+
+**This supersedes the earlier offline/staged status for exactly two SEO metadata targets.** User authorized the two specified pairs by saying "Proceed" after the exact-copy release checkpoint. No further product catalogue or Studio release was implied.
+
+### Controlled Odoo mutation — company 8 / website 1 ONLY
+- Before write: active QWeb product view **7920**, parent **3256**, arch_db **341,320 characters**; expected old SEO title and meta-description assignments each occurred **once** in the original website.layout inherited block. Guard markers for product-family copy, pricing and guest privacy present.
+- Wrote exactly **two conditional assignment replacements**, exclusively for Dalla Terra website **1**, company **8**, product templates **6604** and **6621**, with original title/description expressions as fallback for all other products, websites and companies. Complete replacement XML **342,062 characters**, delta **+742**.
+- Immediate post-write Odoo readback equalled the submitted complete XML **character-for-character**. An independent final read after QA reconfirmed **active** view, parent 3256, expected length, the two unique target titles/descriptions, the same unique assignments and intact product, pricing and guest-privacy safeguards.
+- No Odoo product records, costs/prices, variants, availability/stock, quotation/SO, customer/account records, website category view **7936**, Showroom company **2**, live Shower Planner, separate Showroom Studio, freight workflows or email systems were edited. No rollback was required.
+
+### Public live page and SEO evidence
+- **HYDRO-BLOK Wallboard (6604)**: https://www.dallaterra.ca/shop/hydroblok-wallboard-and-panels-6604 — HTTP 200, new exact title **HYDRO-BLOK Wallboard Sizes & Thicknesses | Dalla Terra** and approved description **Compare HYDRO-BLOK wallboard formats for shower installations. Review product options and public MSRP; approved dealers sign in for assigned pricing.** Self canonical.
+- **HYDRO-BLOK Standard Drain Pans (6621)**: https://www.dallaterra.ca/shop/hydroblok-standard-drain-shower-pans-6621 — HTTP 200, new exact title **HYDRO-BLOK Standard Drain Shower Pans | Dalla Terra** and approved description **Explore HYDRO-BLOK shower pan formats and drain-position options. Confirm the selected size, compatible assembly and per-unit price before ordering.** Self canonical.
+- Category-prefixed standard-drain URL also HTTP 200 with approved metadata, canonical to shorter product URL. Mobile requests for a representative wallboard and pan attribute_values selection each retained correct title, description and family canonical.
+- Existing **HYDRO-BLOK niches 6606**, unrelated **Elia tile 1269**, and the **HYDRO-BLOK category hub** remained HTTP 200 with **unchanged original SEO metadata and canonical tags**. No new guide, landing page or SEO redirect was deployed.
+- Two sampled public ProductGroup JSON-LD blocks remained valid with **9 wallboard** and **13 pan** CAD-price/SKU variants; no public InStock guarantee, wholesale/dealer pricing, margins or internal freight/costs in these samples. This is not a complete schema audit of all products.
+
+### Fresh production regression (manual-only pre-existing GitHub QA)
+- **Public Chromium**: [GitHub Actions run 41374558748](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41374558748) **41/41 PASS**, 375/390/430/768 px mobile checks and 22 product families at 390; report/screenshots artifact uploaded.
+- **Public WebKit**: [GitHub Actions run 41374565164](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41374565164) **41/41 PASS**, equivalent audit; report/screenshots artifact uploaded.
+- **Authenticated dealer Chromium and WebKit**: [GitHub Actions run 41374571050](https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41374571050), both **PASS**. Existing temporary dealer QA account; tested account pricing, mobile cart, address/extra-information readiness and integrity by safe page reads. NO CART/ORDER CHANGES, no order/payment submission or email send.
+- All runs were triggered through the established **on-demand only** Make dispatchers; nothing newly scheduled/automated. GitHub runner showed Node dependency deprecation notices, not application test failures. Playwright WebKit does **not** replace physical iPhone Safari acceptance.
+
+### Dalla Terra Search Console access gap
+An existing, connected **read-only** Search Console property inventory returned only **https://www.showroomflooring.ca/** with siteOwner access. This does not prove dallaterra.ca is unindexed; it means the connected account currently cannot supply a Dalla Terra URL Inspection or indexing baseline. No new property, subscription, ownership token, or reindex request was made.
+
+### Release gates and exact next owner/action
+- **G3 / Targeted SEO**: **IMPLEMENTED + VERIFIED** on the two agreed products only. This is not approval of guides, dealer promotion, Studio or new commercial promises.
+- **G2 / Manufacturer claims, imagery, Quick Ship, stocking, freight and warranty**: **HOLD** pending exact source/operational/permission evidence. No unverified public claims were added.
+- **G4 / Five emails**: Original **all five unsent and unchanged**. Draft 03 Studio **HARD HOLD**; draft 05 designer requires technical/image/consent approval. **NO SEND / NO TEST SEND / NO AUTOMATION.**
+- **G5 / Studio**: **HOLD** separate Showroom acceptance and Dalla Terra company-8 integration; existing /shower-calculator remains live.
+- **G3 Search Console follow-up owner/action**: Dalla Terra website/SEO property owner must add/verify or share the *correct Dalla Terra* GSC domain/URL-prefix property to the existing connected account, then complete URL Inspection and baseline. No evidence yet.
+- **Next autonomous campaign work owner/action: assistant** — continue existing dealer-toolkit and technical-guide source-evidence register offline (current manuals, exact assembly compatibility, image rights), preserving the five email drafts, and prepare a no-send internal first-project request/staff-response pilot checklist.
+- **Dealer operations owner/action**: designate/approve one supervised real request and staff-response pilot later; **NOT YET ACCEPTED** and may cause notification emails, so not submitted here.
