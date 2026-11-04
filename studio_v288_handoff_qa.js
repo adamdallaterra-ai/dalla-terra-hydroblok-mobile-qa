@@ -49,6 +49,8 @@ async function check(engine){
   let state=await page.evaluate(()=>({
     status:window.dt8HBHandoffV288.status(),
     audit:window.sfHBV259WallReview?.audit?.()?.reason,
+      pending:window.sfHydroblokPreviewV5?.exportPlan?.()?.required_unquantified?.map(x=>({sku:x.sku,category:x.category,quantity:x.quantity,reason:x.reason})),
+      style:document.getElementById('entry_style')?.value,
     stage:document.getElementById('wrap')?.dataset.v31Stage,
     pdf:window.sfHBV221Print?.content?.()
   }));
@@ -72,11 +74,13 @@ async function check(engine){
     state=await page.evaluate(()=>({
       status:window.dt8HBHandoffV288.status(),
       audit:window.sfHBV259WallReview?.audit?.()?.reason,
+      pending:window.sfHydroblokPreviewV5?.exportPlan?.()?.required_unquantified?.map(x=>({sku:x.sku,category:x.category,quantity:x.quantity,reason:x.reason})),
+      style:document.getElementById('entry_style')?.value,
       stage:document.getElementById('wrap')?.dataset.v31Stage,
       pdf:window.sfHBV221Print?.content?.()
     }));
   }
-  ok('native_material_audit_gates_quote',state.status.verified&&state.status.materialLines>0,state.status);
+  ok('native_material_audit_gates_quote',state.status.verified&&state.status.materialLines>0,{status:state.status,pending:state.pending,style:state.style,audit:state.audit});
   ok('review_stage_live',state.stage==='review',state);
   ok('pdf_available',!!state.pdf&&state.pdf.pages>=3&&
     typeof state.pdf.html==='string'&&state.pdf.html.includes('HYDRO'),{pages:state.pdf?.pages});
