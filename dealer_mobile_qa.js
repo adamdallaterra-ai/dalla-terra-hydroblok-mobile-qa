@@ -77,6 +77,44 @@ async function productCheck(page,p,issues){
  if(p.tap==='Sausage'&&!after.selected.includes('20 oz'))issues.push('Sealant option dependency not reconciled');
  return {product:p.sku,before:start,after};
 }
+// DT8_V287_PRICE_PREVIEW_20261104: targeted guest/dealer comparison against already verified storefront SKU prices. Read only.
+async function studioPriceCheck(page,record,guest){
+  const mode=guest?'guest':'dealer';
+  try{
+    const response=await page.goto(BASE+'/hydroblok-planner-v3-preview?layout_lab=1',
+      {waitUntil:'domcontentloaded',timeout:45000});
+    await page.waitForFunction(()=>!!document.querySelector('#dt8_price_bom'),
+      {timeout:16000}).catch(()=>{});
+    const s=await page.evaluate(()=>{
+      const cat=window.hydroblokCatalog||{};
+      return {
+        guest:window.hbIsGuest===true,
+        dealer:window.hbIsGuest===false,
+        visitorScope:window.hbVisitorScope,
+        wallboard:Number(cat.HBWB366012?.price),
+        sealant:Number(cat.HBJSCART?.price),
+        productId:Number(cat.HBWB366012?.id),
+        pricePanel:!!document.getElementById('dt8_price_bom'),
+        panelHeading:document.getElementById('dt8_price_bom')?.textContent?.slice(0,100)||'',
+        companySavedGuard:(document.body.innerHTML||'').includes('company_id:8'),
+        websiteSavedGuard:(document.body.innerHTML||'').includes('website_id:1'),
+        noShowroomLogo:!document.querySelector('img[src*="/web/image/website/2/logo"]'),
+        overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
+      };
+    });
+    const priceExpected=guest?{wallboard:74.70,sealant:20.43}:{wallboard:41.09,sealant:11.24};
+    const ok=response?.status()===200&&(guest?s.guest:s.dealer)&&
+      s.wallboard===priceExpected.wallboard&&s.sealant===priceExpected.sealant&&
+      s.productId>0&&s.pricePanel&&s.panelHeading.includes(guest?'MSRP':'dealer price')&&
+      s.companySavedGuard&&s.websiteSavedGuard&&s.noShowroomLogo&&!s.overflow;
+    if(!ok)record.issues.push('V287 '+mode+' price or isolated studio render mismatch');
+    return {mode,http:response?.status(),pass:ok,priceMatches:(
+      s.wallboard===priceExpected.wallboard&&s.sealant===priceExpected.sealant),
+      panelRendered:s.pricePanel,guestFlag:s.guest,noShowroomLogo:s.noShowroomLogo,
+      noHorizontalOverflow:!s.overflow};
+  }catch(e){record.issues.push('V287 '+mode+' preview error: '+String(e?.message||e).slice(0,110));return {mode,pass:false};}
+}
+
 async function runEngine(kind){
  const record={engine:kind,status:'REVIEW',issues:[],products:[],pk:null,cart:null,checkout:null,extraInfo:null,errors:[]};
  let browser;
@@ -97,6 +135,7 @@ async function runEngine(kind){
      record.issues.push('Unexpected Odoo server-action request was blocked');
      await route.abort();
    });
+   record.guestStudio=await studioPriceCheck(page,record,true);
    const login=await page.goto(BASE+'/web/login?redirect=%2Fshop',{waitUntil:'domcontentloaded',timeout:45000});
    if(login?.status()!==200)throw Error('Login page not HTTP 200');
    // Odoo header includes unrelated search forms: scope all login controls to the actual, visible login form.
@@ -111,6 +150,7 @@ async function runEngine(kind){
    if(!await submit.count())throw Error('Login button missing');
    await submit.click({timeout:15000});
    await page.waitForTimeout(1300);
+   record.dealerStudio=await studioPriceCheck(page,record,false);
    for(const p of products){
      record.products.push(await productCheck(page,p,record.issues));
      await page.waitForTimeout(2600); // WebKit/Odoo lazy recently-viewed RPC must finish before navigation.
