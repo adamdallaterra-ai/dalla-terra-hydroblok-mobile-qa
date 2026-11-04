@@ -151,6 +151,12 @@ async function runEngine(kind){
    await submit.click({timeout:15000});
    await page.waitForTimeout(1300);
    record.dealerStudio=await studioPriceCheck(page,record,false);
+   // Focused verification of the newly staged studio only; default full dealer QA remains unchanged.
+   if(process.argv.includes('--studio-only')){
+     record.status=(record.guestStudio?.pass&&record.dealerStudio?.pass&&record.issues.length===0)?'PASS':'REVIEW';
+     await ctx.close();
+     return record;
+   }
    for(const p of products){
      record.products.push(await productCheck(page,p,record.issues));
      await page.waitForTimeout(2600); // WebKit/Odoo lazy recently-viewed RPC must finish before navigation.
