@@ -7,7 +7,7 @@ if(!PASSWORD)throw Error('Existing encrypted test credential unavailable.');
 const output={version:'DT8_V288',date:new Date().toISOString(),engines:[]};
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function check(engine){
- const browser=await(engine==='webkit'?webkit:chromium).launch({headless:true});
+ const browser=await(engine==='webkit'?webkit:chromium).launch(engine==='chromium'&&process.argv.includes('--chrome-channel')?{headless:true,channel:'chrome'}:{headless:true});
  const context=await browser.newContext({viewport:{width:1200,height:900},locale:'en-CA'});
  const page=await context.newPage(),out={engine,checks:{},notes:[],errors:[]};
  page.on('pageerror',err=>out.errors.push(String(err.message||err).slice(0,180)));
@@ -133,7 +133,7 @@ async function check(engine){
  return out;
 }
 (async()=>{
- for(const e of ['chromium','webkit']){const r=await check(e);output.engines.push(r);
+ for(const e of (process.argv.includes('--chromium-only')?['chromium']:['chromium','webkit'])){const r=await check(e);output.engines.push(r);
   console.log(e,JSON.stringify({passed:r.passed,checks:r.checks,notes:r.notes}).slice(0,5000));}
  output.passed=output.engines.every(x=>x.passed);
  fs.mkdirSync('qa-output-v288',{recursive:true});
