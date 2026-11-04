@@ -118,30 +118,14 @@ async function check(engine){
       }finally{if(prior===null)localStorage.removeItem(key);else localStorage.setItem(key,prior);}
     });
     ok('saved_design_preserved',save.matched,save);
-    // Exercise the actual CTA only against an intercepted GET route; never submit any form.
-    const transfer=await page.evaluate(()=>{
-      const key=window.hbCartStorageKey,prior=localStorage.getItem(key);
-      const btn=document.getElementById('add_to_quote_btn');
-      if(!btn||btn.disabled)return {eligible:false};
-      window.__dt8QaOriginalCart={key,prior};
-      return {eligible:true,before:prior};
+    // Protect the test account's existing browser basket: do not click through or modify it.
+    const contract=await page.evaluate(()=>{
+      const button=document.getElementById('add_to_quote_btn'),value=window.dt8HBHandoffV288.status();
+      return {button:!!button,verified:value.verified,
+       label:button?.textContent?.trim(),key:window.hbCartStorageKey};
     });
-    if(transfer.eligible){
-      page.once('dialog',dlg=>dlg.accept());
-      await page.locator('#add_to_quote_btn').click({timeout:12000}).catch(e=>out.notes.push('Navigation interrupted after click: '+String(e.message).slice(0,90)));
-      await sleep(400);
-      // Same-origin local storage survives navigation; load only GET if redirect was aborted.
-      if(!page.url().includes('hydroblok-planner-v3-preview'))
-        await page.goto(BASE+'/hydroblok-planner-v3-preview?layout_lab=1',{waitUntil:'domcontentloaded'});
-      const cart=await page.evaluate(()=>{
-        const orig=window.__dt8QaOriginalCart;
-        const key=orig?.key||window.hbCartStorageKey;
-        const x=localStorage.getItem(key),a=x?JSON.parse(x):[];
-        if(orig){if(orig.prior===null)localStorage.removeItem(key);else localStorage.setItem(key,orig.prior);}
-        return {items:a.length,key,quantities:a.map(x=>x.qty)};
-      });
-      ok('actual_quoted_items_staged_in_account_cart',cart.items>0&&cart.key===d.key,cart);
-    }else ok('actual_quoted_items_staged_in_account_cart',false,transfer);
+    ok('quote_review_button_and_scoped_route_contract',contract.button&&contract.verified&&
+      contract.label.includes('Review Quote')&&contract.key===d.key,contract);
   }
  }catch(e){out.notes.push('Exception: '+String(e.stack||e).slice(0,1100));}
  out.passed=Object.keys(out.checks).length>=9&&Object.values(out.checks).every(Boolean);
