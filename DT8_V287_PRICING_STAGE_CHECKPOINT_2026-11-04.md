@@ -16,7 +16,7 @@ Checkpoint: 2026-11-04. Scope: company 8 / website 1 only.
 - Anonymous HTTP 200, Dalla Terra website ID 1, public MSRP wallboard HBWB366012 $74.70 and sealant HBJSCART $20.43.
 - Guest chromium and WebKit mobile test passed: correct MSRP, pricing card rendered, correct company, no Showroom logo, no horizontal overflow.
 - Signed-in test account via GitHub Actions: authorization/pricing mode correct, account id scoped. Raw Odoo assigned pricelist prices BEFORE currency rounding were $41.085 for HBWB366012 and $11.2365 for HBJSCART; storefront presented $41.09 and $11.24. Two-decimal rounding patch installed in preview 8221.
-- Targeted retest initiated: manual-only workflow `.github/workflows/studio-v287-pricing.yml`, run https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41906025125 . **Do not assert dealer test PASS until report read.**
+- Targeted retest initiated: manual-only workflow `.github/workflows/studio-v287-pricing.yml`, run https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41906025125 . **PASS VERIFIED:** targeted manual-only browser acceptance completed successfully on Chromium and WebKit. Guest and dealer totals match storefront currency rounding ($74.70/$20.43 MSRP; $41.09/$11.24 assigned dealer prices), viewer isolation and mobile overflow checks passed. Run: https://github.com/adamdallaterra-ai/dalla-terra-hydroblok-mobile-qa/actions/runs/41906025125. No browser JS errors in the targeted run.
 - Broader historical dealer QA returns unrelated pre-existing cart/CTA differences; isolate V287 price checks instead of reopening old workflows.
 
 ## Backups
@@ -26,7 +26,7 @@ Checkpoint: 2026-11-04. Scope: company 8 / website 1 only.
 - Original Dalla Terra production QWeb unchanged.
 
 ## Remaining deliverables
-1. Confirm targeted signed-in guest/dealer QA after rounding in Chromium and WebKit. If fails, fix precise cause without changing production.
+1. DONE — Confirmed targeted signed-in guest/dealer QA after rounding in Chromium and WebKit (PASS 2/2).
 2. Keep staged preview; if replacing live Dalla Terra production, preserve its functional order/quote flow. Preview currently intentionally disables cross-company legacy quote submission. Do not swap into production until the ordering path is ported and tested.
 3. Review price depiction in generated PDF only if required for release; preserve existing installer disclaimer and fail-closed material status.
 4. Publish Dalla Terra replacement to /shower-calculator only when end-to-end flow works and session-specific prices are confirmed.
