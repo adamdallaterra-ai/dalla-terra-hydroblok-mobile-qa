@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/studio-v288-fast-chrome.yml'
+      - 'studio_v288_handoff_qa.js'
   workflow_dispatch:
 permissions:
   contents: read
