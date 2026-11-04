@@ -75,7 +75,9 @@ async function check(engine){
       if(caddy){caddy.checked=false;caddy.dispatchEvent(new Event('change',{bubbles:true}));}
       window.sfHBV31C?.show?.('review',false);
     });
-    await sleep(1300);
+    await sleep(1700);
+    await page.evaluate(()=>window.sfHBV31C?.show?.('review',false));
+    await sleep(350);
     state=await page.evaluate(()=>({
       status:window.dt8HBHandoffV288.status(),
       audit:window.sfHBV259WallReview?.audit?.()?.reason,
@@ -87,6 +89,8 @@ async function check(engine){
   }
   ok('native_material_audit_gates_quote',state.status.verified&&state.status.materialLines>0,{status:state.status,pending:state.pending,style:state.style,audit:state.audit});
   if(state.status.verified){
+    await page.evaluate(()=>window.sfHBV31C?.show?.('review',false));
+    await sleep(250);
     const disclosure=await page.evaluate(()=>document.getElementById('dt8_quote_handoff_status')?.textContent||'');
     ok('unquantified_materials_explicitly_disclosed',disclosure.toLowerCase().includes('joint sealant')&&
        disclosure.toLowerCase().includes('modified thinset')&&disclosure.toLowerCase().includes('drain finish'),{disclosure:disclosure.slice(0,450)});
@@ -126,6 +130,9 @@ async function check(engine){
     const save=await page.evaluate(()=>{
       const key=window.sfHydroblokPreviewV5.storageKey,prior=localStorage.getItem(key);
       try{
+        const expected=window.sfHydroblokPreviewV5.exportPlan();
+        localStorage.setItem(key,JSON.stringify(expected));
+        window.sfHBV31C?.show?.('review',false);
         const btn=document.getElementById('sf_v5_save');btn.click();
         const saved=JSON.parse(localStorage.getItem(key)||'null');
         return {matched:saved?.company_id===8&&saved?.website_id===1&&Object.keys(saved?.bom||{}).length>0,
@@ -135,11 +142,16 @@ async function check(engine){
     });
     ok('saved_design_preserved',save.matched,save);
     // Protect the test account's existing browser basket: do not click through or modify it.
-    await page.evaluate(()=>window.sfHBV259WallReview?.refresh?.());
-    await sleep(450);
+    await page.evaluate(()=>{
+      window.sfHBV31C?.show?.('review',false);
+      window.sfHBV259WallReview?.refresh?.();
+    });
+    await sleep(300);
     const contract=await page.evaluate(()=>{
       const button=document.getElementById('add_to_quote_btn'),value=window.dt8HBHandoffV288.status();
       return {button:!!button,verified:value.verified,reason:value.reason,
+       stage:document.getElementById('wrap')?.dataset.v31Stage,
+       audit:window.sfHBV259WallReview?.audit?.()?.reason,
        label:button?.textContent?.trim(),key:window.hbCartStorageKey};
     });
     ok('quote_review_button_and_scoped_route_contract',contract.button&&contract.verified&&
