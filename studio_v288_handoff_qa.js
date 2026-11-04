@@ -2,6 +2,7 @@
 const {chromium,webkit}=require('playwright');
 const fs=require('fs');
 const BASE='https://www.dallaterra.ca';
+const STUDIO_ROUTE=process.argv.includes('--production')?'/shower-calculator':'/hydroblok-planner-v3-preview?layout_lab=1';
 const PASSWORD=process.env.DT_QA_TEST_PASSWORD;
 if(!PASSWORD)throw Error('Existing encrypted test credential unavailable.');
 const output={version:'DT8_V288',date:new Date().toISOString(),engines:[]};
@@ -16,7 +17,7 @@ async function check(engine){
   // Any unexpected server-side write is forbidden. Auth sign-in is the only permitted POST.
   await page.route('**/web/dataset/call_kw/ir.actions.server/run',route=>route.abort());
   await page.route('**/website/action/1771',route=>route.abort());
-  const guest=await page.goto(BASE+'/hydroblok-planner-v3-preview?layout_lab=1',
+  const guest=await page.goto(BASE+STUDIO_ROUTE,
    {waitUntil:'domcontentloaded',timeout:50000});
   await page.waitForFunction(()=>!!document.getElementById('dt8_price_bom'),{timeout:25000});
   const g=await page.evaluate(()=>({
@@ -33,7 +34,7 @@ async function check(engine){
   await form.locator('input[name="password"]').fill(PASSWORD);
   await form.locator('button[type="submit"]').click();
   await sleep(1200);
-  const auth=await page.goto(BASE+'/hydroblok-planner-v3-preview?layout_lab=1',{waitUntil:'domcontentloaded'});
+  const auth=await page.goto(BASE+STUDIO_ROUTE,{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>!!window.dt8HBHandoffV288?.status&&!!window.sfHBV31C?.show,{timeout:25000});
   const d=await page.evaluate(()=>({
     guest:window.hbIsGuest,key:window.hbCartStorageKey,scope:window.hbVisitorScope,
