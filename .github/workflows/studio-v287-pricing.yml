@@ -1,0 +1,32 @@
+name: Dalla Terra V287 studio isolated MSRP and dealer-price acceptance
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      DT_QA_TEST_PASSWORD: ${{ secrets.DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax check and prerequisite
+        run: |
+          node --check dealer_mobile_qa.js
+          test -n "$DT_QA_TEST_PASSWORD"
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify public MSRP and authenticated dealer pricelist in V287 preview (GET-only)
+        run: node dealer_mobile_qa.js --studio-only
+      - name: Upload sanitized studio QA result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dt8-v287-studio-pricing-qa
+          path: qa-output-dealer/
+          if-no-files-found: warn
+          retention-days: 7
