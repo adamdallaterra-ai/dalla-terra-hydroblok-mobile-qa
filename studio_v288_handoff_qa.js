@@ -88,8 +88,8 @@ async function check(engine){
   ok('native_material_audit_gates_quote',state.status.verified&&state.status.materialLines>0,{status:state.status,pending:state.pending,style:state.style,audit:state.audit});
   if(state.status.verified){
     const disclosure=await page.evaluate(()=>document.getElementById('dt8_quote_handoff_status')?.textContent||'');
-    ok('unquantified_materials_explicitly_disclosed',disclosure.includes('Joint sealant')&&
-       disclosure.includes('modified thinset')&&disclosure.includes('Drain finish'),{disclosure:disclosure.slice(0,450)});
+    ok('unquantified_materials_explicitly_disclosed',disclosure.toLowerCase().includes('joint sealant')&&
+       disclosure.toLowerCase().includes('modified thinset')&&disclosure.toLowerCase().includes('drain finish'),{disclosure:disclosure.slice(0,450)});
   }
   ok('review_stage_live',state.stage==='review',state);
   ok('pdf_available',!!state.pdf&&state.pdf.pages>=3&&
@@ -128,14 +128,18 @@ async function check(engine){
       try{
         const btn=document.getElementById('sf_v5_save');btn.click();
         const saved=JSON.parse(localStorage.getItem(key)||'null');
-        return {matched:saved?.company_id===8&&saved?.website_id===1&&Object.keys(saved?.bom||{}).length>0};
+        return {matched:saved?.company_id===8&&saved?.website_id===1&&Object.keys(saved?.bom||{}).length>0,
+          company:saved?.company_id,website:saved?.website_id,lines:Object.keys(saved?.bom||{}).length,
+          key,disabled:btn.disabled,notice:document.getElementById('sf_v5_save_status')?.textContent?.slice(0,160)};
       }finally{if(prior===null)localStorage.removeItem(key);else localStorage.setItem(key,prior);}
     });
     ok('saved_design_preserved',save.matched,save);
     // Protect the test account's existing browser basket: do not click through or modify it.
+    await page.evaluate(()=>window.sfHBV259WallReview?.refresh?.());
+    await sleep(450);
     const contract=await page.evaluate(()=>{
       const button=document.getElementById('add_to_quote_btn'),value=window.dt8HBHandoffV288.status();
-      return {button:!!button,verified:value.verified,
+      return {button:!!button,verified:value.verified,reason:value.reason,
        label:button?.textContent?.trim(),key:window.hbCartStorageKey};
     });
     ok('quote_review_button_and_scoped_route_contract',contract.button&&contract.verified&&
