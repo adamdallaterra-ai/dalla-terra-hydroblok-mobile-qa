@@ -86,6 +86,11 @@ async function check(engine){
     }));
   }
   ok('native_material_audit_gates_quote',state.status.verified&&state.status.materialLines>0,{status:state.status,pending:state.pending,style:state.style,audit:state.audit});
+  if(state.status.verified){
+    const disclosure=await page.evaluate(()=>document.getElementById('dt8_quote_handoff_status')?.textContent||'');
+    ok('unquantified_materials_explicitly_disclosed',disclosure.includes('Joint sealant')&&
+       disclosure.includes('modified thinset')&&disclosure.includes('Drain finish'),{disclosure:disclosure.slice(0,450)});
+  }
   ok('review_stage_live',state.stage==='review',state);
   ok('pdf_available',!!state.pdf&&state.pdf.pages>=3&&
     typeof state.pdf.html==='string'&&state.pdf.html.includes('HYDRO'),{pages:state.pdf?.pages});
