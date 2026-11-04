@@ -110,7 +110,7 @@ async function studioPriceCheck(page,record,guest){
     if(!ok)record.issues.push('V287 '+mode+' price or isolated studio render mismatch');
     return {mode,http:response?.status(),pass:ok,priceMatches:(
       s.wallboard===priceExpected.wallboard&&s.sealant===priceExpected.sealant),
-      panelRendered:s.pricePanel,guestFlag:s.guest,noShowroomLogo:s.noShowroomLogo,
+      panelRendered:s.pricePanel,guestFlag:s.guest,actualWallboardPrice:s.wallboard,actualSealantPrice:s.sealant,accountScope:s.visitorScope,expectedWallboardPrice:priceExpected.wallboard,expectedSealantPrice:priceExpected.sealant,noShowroomLogo:s.noShowroomLogo,
       noHorizontalOverflow:!s.overflow};
   }catch(e){record.issues.push('V287 '+mode+' preview error: '+String(e?.message||e).slice(0,110));return {mode,pass:false};}
 }
