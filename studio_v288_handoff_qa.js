@@ -157,6 +157,35 @@ async function check(engine){
     });
     ok('quote_review_button_and_scoped_route_contract',contract.button&&contract.verified&&
       contract.label.includes('Review Quote')&&contract.key===d.key,contract);
+    if(contract.verified){
+      let requestedRedirect=false;
+      page.on('request',req=>{try{
+        if(new URL(req.url()).pathname==='/website/action/1771')requestedRedirect=true;
+      }catch(_){ }});
+      const prior=await page.evaluate(key=>localStorage.getItem(key),d.key);
+      let clickError=null;
+      try{
+        page.once('dialog',dialog=>dialog.accept());
+        await page.locator('#add_to_quote_btn').click({timeout:12000,noWaitAfter:true});
+        await sleep(450);
+      }catch(error){clickError=String(error?.message||error).slice(0,150);}
+      try{
+        await page.goto(BASE+STUDIO_ROUTE,{waitUntil:'domcontentloaded',timeout:35000});
+      }catch(_){}
+      const staged=await page.evaluate(key=>{
+        const raw=localStorage.getItem(key),lines=raw?JSON.parse(raw):[];
+        return {key,items:lines.length,
+          valid:lines.length>0&&lines.every(x=>Number.isInteger(x.product_id)&&x.product_id>0&&
+            Number.isInteger(x.qty)&&x.qty>0&&x.isSqft===false&&x.fullBoxOnly===false)};
+      },d.key).catch(()=>({key:d.key,items:0,valid:false}));
+      await page.evaluate(({key,prior})=>{
+        if(prior===null)localStorage.removeItem(key);
+        else localStorage.setItem(key,prior);
+      },{key:d.key,prior}).catch(()=>{});
+      ok('intercepted_real_click_stages_only_verified_account_cart',
+        requestedRedirect&&staged.valid&&staged.items>=state.status.materialLines,
+        {redirectAttempted:requestedRedirect,staged,clickError});
+    }
   }
  }catch(e){out.notes.push('Exception: '+String(e.stack||e).slice(0,1100));}
  out.passed=Object.keys(out.checks).length>=9&&Object.values(out.checks).every(Boolean);
