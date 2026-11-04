@@ -11,7 +11,7 @@ async function check(engine){
  const context=await browser.newContext({viewport:{width:1200,height:900},locale:'en-CA'});
  const page=await context.newPage(),out={engine,checks:{},notes:[],errors:[]};
  page.on('pageerror',err=>out.errors.push(String(err.message||err).slice(0,180)));
- const ok=(label,val,detail)=>{out.checks[label]=!!val;if(!val)out.notes.push(label+': '+JSON.stringify(detail||{}).slice(0,300));};
+ const ok=(label,val,detail)=>{out.checks[label]=!!val;if(!val)out.notes.push(label+': '+JSON.stringify(detail||{}).slice(0,1200));};
  try{
   // Any unexpected server-side write is forbidden. Auth sign-in is the only permitted POST.
   await page.route('**/web/dataset/call_kw/ir.actions.server/run',route=>route.abort());
@@ -68,6 +68,11 @@ async function check(engine){
       for(const key of ['board_3660','board_4864','board_4896']){
         const el=document.getElementById(key);if(el){el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
       }
+      for(const choice of document.querySelectorAll('#niche_container select.accessory-select,#bench_container select.accessory-select')){
+        choice.value='none';choice.dispatchEvent(new Event('change',{bubbles:true}));
+      }
+      const caddy=document.getElementById('sf_v13_caddy_wanted');
+      if(caddy){caddy.checked=false;caddy.dispatchEvent(new Event('change',{bubbles:true}));}
       window.sfHBV31C?.show?.('review',false);
     });
     await sleep(1300);
