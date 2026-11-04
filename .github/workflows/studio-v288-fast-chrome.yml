@@ -1,0 +1,35 @@
+name: DT8 V288 fast Chrome handoff acceptance (read-only)
+on:
+  push:
+    paths:
+      - '.github/workflows/studio-v288-fast-chrome.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  checkout-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      DT_QA_TEST_PASSWORD: ${{ secrets.DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Node syntax and existing encrypted test credentials
+        run: |
+          node --check studio_v288_handoff_qa.js
+          test -n "$DT_QA_TEST_PASSWORD"
+          which google-chrome || which google-chrome-stable
+      - run: npm install --no-audit --no-fund
+      - name: Focused Dalla Terra guest/dealer Chrome handoff safety check
+        run: node studio_v288_handoff_qa.js --chromium-only --chrome-channel
+      - name: Upload browser test result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dt8-v288-fast-chrome-qa
+          path: qa-output-v288/
+          if-no-files-found: warn
+          retention-days: 7
