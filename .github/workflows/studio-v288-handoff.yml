@@ -1,0 +1,35 @@
+name: Dalla Terra V288 quotation handoff regression (no orders)
+on:
+  push:
+    paths:
+      - '.github/workflows/studio-v288-handoff.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  v288-quote-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      DT_QA_TEST_PASSWORD: ${{ secrets.DT_QA_TEST_PASSWORD_EPHEMERAL_NOV2026 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check focused test syntax and existing test-account secret
+        run: |
+          node --check studio_v288_handoff_qa.js
+          test -n "$DT_QA_TEST_PASSWORD"
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify preview account isolation, quote material gate, dry-run merge, PDF and saved design
+        run: node studio_v288_handoff_qa.js
+      - name: Upload sanitized V288 handoff QA results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dt8-v288-quote-handoff-qa
+          path: qa-output-v288/
+          if-no-files-found: warn
+          retention-days: 7
