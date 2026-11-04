@@ -25,7 +25,7 @@ jobs:
           which google-chrome || which google-chrome-stable
       - run: npm install --no-audit --no-fund
       - name: Focused Dalla Terra guest/dealer Chrome handoff safety check
-        run: node studio_v288_handoff_qa.js --chromium-only --chrome-channel
+        run: node studio_v288_handoff_qa.js --chromium-only --chrome-channel --production
       - name: Upload browser test result
         if: always()
         uses: actions/upload-artifact@v4
