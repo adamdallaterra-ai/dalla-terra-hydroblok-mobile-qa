@@ -1,0 +1,1771 @@
+<t t-name="website.shower-calculator">
+    <t t-call="website.layout">
+        <!-- DT8_HYDROBLOK_SHOWER_PLANNER_PAGE_20261015: naming/SEO only; dimensions and layout engine untouched. -->
+        <t t-set="additional_title">HYDRO-BLOK Shower Planner</t>
+        <t t-set="website_meta_description">Plan a HYDROBLOK shower layout and estimate wallboards, shower-pan components and accessories with the Dalla Terra shower planner.</t>
+        <div id="wrap" class="oe_structure">
+            
+            <div id="zoom-overlay">
+                <img id="zoom-overlay-img" src="" alt="Zoomed Image"/>
+            </div>
+
+            <section class="s_text_block pt40 pb50 bg-light">
+                <div class="container-fluid" id="hydroblok_wizard" style="max-width: 1400px;">
+                    
+                    <div class="row d-none d-print-flex mb-4 pb-3 border-bottom border-2 border-hb-green align-items-center w-100 print-header-row print-only-section">
+                        <div class="col-7 d-flex align-items-center text-start">
+                            <img id="print_dt_logo" src="/web/binary/company_logo" alt="Dalla Terra Tile &amp; Stone" style="max-height: 45px; object-fit: contain;"/>
+                            <span class="fw-bold text-muted mx-3" style="font-size: 1.2rem;">+</span>
+                            <img id="print_hb_logo" src="/web/static/img/logo.png" alt="Hydroblok" style="max-height: 45px; object-fit: contain;"/>
+                        </div>
+                        <div class="col-5 text-end">
+                            <h2 class="hb-grey fw-bold mb-0" style="font-size: 16pt;">HYDROBLOK Shower Planner</h2>
+                            <p class="text-muted mb-0 fw-bold" style="font-size: 10pt;">Project Blueprint &amp; Quote</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 d-print-none">
+                        <div class="col-12 d-flex flex-column flex-md-row justify-content-center align-items-center mb-2 text-center">
+                            <img src="/web/image/69735-5d359912/Newest-HydroBlok-Logo.webp" alt="Hydroblok Logo" class="mb-3 mb-md-0 me-0 me-md-3 img-fluid o_we_custom_image web-hb-logo img" style="max-height: 60px;"/>
+                            <h1 class="hb-grey fw-bold mb-0">HYDROBLOK Shower Planner</h1>
+                        </div>
+                        <div class="col-12 text-center">
+                            <p class="text-muted px-2">Plan your HYDROBLOK shower layout, estimate components and generate a project blueprint.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- DT8_HB_UX_VALIDATION_WALL_LINK_ENTRY_20261015_V1: optional anchor journey; sections remain visible to preserve continuous recalculation and print -->
+                    <nav class="hb-planner-journey d-print-none mb-4 px-2 py-2" aria-label="Shower planner sections">
+                      <a href="#step1_card"><strong>01</strong> Dimensions &amp; entrance</a>
+                      <a href="#step2_card"><strong>02</strong> Drain &amp; base</a>
+                      <a href="#step3_card"><strong>03</strong> Walls &amp; panels</a>
+                      <a href="#step4_card"><strong>04</strong> Accessories &amp; placement</a>
+                    </nav>
+                    <style type="text/css">
+                      #hydroblok_wizard .hb-planner-journey{display:flex;gap:6px;flex-wrap:wrap;border:1px solid #dce2da;border-radius:13px;background:#f8faf7}
+                      #hydroblok_wizard .hb-planner-journey a{color:#35433c;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;text-decoration:none;border-radius:10px;padding:11px 14px;flex:1;min-width:170px}
+                      #hydroblok_wizard .hb-planner-journey a:hover,#hydroblok_wizard .hb-planner-journey a:focus{background:#e7f1e2;color:#255b32;outline-offset:2px}
+                      #hydroblok_wizard .hb-planner-journey strong{color:#638b65;font-size:11px}
+                      #hydroblok_wizard .print-card{scroll-margin-top:92px}
+                      #hydroblok_wizard .form-control:focus,#hydroblok_wizard .form-select:focus{box-shadow:0 0 0 3px rgba(91,158,49,.17);border-color:#58984b}
+                      /* DT8_HB_PHONE_PLANNER_LAYOUT_V1_20261016: mobile-only presentation, not quantities/2D/3D JS or print. */
+                      @media screen and (max-width:640px){
+                        #hydroblok_wizard .hb-planner-journey a{min-width:calc(50% - 6px);flex:1 1 calc(50% - 6px);min-height:48px;font-size:12px;padding:10px}
+                        #hydroblok_wizard .print-card,#hydroblok_wizard .card-body,#hydroblok_wizard .print-canvas-col,#hydroblok_wizard .print-main-row,#hydroblok_wizard .print-left-col,#hydroblok_wizard .print-right-col{min-width:0;max-width:100%}
+                        #hydroblok_wizard .form-control,#hydroblok_wizard .form-select,#hydroblok_wizard .form-control-sm,#hydroblok_wizard .btn-sm{min-height:44px}
+                        #hydroblok_wizard .wall-segment-row &gt; .col-4{flex:0 0 100%;max-width:100%}
+                        #hydroblok_wizard .wall-segment-row &gt; .col-3{flex:0 0 41%;max-width:41%}
+                        #hydroblok_wizard .wall-segment-row &gt; .col-2{flex:0 0 18%;max-width:18%}
+                        #hydroblok_wizard .wall-segment-row .remove-wall-btn,#hydroblok_wizard #add_wall_btn{min-height:44px}
+                        #hydroblok_wizard #hb_show_plan_2d,#hydroblok_wizard #hb_show_plan_3d,#hydroblok_wizard #hb_3d_reset,#hydroblok_wizard #hb_3d_zoom_out,#hydroblok_wizard #hb_3d_zoom_in{min-height:44px;white-space:normal}
+                        #hydroblok_wizard #bom_card{position:static!important;top:auto!important}
+                        #hydroblok_wizard #bom_card .card-body{overflow-x:auto}
+                        #hydroblok_wizard #bom_card .table{max-width:100%}
+                        #hydroblok_wizard #bom_card td:first-child{overflow-wrap:anywhere}
+                        #hydroblok_wizard .hb-place-panel .hb-place-wall label{display:inline-flex;align-items:center;min-height:44px}
+                        #hydroblok_wizard .hb-place-panel .hb-place-dims input{min-height:44px}
+                      }
+                    
+  /* DT8_HB_PHONE_PLANNER_VIEWPORT_CLIP_V2_20261017: both 2D and 3D phone layouts; switching tabs must not reintroduce 59px horizontal overflow. Planner only, no geometry/quantity/print changes. */
+  @media screen and (max-width:640px) {
+    html:has(#hydroblok_wizard),
+    body:has(#hydroblok_wizard) {
+      overflow-x:clip !important;
+    }
+  }
+</style>
+                    <div class="row print-main-row">
+                        <div class="col-xl-8 col-lg-7 print-left-col">
+                            
+                            <div class="card shadow-sm border-0 mb-4 print-card" id="step1_card">
+                                <div class="card-header bg-white border-bottom-0 pt-4 pb-0 print-no-pad">
+                                    <h4 class="hb-green print-heading"><i class="fa fa-arrows-alt me-2 d-print-none"/>1. Shower dimensions &amp; entrance</h4>
+                                </div>
+                                <div class="card-body print-compact-body">
+                                    <div class="row g-3 print-compact-row">
+                                        <div class="col-md-4 col-12 print-input-group">
+                                            <label class="form-label fw-bold hb-grey">Shower Pan Width (in)</label>
+                                            <input type="number" id="pan_w" class="form-control border-hb-green border-opacity-50" value="72" min="0"/>
+                                        </div>
+                                        <div class="col-md-4 col-12 print-input-group">
+                                            <label class="form-label fw-bold hb-grey">Shower Pan Depth (in)</label>
+                                            <input type="number" id="pan_d" class="form-control border-hb-green border-opacity-50" value="36" min="0"/>
+                                        </div>
+                                        <div class="col-md-4 col-12 print-input-group">
+                                            <label class="form-label fw-bold hb-grey">Entry Width (in)</label>
+                                            <input type="number" id="entry_w" class="form-control" value="72" min="0"/>
+                                        </div>
+                                        <div class="col-md-6 col-12 print-input-group mt-3 border-top pt-3 border-opacity-25 border-hb-green">
+                                            <label class="form-label fw-bold hb-grey">Entry Style</label>
+                                            <select id="entry_style" class="form-select border-primary border-opacity-25 bg-light">
+                                                <option value="std">Standard Step-In</option>
+                                                <option value="bf">Barrier-Free / Curbless</option>
+                                            </select>
+                                        </div>
+    
+                                        <div class="col-md-6 col-12 print-input-group mt-3">
+                                            <label for="hb_entry_position" class="form-label fw-bold hb-grey">Entrance position</label>
+                                            <select id="hb_entry_position" class="form-select">
+                                                <option value="center">Centered (default)</option>
+                                                <option value="left">At the left end</option>
+                                                <option value="right">At the right end</option>
+                                            </select>
+                                            <small class="text-muted">Shown along the front edge of your floor plan and 3D preview.</small>
+                                        </div>
+                                    <div class="col-md-6 col-12 print-input-group mt-3 border-top pt-3 border-opacity-25 border-hb-green" id="curb_style_container">
+                                            <label class="form-label fw-bold hb-grey">Curb Style</label>
+                                            <select id="curb_style" class="form-select border-primary border-opacity-25 bg-light">
+                                                <option value="std">Standard Curb</option>
+                                                <option value="mini">MINI Curb</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow-sm border-0 mb-4 print-card" id="step2_card" style="overflow: visible !important;">
+                                <div class="card-header bg-white border-bottom-0 pt-4 pb-0 print-no-pad">
+                                    <h4 class="hb-green print-heading"><i class="fa fa-tint me-2 d-print-none"/>2. Drain &amp; shower base</h4>
+                                </div>
+                                <div class="card-body print-compact-body">
+                                    <div class="row g-3 print-compact-row">
+                                        <div class="col-md-5 print-dropdown-col">
+                                            <div class="mb-3 print-input-group" id="drain_type_container">
+                                                <label class="form-label fw-bold hb-grey">Drain Type</label>
+                                                <select id="drain_type" class="form-select border-hb-green">
+                                                    <option value="offset">Offset Drain</option>
+                                                    <option value="center" id="opt_drain_center">Center Drain</option>
+                                                    <option value="custom">Custom Point Drain</option>
+                                                    <option value="linear_std" id="opt_linear_std">Linear Drain (Standard Profile)</option>
+                                                    <option value="linear_thin" id="opt_linear_thin">Linear Drain (THIN Barrier-Free)</option>
+                                                </select>
+                                            </div>
+                                            <div class="row g-2 custom-drain-group d-none mb-3 d-print-none border rounded p-2 bg-light mx-0">
+                                                <div class="col-md-6 col-6 print-input-group">
+                                                    <label class="form-label fw-bold text-warning"><i class="fa fa-crosshairs me-1"/>To Left Wall (in)</label>
+                                                    <input type="number" id="custom_x" class="form-control border-warning" value="18" min="0"/>
+                                                </div>
+                                                <div class="col-md-6 col-6 print-input-group">
+                                                    <label class="form-label fw-bold text-warning"><i class="fa fa-crosshairs me-1"/>To Back Wall (in)</label>
+                                                    <input type="number" id="custom_y" class="form-control border-warning" value="18" min="0"/>
+                                                </div>
+                                            </div>
+                                            <div id="linear_panel" class="row g-3 p-3 bg-white rounded d-none border border-hb-green border-opacity-50 mx-0 mb-3 print-compact-row print-no-border">
+                                                <div class="col-12 d-none d-print-none text-muted fst-italic" id="barrier_linear_hint" style="font-size: 0.8rem; margin-bottom: -10px;">
+                                                    * Curbless linears <strong>must</strong> be placed at the entrance.
+                                                </div>
+                                                <div class="col-12 print-input-group" id="linear_loc_container">
+                                                    <label class="form-label fw-bold hb-green">Linear Location</label>
+                                                    <select id="linear_loc" class="form-select border-hb-green">
+                                                        <option value="back">Back Wall (Width)</option>
+                                                        <option value="entry">Entry / Front Wall (Width)</option>
+                                                        <option value="side">Side Wall (Depth)</option>
+                                                        <option value="center_double">Center Area (Double Slope)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 print-input-group" id="linear_trim_container">
+                                                    <label class="form-label fw-bold hb-green">Drain Style</label>
+                                                    <select id="linear_trim" class="form-select border-hb-green">
+                                                        <option value="shadow">Wall Drain (Concealed)</option>
+                                                        <option value="sight">Floor Drain (Metal Edge)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 print-input-group d-print-none" id="tile_thick_container">
+                                                    <label class="form-label fw-bold hb-green">Tile Thickness</label>
+                                                    <select id="tile_thick" class="form-select border-hb-green">
+                                                        <option value="14">1/4" Tile</option>
+                                                        <option value="38" selected="selected">3/8" Tile</option>
+                                                        <option value="12">1/2" Tile</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 d-flex flex-column bg-white border rounded p-0 mt-3 mt-md-0 print-canvas-col" style="overflow: visible !important;">
+                                            <div id="validation_error_box" class="alert alert-danger d-none m-3 text-start shadow-sm" style="font-size: 0.9rem; line-height: 1.4;">
+                                                <span id="validation_error_text"/>
+                                            </div>
+    
+                                        <!-- DT8_HB_3D_PLACEMENT_PREVIEW_20261015_V1: two views of the same shower, 2D kept for print -->
+                                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 p-2 border-bottom bg-white d-print-none" style="border-radius:12px 12px 0 0">
+                                          <div class="btn-group btn-group-sm" role="group" aria-label="Choose your shower preview">
+                                            <button type="button" class="btn btn-success px-3" id="hb_show_plan_2d" aria-pressed="true"><i class="fa fa-th-large me-1"/>2D floor plan</button>
+                                            <button type="button" class="btn btn-outline-success px-3" id="hb_show_plan_3d" aria-pressed="false"><i class="fa fa-cube me-1"/>3D shower preview</button>
+                                          </div>
+                                          <span class="small text-muted">Live preview updates as you change the design</span>
+                                        </div>
+                                        <div id="canvas_container" class="flex-grow-1 w-100 bg-light d-flex d-print-flex align-items-center justify-content-center p-3 click-zoom print-canvas-container" style="border-top-left-radius: inherit; border-top-right-radius: inherit; min-height: 350px;">
+                                                <canvas id="floorCanvas" style="width: 100%; height: auto; display: block; margin: 0 auto; max-width: 100%;" width="800" height="450"/>
+                                            </div>
+    
+                                        <div id="hb_3d_container" class="d-none d-print-none w-100" style="background:#f6f8f5;min-height:390px">
+                                          <div class="position-relative p-2 p-md-3">
+                                            <canvas id="hb_3d_canvas" width="900" height="590" role="img" tabindex="0" aria-label="Rotatable 3D shower preview showing walls, curb, drain, and placed niches or benches" style="display:block;width:100%;height:auto;max-height:520px;touch-action:none;cursor:grab;border-radius:12px"/>
+                                            <div class="d-flex gap-2 flex-wrap align-items-center justify-content-between mt-2">
+                                              <span class="small text-muted">Drag to rotate · The front wall is open for viewing</span>
+                                              <div class="btn-group btn-group-sm" aria-label="3D camera controls">
+                                                <button type="button" class="btn btn-outline-secondary" id="hb_3d_zoom_out" aria-label="Zoom out"><i class="fa fa-minus"/></button>
+                                                <button type="button" class="btn btn-outline-secondary" id="hb_3d_reset">Reset view</button>
+                                                <button type="button" class="btn btn-outline-secondary" id="hb_3d_zoom_in" aria-label="Zoom in"><i class="fa fa-plus"/></button>
+                                              </div>
+                                            </div>
+                                            <p id="hb_3d_disclaimer" class="small text-muted mb-1 mt-2">Illustrative planning view, not a construction drawing. Verify drain, waterproofing, niche and bench placement with your installer.</p>
+                                          </div>
+                                        </div>
+                                        <div class="p-2 text-center border-top bg-white d-print-none" style="border-bottom-left-radius: inherit; border-bottom-right-radius: inherit;">
+                                                <span class="fw-bold hb-grey d-block" style="font-size: 0.8rem;">Your layout · 2D and 3D views</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="foundation_gallery_container" class="mt-4 pt-4 border-top d-none d-print-none">
+                                        <h6 class="hb-grey fw-bold text-center mb-4"><i class="fa fa-cogs me-2"/>Required Components</h6>
+                                        <div id="foundation_gallery" class="d-flex flex-wrap gap-4 justify-content-center"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow-sm border-0 mb-4 print-card" id="step3_card">
+                                <div class="card-header bg-white border-bottom-0 pt-4 pb-0 print-no-pad">
+                                    <h4 class="hb-green print-heading mb-0"><i class="fa fa-th-large me-2 d-print-none"/>3. Walls &amp; wallboards</h4>
+                                </div>
+                                <div class="card-body print-compact-body">
+                                    <div class="row g-3 mb-4 print-compact-row bg-light rounded p-2 border mx-0 mt-2">
+                                        <div class="col-md-4 print-input-group">
+                                            <label class="form-label fw-bold hb-grey mb-1">Board Thickness</label>
+                                            <select id="board_thick" class="form-select form-select-sm border-white shadow-sm">
+                                                <option value="12">1/2" (Standard)</option>
+                                                <option value="58">5/8"</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-8 print-input-group mt-2" id="inventory_container">
+                                            <label class="form-label fw-bold hb-grey mb-1">Wallboard sizes to consider</label>
+                                            <div class="small text-muted mb-2 lh-sm d-print-none" style="font-size: 0.75rem;">Choose which panel sizes the estimate can use. These are product options, not a live stock check.</div>
+                                            <div class="d-flex flex-wrap gap-3 mt-1">
+                                                <div class="form-check">
+                                                    <input class="form-check-input wallboard-toggle" type="checkbox" id="board_3660" value="3660" checked="checked"/>
+                                                    <label class="form-check-label small fw-bold text-dark" for="board_3660">36" x 60" <span class="text-muted fw-normal">(Standard)</span></label>
+                                                </div>
+                                                <div class="form-check" id="board_4864_container">
+                                                    <input class="form-check-input wallboard-toggle" type="checkbox" id="board_4864" value="4864" checked="checked"/>
+                                                    <label class="form-check-label small fw-bold text-dark" for="board_4864">48" x 64" <span class="text-muted fw-normal">(Large)</span></label>
+                                                </div>
+                                                <div class="form-check" id="board_4896_container">
+                                                    <input class="form-check-input wallboard-toggle" type="checkbox" id="board_4896" value="4896" checked="checked"/>
+                                                    <label class="form-check-label small fw-bold text-dark" for="board_4896">48" x 96" <span class="text-muted fw-normal">(8ft Height)</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="dynamic_walls_container" class="mb-3 d-print-none"/>
+                                    <div id="print_walls_container" class="d-none d-print-block w-100 mb-3 px-2"/>
+                                    <div class="text-start mb-4 d-print-none border-bottom pb-4">
+                                        <button type="button" id="add_wall_btn" class="btn btn-sm btn-outline-success shadow-sm fw-bold"><i class="fa fa-plus me-1"/>Add Wall Segment</button>
+                                    </div>
+                                    <div class="w-100 bg-white border rounded p-3 text-center overflow-hidden print-canvas-container click-zoom mt-3">
+                                        <h6 class="text-muted mb-2 mt-2 fw-bold d-print-none">
+                                            Wallboard cutting layout <br/>
+                                            <span style="font-size: 0.8rem; font-weight: normal;">(Estimated panel layout. Confirm cuts, niches and structural framing on site.)</span>
+                                        </h6>
+                                        <canvas id="wallCanvas" style="width: 100%; height: auto; display: block; margin: 0 auto; max-width: 100%;" width="1200" height="770"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow-sm border-0 mb-4 print-card" id="step4_card" style="overflow: visible !important;">
+                                <div class="card-header bg-white border-bottom-0 pt-4 pb-0 print-no-pad">
+                                    <h4 class="hb-green print-heading"><i class="fa fa-plus-square me-2 d-print-none"/>4. Niches, benches &amp; finishing touches</h4>
+                                </div>
+                                <div class="card-body print-compact-body">
+                                    <div class="row g-3 print-compact-row">
+                                        <div class="col-12 print-input-group border-bottom-0 pb-0 mb-2">
+                                            <label class="form-label fw-bold hb-grey mb-0">Sealant Size</label>
+                                            <select id="sealant_size" class="form-select w-50">
+                                                <option value="cartridge">10 oz Cartridges</option>
+                                                <option value="sausage">20 oz Sausages</option>
+                                            </select>
+                                        </div>
+                                        <hr class="text-muted my-2 d-print-none"/>
+                                        <div class="col-md-6 align-items-start print-dynamic-col">
+                                            <div class="d-flex justify-content-between align-items-center w-100 mb-2">
+                                                <label class="form-label fw-bold hb-grey mb-0">Niches &amp; Corner Shelves</label>
+                                                <button type="button" id="add_niche_btn" class="btn btn-sm btn-outline-success rounded-circle d-print-none px-2"><i class="fa fa-plus"/></button>
+                                            </div>
+                                            <div id="niche_container" class="w-100">
+                                                <select class="form-select accessory-select mb-2 print-select-item">
+                                                    <option value="none">None</option>
+                                                    <option value="HBRSN1616">16" x 16" Recessed Niche</option>
+                                                    <option value="HBRSN1628">16" x 28" Recessed Niche</option>
+                                                    <option value="HBRDWSN3216">32" x 16" Recessed Double Wide Niche</option>
+                                                    <option value="HBRBHSN1622">16" x 22" Recessed Barrel Head Niche</option>
+                                                    <option value="HBRDASN3226">32" x 26" Recessed Double Arch Niche</option>
+                                                    <option value="HBDSC">Diamond Shampoo Caddy 8" x 8"</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 align-items-start print-dynamic-col">
+                                            <div class="d-flex justify-content-between align-items-center w-100 mb-2">
+                                                <label class="form-label fw-bold hb-grey mb-0">Benches</label>
+                                                <button type="button" id="add_bench_btn" class="btn btn-sm btn-outline-success rounded-circle d-print-none px-2"><i class="fa fa-plus"/></button>
+                                            </div>
+                                            <div id="bench_container" class="w-100">
+                                                <select class="form-select accessory-select mb-2 print-select-item">
+                                                    <option value="none">None</option>
+                                                    <option value="HBSBM">Suspended Bench Medium 17" x 17"</option>
+                                                    <option value="HBSBL">Suspended Bench Large 22" x 22"</option>
+                                                    <option value="HBDBM">Diamond Bench Medium 17" x 17"</option>
+                                                    <option value="HBDBL">Diamond Bench Large 22" x 22"</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- DT8_HB_OPTIONAL_FULL_CATALOGUE_20261015_V1: user-selected extras, distinct from automatic shower components -->
+                                    <div class="mt-3 pt-3 border-top d-print-none" id="hb_optional_products_section">
+                                        <details class="border rounded-3 p-3" style="background:#f7f8f5">
+                                            <summary class="fw-bold hb-grey" style="cursor:pointer">Add other HYDRO-BLOK products <span class="fw-normal text-muted">(optional)</span></summary>
+                                            <p class="text-muted small mt-2 mb-3">Your shower materials are calculated above. Add special accessories, alternate hardware, or extra products only when needed. Added quantities appear in your materials list and quotation. Our team can verify compatibility.</p>
+                                            <div class="row g-2 align-items-end">
+                                                <div class="col-md-4">
+                                                    <label class="form-label small fw-semibold" for="hb_optional_search">Search products or SKU</label>
+                                                    <input id="hb_optional_search" type="search" class="form-control" placeholder="Drain, ramp, niche, SKU..."/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label small fw-semibold" for="hb_optional_select">Product</label>
+                                                    <select id="hb_optional_select" class="form-select" aria-label="Additional Hydroblok product"><option value="">Select an item</option></select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label small fw-semibold" for="hb_optional_qty">Qty</label>
+                                                    <input id="hb_optional_qty" class="form-control" type="number" step="1" min="1" value="1"/>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button id="hb_optional_add" type="button" class="btn btn-outline-success w-100">Add item</button>
+                                                </div>
+                                            </div>
+                                            <div id="hb_optional_rows" class="mt-3" aria-live="polite"/>
+                                            <p class="small text-muted mb-0 mt-2">Optional quantities are individual sellable units; the shower planner does not apply dealer full-box rounding.</p>
+                                        </details>
+                                    </div>
+
+                                            <p class="small text-muted mb-2 mt-3 d-print-none">Choose a product, then set its wall and position to see it in the 3D preview. A niche needs an exact wall and mounting height; all locations are illustrative.</p>
+
+                                    <style>
+                                      #hydroblok_wizard .hb-place-panel{background:#f6f9f5;border:1px solid #d8e7d5;border-radius:9px;padding:10px;margin:-1px 0 12px}
+                                      #hydroblok_wizard .hb-place-panel .hb-place-wall{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 9px}
+                                      #hydroblok_wizard .hb-place-wall label{border:1px solid #b9c7bb;border-radius:6px;background:white;font-size:12px;padding:5px 8px;cursor:pointer;margin:0}
+                                      #hydroblok_wizard .hb-place-wall input{accent-color:#4e9743;margin-right:4px}
+                                      #hydroblok_wizard .hb-place-panel .hb-place-dims{display:flex;gap:9px;align-items:end;flex-wrap:wrap}
+                                      #hydroblok_wizard .hb-place-panel .hb-place-dims label{font-size:12px;font-weight:600;color:#3c4840;flex:1;min-width:110px}
+                                      #hydroblok_wizard .hb-place-panel .hb-place-dims input{font-size:13px;min-height:36px}
+                                      #hydroblok_wizard #hb_3d_canvas:focus{outline:3px solid rgba(91,158,49,.45)}
+                                      @media(max-width:640px){#hydroblok_wizard .hb-place-panel .hb-place-wall{gap:4px}}
+                                    </style>
+                                    <div id="accessory_gallery_container" class="mt-4 pt-4 border-top d-none d-print-none">
+                                        <h6 class="hb-grey fw-bold text-center mb-4">Selected Accessories &amp; Hardware</h6>
+                                        <div id="accessory_gallery" class="d-flex flex-wrap gap-4 justify-content-center"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-5 mt-4 mt-lg-0 print-right-col">
+                            <div class="card shadow border-0 sticky-top print-card" id="bom_card" style="top: 100px;">
+                                <div class="card-header bg-hb-green text-white p-3 d-flex justify-content-between align-items-center print-bom-header">
+                                    <h5 class="mb-0 fw-bold">Bill of Materials</h5>
+                                    <i class="fa fa-calculator fa-lg d-print-none"/>
+                                </div>
+                                <div class="card-body p-3 print-no-pad">
+                                    <table class="table table-hover mb-0 text-sm align-middle print-table">
+                                        <thead class="table-light d-print-none">
+                                            <tr>
+                                                <th>Item</th>
+                                                <th class="text-center text-nowrap" style="width: 1%;">Qty</th>
+                                                <th class="text-end text-nowrap" style="width: 1%;">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bom_table_body"/>
+                                        <tfoot>
+                                            <tr class="bg-light hb-grey fw-bold fs-5 print-footer-row">
+                                                <td colspan="2" class="text-end pt-3 pb-0 border-bottom-0 print-total-label" id="total_type_label">Estimated Total:</td>
+                                                <td class="text-end pt-3 pb-0 text-nowrap border-bottom-0" id="grand_total">$0.00</td>
+                                            </tr>
+                                            <tr class="bg-light print-footer-row d-print-none">
+                                                <td colspan="3" class="text-end pb-3 pt-1 border-bottom-0 text-muted fst-italic" style="font-size: 0.75rem;">
+                                                    * Does not include tax or freight.
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div class="mt-4 d-print-none">
+                                        <t t-if="not request.env.user._is_public()">
+                                            <div class="mb-3">
+                                                <div class="text-uppercase fw-bold text-muted mb-1" style="font-size: 0.75rem; letter-spacing: 0.05em;">Next Step:</div>
+                                                <button id="add_to_quote_btn" class="btn btn-primary btn-lg w-100 border-0 fw-bold shadow-sm" style="background-color: #5B9E31; font-size: 1rem;">
+                                                    Review Quote &amp; Calculate Freight <i class="fa fa-arrow-right ms-2"/>
+                                                </button>
+                                            </div>
+                                        </t>
+                                        <button id="print_pdf_btn" class="btn btn-outline-secondary w-100 border-2 fw-bold hb-grey" onclick="window.print()">
+                                            <i class="fa fa-print me-2"/>Print PDF Blueprint
+                                        </button>
+                                    </div>
+                                    <div class="mt-4 p-3 bg-light border rounded text-muted text-start print-disclaimer" style="font-size: 0.8rem; line-height: 1.4;">
+                                        <i class="fa fa-info-circle text-primary me-1 d-print-none"/> <strong class="text-dark">Project Planning Tool</strong><br/>
+                                        These estimated totals are provided to help plan your perfect shower! While we strive for accuracy, this tool is intended as a planning aid. Please review your measurements and itemized quantities carefully before beginning your project, as we cannot be held liable for miscalculations. Final retail pricing may vary by location, and totals do not include applicable taxes or shipping costs.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .hb-green { color: #5B9E31 !important; }
+                    .bg-hb-green { background-color: #5B9E31 !important; color: white !important; }
+                    .border-hb-green { border-color: #5B9E31 !important; }
+                    .hb-grey { color: #3A3D42 !important; }
+                    .bg-hb-grey { background-color: #3A3D42 !important; color: white !important; }
+                    #hydroblok_wizard { min-height: 80vh; }
+                    .text-sm { font-size: 0.9rem; }
+                    .click-zoom { cursor: zoom-in; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+                    .click-zoom:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.15) !important; }
+                    #zoom-overlay { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; cursor: zoom-out; }
+                    #zoom-overlay img { max-width: 90vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); object-fit: contain; background: #fff; }
+                    @media screen { .print-only-section { display: none !important; } }
+                    @media print {
+                        body * { visibility: hidden; }
+                        #hydroblok_wizard, #hydroblok_wizard * { visibility: visible; }
+                        header, footer, #wrapwrap header, #wrapwrap footer, .o_header_standard, .o_footer { display: none !important; }
+                        .d-print-none { display: none !important; }
+                        .print-only-section { display: flex !important; }
+                        #hydroblok_wizard { position: absolute; top: 0; left: 0; width: 100%; max-width: 100%; margin: 0; padding: 0 10px; }
+                        .print-header-row { margin-bottom: 15px !important; }
+                        .print-main-row { display: flex !important; flex-wrap: wrap !important; align-items: flex-start !important; width: 100% !important; margin: 0 !important; }
+                        .print-left-col { width: 100% !important; flex: 0 0 100% !important; max-width: 100% !important; padding-right: 0 !important; margin-bottom: 10px !important;}
+                        .print-right-col { width: 100% !important; flex: 0 0 100% !important; max-width: 100% !important; margin-top: 10px !important; }
+                        .print-dropdown-col { width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; border-bottom: 1px dashed #ddd; padding-bottom: 15px; margin-bottom: 15px;}
+                        .print-canvas-col { width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; margin-top: 15px !important;}
+                        #step1_card, #step2_card, #step3_card, #bom_card, #step4_card { margin-bottom: 10px !important;}
+                        .print-card { box-shadow: none !important; border: none !important; page-break-inside: avoid; }
+                        .print-no-pad { padding: 0 !important; border: none !important; }
+                        .print-compact-body { padding: 4px 0 !important; }
+                        .print-compact-row { margin: 0 !important; padding: 0 !important; border: none !important; }
+                        .print-input-group { display: flex !important; justify-content: space-between !important; align-items: flex-end !important; border-bottom: 1px dotted #ccc !important; padding: 2px 0 !important; margin: 0 !important; width: 100% !important; }
+                        .print-select-item { border: none !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; font-weight: bold !important; color: #5B9E31 !important; text-align: right !important; height: auto !important; font-size: 8.5pt !important; margin-bottom: 4px !important; border-bottom: 1px dotted #ccc !important; width: 100% !important; -webkit-appearance: none; appearance: none; }
+                        .form-label { width: 55% !important; margin: 0 !important; font-size: 8pt !important; color: #555 !important; }
+                        .form-control, .form-select:not(.print-select-item) { width: 45% !important; border: none !important; background: transparent !important; padding: 0 !important; height: auto !important; font-size: 8.5pt !important; font-weight: bold !important; color: #5B9E31 !important; text-align: right !important; box-shadow: none !important; appearance: none; }
+                        select::-ms-expand { display: none; }
+                        .print-heading { font-size: 10.5pt !important; margin-bottom: 2px !important; padding-bottom: 2px !important; border-bottom: 1.5px solid #5B9E31 !important; display: inline-block; color: #3A3D42 !important; }
+                        .print-canvas-container { padding: 0 !important; border: none !important; margin-top: 10px !important;}
+                        .print-canvas-container canvas { max-height: 700px !important; width: 100% !important; margin: 0 auto; object-fit: contain;}
+                        .print-bom-header { background-color: #3A3D42 !important; color: #fff !important; padding: 4px 8px !important; border-radius: 4px; font-size: 11pt !important; }
+                        .print-table td { padding: 4px 2px !important; border-bottom: 1px solid #eee !important; font-size: 8.5pt !important; }
+                        .print-bom-img { display: block !important; margin-right: 8px !important; width: 55px !important; height: 55px !important; border: 1px solid #ddd; border-radius: 4px; }
+                        .badge { color: #000 !important; background: transparent !important; border: none !important; font-size: 8.5pt !important; padding: 0 !important; }
+                        .print-footer-row td { font-size: 10.5pt !important; padding-top: 6px !important; }
+                        .print-total-label { font-size: 9.5pt !important; color: #555 !important; }
+                        .print-disclaimer { border: 1px solid #ddd !important; background-color: transparent !important; padding: 6px !important; font-size: 7pt !important; margin-top: 8px !important;}
+                        a { text-decoration: none !important; color: #5B9E31 !important; }
+                        .wall-segment-row { display: flex !important; flex-direction: row !important; justify-content: flex-start !important; border-bottom: 1px dashed #eee !important; padding: 6px 0 !important; font-size: 9.5pt !important; }
+                        .wall-segment-row .print-input-group { border: none !important; width: auto !important; justify-content: flex-start !important; margin-right: 15px !important; }
+                        .wall-segment-row input { text-align: left !important; padding: 0 4px !important; font-weight: normal !important; color: #333 !important;}
+                        .wall-segment-row .wall-name { font-weight: bold !important; width: 130px !important; color: #5B9E31 !important; }
+                    }
+                </style>
+
+                <script type="text/javascript">
+                    // DT8_HB_CATALOG_QUERY_V2: Product IDs and prices from company8 website1 database only.
+                    // DT8_HB_CART_USER_SCOPED_V2: Dalla Terra pricebook and shower planner use the same per-user enquiry key.
+                    window.hbIsGuest = <t t-esc="request.env.user._is_public() and 'true' or 'false'"/>;
+                    window.hbCartStorageKey = "<t t-esc="'b2b_ghost_cart_dt8_guest' if request.env.user._is_public() else 'b2b_ghost_cart_dt8_user_' + str(request.env.user.id)"/>";
+                    window.hydroblokCatalog={
+                        'HBWB366012':{name:'36" x 60" x 1/2" Wallboard',price:0,id:null},'HBWB486412':{name:'48" x 64" x 1/2" Wallboard',price:0,id:null},
+                        'HBWB489612':{name:'48" x 96" x 1/2" Wallboard',price:0,id:null},'HBWB366058':{name:'36" x 60" x 5/8" Wallboard',price:0,id:null},
+                        'HBJSCART':{name:'Joint Sealant Cartridges 10 oz.',price:0,id:null},'HBJSSAUS':{name:'Joint Sealant Sausages 20 oz.',price:0,id:null},
+                        'HBSCREWWASH100':{name:'Screws and Washers (100 box)',price:0,id:null},'HBLPSP3636':{name:'36" x 36" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},
+                        'HBLPSP3648':{name:'36" x 48" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},'HBLPSP3660':{name:'36" x 60" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},
+                        'HBLPSP3672':{name:'36" x 72" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},'HBLPSP3672OD':{name:'36" x 72" Offset Drain LOW-PROFILE Shower Pan',price:0,id:null},
+                        'HBLPSP4848':{name:'48" x 48" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},'HBLPSP4860':{name:'48" x 60" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},
+                        'HBLPSP4872':{name:'48" x 72" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},'HBLPSP6060':{name:'60" x 60" LOW-PROFILE Shower Pan w/Drain',price:0,id:null},
+                        'HBSSSP3660':{name:'Single Slope 36" x 60" Shower Pan',price:0,id:null},'HBSSSP6036':{name:'Single Slope 60" x 36" Shower Pan',price:0,id:null},
+                        'HBSSSP4872':{name:'Single Slope 48" x 72" Shower Pan',price:0,id:null},'HBSSSP7248':{name:'Single Slope 72" x 48" Shower Pan',price:0,id:null},
+                        'HBTSSSP3660':{name:'THIN Single Slope 36" x 60" Shower Pan',price:0,id:null},'HBTSSSP6036':{name:'THIN Single Slope 60" x 36" Shower Pan',price:0,id:null},
+                        'HBTSSSP4872':{name:'THIN Single Slope 48" x 72" Shower Pan',price:0,id:null},'HBTSSSP7248':{name:'THIN Single Slope 72" x 48" Shower Pan',price:0,id:null},
+                        'HBFLJCK':{name:'24 sq ft Floor Lowering Joist Clip Kit',price:0,id:null},'HBLDSLOTEXT':{name:'Slot Extender Stick',price:0,id:null},
+                        'HBLPSP1272EXT':{name:'Presloped 12" x 72" LOW-PROFILE Pan Extension',price:0,id:null},'HBSSSP1872EXT':{name:'Single Slope 18" x 72" Side Extension',price:0,id:null},
+                        'HBTSSSP7212EXT':{name:'THIN Single Slope 72" x 12" Pan Extension',price:0,id:null},'HBINSHADOW':{name:'Wall Drain (Concealed)',price:0,id:null},
+                        'HBINSI14':{name:'Floor Drain (1/4" Metal Edge)',price:0,id:null},'HBINSI38':{name:'Floor Drain (3/8" Metal Edge)',price:0,id:null},
+                        'HBINSI12':{name:'Floor Drain (1/2" Metal Edge)',price:0,id:null},'HBLD73':{name:'73.5" Line Drain Body Kit',price:0,id:null},
+                        'HBLDCOUP':{name:'Line Drain Coupler',price:0,id:null},'HBSC312460':{name:'Standard Curb 60" x 3½" x 4"',price:0,id:null},
+                        'HBSC312484':{name:'Standard Curb 84" x 3½" x 4"',price:0,id:null},'HBSCM60':{name:'MINI Curb 60" x 2" x 2 1/2"',price:0,id:null},
+                        'HBSCM84':{name:'MINI Curb 84" x 2" x 2 1/2"',price:0,id:null},'HBRSN1616':{name:'16" x 16" Recessed Niche',price:0,id:null},
+                        'HBRSN1628':{name:'16" x 28" Recessed Niche',price:0,id:null},'HBRBHSN1622':{name:'16" x 22" Recessed Barrel Head Niche',price:0,id:null},
+                        'HBRDWSN3216':{name:'32" x 16" Recessed Double Wide Niche',price:0,id:null},'HBRDASN3226':{name:'32" x 26" Recessed Double Arch Niche',price:0,id:null},
+                        'HBSBM':{name:'Suspended Bench Medium 17" x 17"',price:0,id:null},'HBSBL':{name:'Suspended Bench Large 22" x 22"',price:0,id:null},
+                        'HBDBM':{name:'Diamond Bench Medium 17" x 17"',price:0,id:null},'HBDBL':{name:'Diamond Bench Large 22" x 22"',price:0,id:null},
+                        'HBDSC':{name:'Diamond Shampoo Caddy 8" x 8"',price:0,id:null}
+                    };
+
+                    <t t-set="hb_products" t-value="request.env['product.product'].sudo().search([('categ_id','=',5),('default_code','=like','HB%'),('active','=',True),('sale_ok','=',True),('x_studio_retailvariantunit','&gt;',0),('company_id','in',[False,8]),('website_id','in',[False,1]),('is_published','=',True)])"/>
+                    <t t-set="is_guest" t-value="request.env.user._is_public()"/>
+                    <t t-set="partner" t-value="request.env.user.partner_id"/>
+                    <t t-set="pricelist" t-value="partner.property_product_pricelist"/>
+                    <t t-foreach="hb_products" t-as="p">
+                        <t t-set="final_price" t-value="p.x_studio_retailvariantunit or 0.0"/>
+                        <t t-if="not is_guest and pricelist">
+                            <t t-set="final_price" t-value="pricelist._get_product_price(p, 1.0)"/>
+                        </t>
+                        var hbSku = '<t t-esc="p.default_code"/>';
+                        if (!window.hydroblokCatalog[hbSku]) {
+                            var hbDims = hbSku.match(/^HBLPSP(\d{2})(\d{2})$/);
+                            window.hydroblokCatalog[hbSku] = { name: hbDims ? (hbDims[1] + '" x ' + hbDims[2] + '" Low-profile shower pan') : hbSku, price: 0, id: null };
+                        }
+                        if (window.hydroblokCatalog[hbSku]) {
+                            window.hydroblokCatalog['<t t-esc="p.default_code"/>'].price = <t t-esc="final_price"/>;
+                            window.hydroblokCatalog['<t t-esc="p.default_code"/>'].id = <t t-esc="p.id"/>;
+                        }
+                    </t>
+                </script>
+
+                <!-- DT8_HB_OPTIONAL_FULL_CATALOGUE_20261015_V1: QWeb-escaped names from current live catalogue -->
+                <select id="hb_optional_directory" hidden="hidden" aria-hidden="true" tabindex="-1">
+                    <t t-foreach="hb_products" t-as="hb_opt_record">
+                        <option t-att-value="hb_opt_record.default_code"><t t-esc="hb_opt_record.display_name"/></option>
+                    </t>
+                </select>
+
+                <script type="text/javascript">
+                // 
+                    document.addEventListener('DOMContentLoaded', function() {
+                        let currentBom = {};
+                        let wallData = [{id:1, name:'Left Wall', w:36, h:96}, {id:2, name:'Back Wall', w:72, h:96}, {id:3, name:'Right Wall', w:36, h:96}];
+                        let wallCounter = 3;
+                        let hbLastFootprint = {w:72,d:36};
+                        let hbEntryFollowsFootprint = true; // DT8_HB_PRODUCTION_ENTRY_WIDTH_RESTORE_20261015_V1
+                        const hbEntryInput = document.getElementById('entry_w');
+                        if (hbEntryInput) hbEntryInput.addEventListener('input', function(){ hbEntryFollowsFootprint = false; }); // DT8_HB_UX_VALIDATION_WALL_LINK_ENTRY_20261015_V1
+
+                        function getVal(id) { const el = document.getElementById(id); return el ? parseFloat(el.value) || 0 : 0; }
+                        function getStr(id) { const el = document.getElementById(id); return el ? el.value : 'none'; }
+
+                        function getAbsoluteUrl(url) {
+                            if (!url) return '';
+                            if (url.startsWith('http')) return url;
+                            if (url.startsWith('//')) return window.location.protocol + url;
+                            return window.location.origin + (url.startsWith('/') ? '' : '/') + url;
+                        }
+                        
+                        setInterval(function() {
+                            const webLogo = document.querySelector('.web-hb-logo');
+                            const printHbLogo = document.getElementById('print_hb_logo');
+                            if (webLogo &amp;&amp; printHbLogo &amp;&amp; webLogo.src &amp;&amp; printHbLogo.src !== webLogo.src) printHbLogo.src = webLogo.src;
+                            const siteLogo = document.querySelector('header img.img-fluid, header .navbar-brand img, .o_header_logo img');
+                            const printDtLogo = document.getElementById('print_dt_logo');
+                            if (siteLogo &amp;&amp; printDtLogo &amp;&amp; siteLogo.src &amp;&amp; printDtLogo.src !== siteLogo.src) printDtLogo.src = siteLogo.src;
+                        }, 1000);
+
+                        document.addEventListener('click', function(e) {
+                            if(e.target.classList.contains('click-zoom') || e.target.closest('.click-zoom')) {
+                                e.preventDefault();
+                                let imgSrc = '';
+                                if(e.target.tagName === 'IMG') imgSrc = e.target.src;
+                                else if(e.target.tagName === 'CANVAS') imgSrc = e.target.toDataURL();
+                                else if(e.target.querySelector('img')) imgSrc = e.target.querySelector('img').src;
+                                if(imgSrc) {
+                                    const overlay = document.getElementById('zoom-overlay');
+                                    const overlayImg = document.getElementById('zoom-overlay-img');
+                                    overlayImg.src = imgSrc.replace('image_128', 'image_1024').replace('image_256', 'image_1024');
+                                    overlay.style.display = 'flex';
+                                }
+                            } else if (e.target.id === 'zoom-overlay' || e.target.id === 'zoom-overlay-img') {
+                                document.getElementById('zoom-overlay').style.display = 'none';
+                            }
+                        });
+
+                        const catalog = window.hydroblokCatalog;
+
+                        // DT8_HB_3D_PLACEMENT_PREVIEW_20261015_V1: geometry-only visualization. Product/BOM pricing remains from Odoo.
+                        const hbSceneCamera = {yaw:0.29,pitch:0.61,zoom:1,active:false,pointer:false,lastX:0,lastY:0,placementSerial:0};
+                        function hbSafeNum(n, fallback) { const val=Number(n);return Number.isFinite(val)?val:fallback; }
+                        function hbClamp(n,lo,hi){return Math.max(lo,Math.min(hi,n));}
+                        function hbSkuSize(sku,kind){
+                            const known={HBDSC:[8,8],HBRSN1616:[16,16],HBRSN1628:[16,28],
+                                HBRDWSN3216:[32,16],HBRBHSN1622:[16,22],HBRDASN3226:[32,26],
+                                HBSBM:[17,17],HBSBL:[22,22],HBDBM:[17,17],HBDBL:[22,22]};
+                            return known[sku]||((kind==='bench')?[17,17]:[16,16]);
+                        }
+                        function hbPositionPanels(){
+                            ['niche','bench'].forEach(function(kind) {
+                                const container=document.getElementById(kind+'_container');
+                                if(!container)return;
+                                Array.from(container.querySelectorAll('select.accessory-select')).forEach(function(choice){
+                                    let panel=choice.nextElementSibling;
+                                    if(!panel || !panel.classList.contains('hb-place-panel')) {
+                                        panel=document.createElement('div');
+                                        panel.className='hb-place-panel d-print-none d-none';
+                                        const groupName='hbplacement'+(++hbSceneCamera.placementSerial);
+                                        panel.innerHTML='&lt;div class="small fw-semibold mb-1"&gt;Position in shower&lt;/div&gt;'+
+                                          '&lt;div class="hb-place-wall" role="group" aria-label="Wall placement"&gt;'+
+                                          '&lt;label&gt;&lt;input type="radio" name="'+groupName+'" value="back" checked="checked"/&gt;Back wall&lt;/label&gt;'+
+                                          '&lt;label&gt;&lt;input type="radio" name="'+groupName+'" value="left"/&gt;Left wall&lt;/label&gt;'+
+                                          '&lt;label&gt;&lt;input type="radio" name="'+groupName+'" value="right"/&gt;Right wall&lt;/label&gt;&lt;/div&gt;'+
+                                          '&lt;div class="hb-place-dims"&gt;'+
+                                          '&lt;label&gt;Along wall (in)&lt;input type="number" min="0" step="1" class="form-control form-control-sm hb-place-along" value="12"/&gt;&lt;/label&gt;'+
+                                          '&lt;label&gt;'+ (kind==='bench'?'Seat height (in)':'Bottom height (in)')+
+                                          '&lt;input type="number" min="0" step="1" class="form-control form-control-sm hb-place-up" value="'+(kind==='bench'?'18':'42')+'"/&gt;&lt;/label&gt;&lt;/div&gt;';
+                                        choice.insertAdjacentElement('afterend',panel);
+                                        panel.addEventListener('change',function(event){
+                                            if(event.target &amp;&amp; event.target.type==='radio'){
+                                                const along=panel.querySelector('.hb-place-along');
+                                                const direction=panel.querySelector('input[type=radio]:checked').value;
+                                                const length=(direction==='back')?getVal('pan_w'):getVal('pan_d');
+                                                along.value=Math.max(0,Math.round((length-hbSkuSize(choice.value,kind)[0])/2));
+                                            }
+                                            calculateEngine();
+                                        });
+                                    }
+                                    const present=choice.value!=='none';
+                                    panel.classList.toggle('d-none',!present);
+                                    if(present &amp;&amp; panel.dataset.currentSku!==choice.value){
+                                        const dir=panel.querySelector('input[type=radio]:checked').value;
+                                        const length=dir==='back'?getVal('pan_w'):getVal('pan_d');
+                                        panel.querySelector('.hb-place-along').value=Math.max(0,Math.round((length-hbSkuSize(choice.value,kind)[0])/2));
+                                        panel.dataset.currentSku=choice.value;
+                                    }
+                                });
+                            });
+                        }
+                        function hbSceneObjects(){
+                            const w=getVal('pan_w'),d=getVal('pan_d');
+                            let arr=[];
+                            ['niche','bench'].forEach(function(kind){
+                                const container=document.getElementById(kind+'_container');
+                                if(!container)return;
+                                Array.from(container.querySelectorAll('select.accessory-select')).forEach(function(sel){
+                                    if(sel.value==='none')return;
+                                    const panel=sel.nextElementSibling;
+                                    if(!panel||!panel.classList.contains('hb-place-panel'))return;
+                                    const wall=panel.querySelector('input[type=radio]:checked').value;
+                                    const size=hbSkuSize(sel.value,kind);
+                                    const max=(wall==='back'?w:d)-size[0];
+                                    arr.push({sku:sel.value,kind:kind,wall:wall,
+                                        along:hbClamp(hbSafeNum(panel.querySelector('.hb-place-along').value,0),0,Math.max(0,max)),
+                                        z:Math.max(0,hbSafeNum(panel.querySelector('.hb-place-up').value,kind==='bench'?18:42)),
+                                        pw:size[0],ph:size[1]});
+                                });
+                            });
+                            return arr;
+                        }
+                        function hbShowPreview(use3d) {
+                            hbSceneCamera.active=Boolean(use3d);
+                            const two=document.getElementById('canvas_container'),three=document.getElementById('hb_3d_container');
+                            const b2=document.getElementById('hb_show_plan_2d'),b3=document.getElementById('hb_show_plan_3d');
+                            if(two)two.classList.toggle('d-none',use3d);
+                            if(three)three.classList.toggle('d-none',!use3d);
+                            if(b2){b2.setAttribute('aria-pressed',String(!use3d));b2.className='btn btn-'+(use3d?'outline-success':'success')+' px-3';}
+                            if(b3){b3.setAttribute('aria-pressed',String(use3d));b3.className='btn btn-'+(use3d?'success':'outline-success')+' px-3';}
+                            if(use3d)hbRender3D();
+                        }
+                        function hbDraw2DLocationPins(){
+                            const canvas=document.getElementById('floorCanvas');
+                            if(!canvas)return;
+                            const w=getVal('pan_w'),d=getVal('pan_d');
+                            if(!(w&gt;0&amp;&amp;d&gt;0))return;
+                            const ctx=canvas.getContext('2d');const scale=700/w;
+                            const places=hbSceneObjects();
+                            ctx.save();ctx.setTransform(1,0,0,1,0,0);
+                            places.forEach(function(o,i){
+                                const along=o.along+o.pw/2;
+                                let x=o.wall==='back'?along:o.wall==='left'?0:w;
+                                let y=o.wall==='back'?0:along;
+                                x=50+x*scale;y=50+y*scale;
+                                ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);
+                                ctx.fillStyle=o.kind==='bench'?'#936a45':'#355f41';ctx.fill();
+                                ctx.strokeStyle='#ffffff';ctx.lineWidth=2;ctx.stroke();
+                                ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 10px Arial';
+                                ctx.fillText(o.kind==='bench'?'B':'N',x,y);
+                            });
+                            ctx.restore();
+                        }
+                        function hbRender3D(){
+                            const canvas=document.getElementById('hb_3d_canvas');if(!canvas)return;
+                            const ctx=canvas.getContext('2d'),cw=canvas.width,ch=canvas.height;
+                            const W=getVal('pan_w'),D=getVal('pan_d');
+                            ctx.clearRect(0,0,cw,ch);
+                            const background=ctx.createLinearGradient(0,0,0,ch);
+                            background.addColorStop(0,'#fbfcfa');background.addColorStop(1,'#e7eee9');
+                            ctx.fillStyle=background;ctx.fillRect(0,0,cw,ch);
+                            if(!(W&gt;0&amp;&amp;D&gt;0&amp;&amp;W&lt;=240&amp;&amp;D&lt;=240))return;
+                            const H=hbClamp(Math.max(72,...wallData.slice(0,3).map(function(w){return hbSafeNum(w.h,96);})),72,144);
+                            const pitch=hbSceneCamera.pitch,yaw=hbSceneCamera.yaw;
+                            const scale=hbSceneCamera.zoom*Math.min(690/(W+D+25),460/(H*0.88+Math.max(W,D)*0.52));
+                            function project(pt){
+                                const xx=pt[0]-W/2,yy=pt[1]-D/2,zz=pt[2]-H*0.43;
+                                const u=xx*Math.cos(yaw)-yy*Math.sin(yaw);
+                                const v=xx*Math.sin(yaw)+yy*Math.cos(yaw);
+                                return [cw/2+u*scale,ch*0.54+(v*Math.sin(pitch)-zz*Math.cos(pitch))*scale];
+                            }
+                            function path3(points,fill,stroke,width) {
+                                if(!points.length)return;
+                                ctx.beginPath();
+                                points.forEach(function(p,i){const xy=project(p);if(i)ctx.lineTo(xy[0],xy[1]);else ctx.moveTo(xy[0],xy[1]);});
+                                ctx.closePath();
+                                if(fill){ctx.fillStyle=fill;ctx.fill();}
+                                if(stroke){ctx.lineWidth=width||1.4;ctx.strokeStyle=stroke;ctx.stroke();}
+                            }
+                            function line3(a,b,stroke,width){
+                                const aa=project(a),bb=project(b);ctx.beginPath();ctx.moveTo(aa[0],aa[1]);ctx.lineTo(bb[0],bb[1]);
+                                ctx.strokeStyle=stroke;ctx.lineWidth=width||1;ctx.stroke();
+                            }
+                            function caption(at,label,fill){
+                                const xy=project(at);ctx.font='600 12px Arial';ctx.fillStyle=fill||'#355548';ctx.textAlign='center';
+                                ctx.fillText(label,xy[0],xy[1]);
+                            }
+                            // Show the base, waterproofed wall planes and measured tile-grid.
+                            path3([[0,0,0],[W,0,0],[W,D,0],[0,D,0]],'#d9e7e2','#849a90',1.5);
+                            for(let x=12;x&lt;W;x+=12)line3([x,0,.1],[x,D,.1],'#bbd0c5',0.6);
+                            for(let y=12;y&lt;D;y+=12)line3([0,y,.1],[W,y,.1],'#bbd0c5',0.6);
+                            path3([[0,0,0],[W,0,0],[W,0,H],[0,0,H]],'rgba(233,242,231,.89)','#738e7e',1.7);
+                            path3([[0,D,0],[0,0,0],[0,0,H],[0,D,H]],'rgba(235,242,239,.67)','#829b91',1.5);
+                            path3([[W,0,0],[W,D,0],[W,D,H],[W,0,H]],'rgba(240,246,241,.54)','#829b91',1.5);
+                            for(let z=24;z&lt;H;z+=24){line3([0,0,z],[W,0,z],'rgba(113,151,123,.26)',0.8);
+                                line3([0,0,z],[0,D,z],'rgba(113,151,123,.24)',0.8);
+                                line3([W,0,z],[W,D,z],'rgba(113,151,123,.20)',0.8);}
+                            const placed=hbSceneObjects();
+                            placed.forEach(function(o){
+                                const z=hbClamp(o.z,2,H-5),ww=Math.min(o.pw,o.wall==='back'?W:D);
+                                const extent=o.kind==='bench'?12:0.5;
+                                if(o.kind==='bench'||o.sku==='HBDSC'){
+                                    const depth=o.kind==='bench'?14:7;
+                                    const top=o.kind==='bench'?z:z+3;
+                                    let poly;
+                                    if(o.wall==='back')poly=[[o.along,0,top],[o.along+ww,0,top],[o.along+ww,depth,top],[o.along,depth,top]];
+                                    else if(o.wall==='left')poly=[[0,o.along,top],[depth,o.along,top],[depth,o.along+ww,top],[0,o.along+ww,top]];
+                                    else poly=[[W,o.along,top],[W-depth,o.along,top],[W-depth,o.along+ww,top],[W,o.along+ww,top]];
+                                    path3(poly,o.kind==='bench'?'#beac96':'#c9dec7','#5b7863',2);
+                                    const pt=poly[2];caption([pt[0],pt[1],top+6],o.kind==='bench'?'Bench':'Corner shelf','#35443b');
+                                } else {
+                                    const top=hbClamp(z+o.ph,z+3,H-2);
+                                    let pts,inner;
+                                    const x=o.along,xe=o.along+ww;
+                                    if(o.wall==='back'){pts=[[x,.75,z],[xe,.75,z],[xe,.75,top],[x,.75,top]];
+                                        inner=[[x+1,.95,z+1],[xe-1,.95,z+1],[xe-1,.95,top-1],[x+1,.95,top-1]];}
+                                    else if(o.wall==='left'){pts=[[.75,x,z],[.75,xe,z],[.75,xe,top],[.75,x,top]];
+                                        inner=[[.9,x+1,z+1],[.9,xe-1,z+1],[.9,xe-1,top-1],[.9,x+1,top-1]];}
+                                    else{pts=[[W-.75,x,z],[W-.75,xe,z],[W-.75,xe,top],[W-.75,x,top]];
+                                        inner=[[W-.9,x+1,z+1],[W-.9,xe-1,z+1],[W-.9,xe-1,top-1],[W-.9,x+1,top-1]];}
+                                    path3(pts,'#839b88','#3b644b',2.6);
+                                    path3(inner,'#354f41','#b5d4bb',1);
+                                    const p=pts[2];caption([p[0],p[1],p[2]+6],'Niche','#375340');
+                                }
+                            });
+                            // Drain is drawn from the same controls as the 2D plan.
+                            const drain=getStr('drain_type'),lin=getStr('entry_style')==='bf'?'entry':getStr('linear_loc');
+                            if(drain.indexOf('linear')===0){
+                                let da,db;
+                                if(lin==='side'){da=[2,Math.max(2,D/2-28),1];db=[2,Math.min(D-2,D/2+28),1];}
+                                else if(lin==='entry'){da=[Math.max(2,W/2-28),D-2,1];db=[Math.min(W-2,W/2+28),D-2,1];}
+                                else if(lin==='center_double'){da=[Math.max(2,W/2-28),D/2,1];db=[Math.min(W-2,W/2+28),D/2,1];}
+                                else {da=[Math.max(2,W/2-28),2,1];db=[Math.min(W-2,W/2+28),2,1];}
+                                line3(da,db,'#3d5149',5);
+                                caption([W/2,D/2,1.5],'Linear drain','#34493c');
+                            } else {
+                                let dx=W/2,dy=D/2;
+                                if(drain==='custom'){dx=getVal('custom_x');dy=getVal('custom_y');}
+                                else if(drain==='offset'){if(W&gt;=D)dx=12;else dy=12;}
+                                const center=project([hbClamp(dx,0,W),hbClamp(dy,0,D),1.1]);
+                                ctx.beginPath();ctx.ellipse(center[0],center[1],Math.max(4,scale*2.6),Math.max(3,scale*1.3),0,0,Math.PI*2);
+                                ctx.fillStyle='#51675c';ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle='#fff';ctx.stroke();
+                            }
+                            // A curb is physical and is only rendered for a step-in entry.
+                            const entry=hbClamp(getVal('entry_w')||W,0,W),position=getStr('hb_entry_position');
+                            const ex=position==='left'?0:position==='right'?W-entry:(W-entry)/2;
+                            if(getStr('entry_style')==='bf'){
+                                line3([ex,D,.75],[ex+entry,D,.75],'#2999a3',5);
+                                caption([ex+entry/2,D+6,1],'Curbless entry','#206e75');
+                            } else {
+                                const curbH=getStr('curb_style')==='mini'?2:4;
+                                path3([[ex,D-2,curbH],[ex+entry,D-2,curbH],[ex+entry,D+2,curbH],[ex,D+2,curbH]],
+                                    '#c7cfca','#6b8377',1.5);
+                                path3([[ex,D+2,0],[ex+entry,D+2,0],[ex+entry,D+2,curbH],[ex,D+2,curbH]],
+                                    '#92a598','#5a7162',1.4);
+                                caption([ex+entry/2,D+6,curbH+3],getStr('curb_style')==='mini'?'Mini curb':'Shower curb','#354c40');
+                            }
+                            caption([W/2,0,H+8],'BACK WALL '+Math.round(W)+'″','#426347');
+                            caption([W/2,D+16,0],'FRONT / ENTRY','#53776a');
+                            const note='Shower '+W+'″ × '+D+'″  |  Wall height approx. '+Math.round(H)+'″';
+                            ctx.textAlign='left';ctx.fillStyle='#28483c';ctx.font='600 15px Arial';ctx.fillText(note,24,31);
+                            ctx.font='12px Arial';ctx.fillStyle='#61756b';
+                            if(wallData.length&gt;3)ctx.fillText('Additional wall segments are in the material estimate, not this 3-wall preview.',24,ch-20);
+                            else if(wallData.slice(0,3).some(function(w,i){return Math.abs(w.w-(i===1?W:D))&gt;0.5;}))
+                                ctx.fillText('Edited wall widths differ from the footprint; check wall quantities separately.',24,ch-20);
+                        }
+                        const hbPlan2DButton=document.getElementById('hb_show_plan_2d');
+                        const hbPlan3DButton=document.getElementById('hb_show_plan_3d');
+                        if(hbPlan2DButton)hbPlan2DButton.addEventListener('click',function(){hbShowPreview(false);});
+                        if(hbPlan3DButton)hbPlan3DButton.addEventListener('click',function(){hbShowPreview(true);});
+                        const hb3Canvas=document.getElementById('hb_3d_canvas');
+                        if(hb3Canvas){
+                            hb3Canvas.addEventListener('pointerdown',function(e){
+                                hbSceneCamera.pointer=true;hbSceneCamera.lastX=e.clientX;hbSceneCamera.lastY=e.clientY;
+                                hb3Canvas.style.cursor='grabbing';hb3Canvas.setPointerCapture(e.pointerId);
+                            });
+                            hb3Canvas.addEventListener('pointermove',function(e){
+                                if(!hbSceneCamera.pointer)return;
+                                hbSceneCamera.yaw+=(e.clientX-hbSceneCamera.lastX)*0.009;
+                                hbSceneCamera.pitch=hbClamp(hbSceneCamera.pitch+(e.clientY-hbSceneCamera.lastY)*0.006,0.27,1.2);
+                                hbSceneCamera.lastX=e.clientX;hbSceneCamera.lastY=e.clientY;hbRender3D();
+                            });
+                            ['pointerup','pointercancel','lostpointercapture'].forEach(function(t){
+                                hb3Canvas.addEventListener(t,function(){hbSceneCamera.pointer=false;hb3Canvas.style.cursor='grab';});
+                            });
+                            hb3Canvas.addEventListener('keydown',function(e){
+                                if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();hbSceneCamera.yaw+=(e.key==='ArrowLeft'?-0.16:0.16);hbRender3D();}
+                            });
+                        }
+                        const hbReset3D=document.getElementById('hb_3d_reset');
+                        if(hbReset3D)hbReset3D.addEventListener('click',function(){hbSceneCamera.yaw=0.29;hbSceneCamera.pitch=0.61;hbSceneCamera.zoom=1;hbRender3D();});
+                        const hbZoomIn=document.getElementById('hb_3d_zoom_in');
+                        const hbZoomOut=document.getElementById('hb_3d_zoom_out');
+                        if(hbZoomIn)hbZoomIn.addEventListener('click',function(){hbSceneCamera.zoom=hbClamp(hbSceneCamera.zoom*1.16,0.65,1.75);hbRender3D();});
+                        if(hbZoomOut)hbZoomOut.addEventListener('click',function(){hbSceneCamera.zoom=hbClamp(hbSceneCamera.zoom/1.16,0.65,1.75);hbRender3D();});
+
+                        // DT8_HB_DIAMOND_CADDY_SELECTOR_RUNTIME_20261015_V1: ensure corner caddy remains selectable even if frontend strips a late option.
+                        const hbNicheSelect = document.querySelector('#niche_container select');
+                        if (hbNicheSelect &amp;&amp; !Array.from(hbNicheSelect.options).some(function(o){return o.value === 'HBDSC';})) {
+                            const hbDiamondOption = document.createElement('option');
+                            hbDiamondOption.value = 'HBDSC';
+                            hbDiamondOption.textContent = 'Diamond Shampoo Caddy 8" x 8"';
+                            hbNicheSelect.appendChild(hbDiamondOption);
+                        }
+
+                        // DT8_HB_OPTIONAL_FULL_CATALOGUE_20261015_V1: catalogue extras use live product IDs and guest/dealer-specific pricing.
+                        const hbOptionalSelections = Object.create(null);
+                        const hbOptionalNames = Object.create(null);
+                        const hbOptionalDirectory = document.getElementById('hb_optional_directory');
+                        if (hbOptionalDirectory) {
+                            Array.from(hbOptionalDirectory.options).forEach(function(option) {
+                                const sku = option.value;
+                                if (!sku || !catalog[sku] || !catalog[sku].id || !(Number(catalog[sku].price) &gt; 0)) return;
+                                const description = option.textContent.trim() || sku;
+                                const cleanName = description.indexOf('['+sku+'] ')===0 ? description.slice(sku.length+3) : description;
+                                hbOptionalNames[sku] = cleanName;
+                                if (catalog[sku].name === sku) catalog[sku].name = cleanName;
+                            });
+                        }
+                        function hbRefreshOptionalChoices() {
+                            const sel = document.getElementById('hb_optional_select');
+                            const search = document.getElementById('hb_optional_search');
+                            if (!sel) return;
+                            const previous = sel.value;
+                            const term = ((search &amp;&amp; search.value) || '').trim().toLowerCase();
+                            sel.replaceChildren();
+                            const placeholder = document.createElement('option');
+                            placeholder.value = '';
+                            placeholder.textContent = 'Select an item';
+                            sel.appendChild(placeholder);
+                            Object.keys(hbOptionalNames).sort().forEach(function(sku) {
+                                const label = hbOptionalNames[sku];
+                                if (term &amp;&amp; (sku + ' ' + label).toLowerCase().indexOf(term) &lt; 0) return;
+                                const option = document.createElement('option');
+                                option.value = sku;
+                                option.textContent = sku + ' — ' + label + ' · $' + Number(catalog[sku].price).toFixed(2);
+                                sel.appendChild(option);
+                            });
+                            if (Array.from(sel.options).some(function(option){return option.value === previous;})) sel.value = previous;
+                        }
+                        function hbRenderOptionalSelections() {
+                            const holder = document.getElementById('hb_optional_rows');
+                            if (!holder) return;
+                            holder.replaceChildren();
+                            Object.keys(hbOptionalSelections).sort().forEach(function(sku) {
+                                const qty = hbOptionalSelections[sku];
+                                if (!(qty &gt; 0)) return;
+                                const row = document.createElement('div');
+                                row.className = 'd-flex align-items-center justify-content-between gap-2 py-2 border-bottom';
+                                const desc = document.createElement('span');
+                                desc.className = 'small';
+                                desc.textContent = qty + ' × ' + sku + ' — ' + (hbOptionalNames[sku] || (catalog[sku] &amp;&amp; catalog[sku].name) || sku);
+                                const remove = document.createElement('button');
+                                remove.type = 'button';
+                                remove.className = 'btn btn-sm btn-outline-secondary';
+                                remove.textContent = 'Remove';
+                                remove.setAttribute('aria-label', 'Remove extra ' + sku);
+                                remove.addEventListener('click', function(){
+                                    delete hbOptionalSelections[sku];
+                                    hbRenderOptionalSelections();
+                                    calculateEngine();
+                                });
+                                row.appendChild(desc);
+                                row.appendChild(remove);
+                                holder.appendChild(row);
+                            });
+                        }
+                        const hbOptionalSearch = document.getElementById('hb_optional_search');
+                        if (hbOptionalSearch) hbOptionalSearch.addEventListener('input', hbRefreshOptionalChoices);
+                        const hbOptionalAdd = document.getElementById('hb_optional_add');
+                        if (hbOptionalAdd) hbOptionalAdd.addEventListener('click', function() {
+                            const sel = document.getElementById('hb_optional_select');
+                            const quantity = document.getElementById('hb_optional_qty');
+                            const sku = sel &amp;&amp; sel.value;
+                            const qty = Math.floor(Number(quantity &amp;&amp; quantity.value));
+                            if (!sku || !catalog[sku] || !catalog[sku].id || !Number.isFinite(qty) || qty &lt; 1) return;
+                            hbOptionalSelections[sku] = (hbOptionalSelections[sku] || 0) + qty;
+                            hbRenderOptionalSelections();
+                            calculateEngine();
+                        });
+                        hbRefreshOptionalChoices();
+
+                        let ewEl = document.getElementById('entry_w');
+                        if(ewEl) {
+                            ewEl.addEventListener('blur', function() {
+                                let pw = parseFloat(document.getElementById('pan_w').value) || 0;
+                                let ew = parseFloat(this.value);
+                                if (isNaN(ew) || ew &lt;= 0 || ew &gt; pw) this.value = pw;
+                                calculateEngine();
+                            });
+                        }
+                        let pwEl = document.getElementById('pan_w');
+                        if(pwEl) {
+                            pwEl.addEventListener('blur', function() {
+                                let pw = parseFloat(this.value) || 0;
+                                let ew = parseFloat(document.getElementById('entry_w').value) || 0;
+                                if (ew &gt; pw || isNaN(ew) || ew &lt;= 0) { document.getElementById('entry_w').value = pw; }
+                                calculateEngine();
+                            });
+                        }
+
+                        // Live-update the core footprint/custom-drain measurements while typing.
+                        // Debounced to avoid repeatedly running the full shower engine on every keystroke.
+                        let liveCalcTimer = null;
+                        function scheduleLiveCalculation() {
+                            if (liveCalcTimer) clearTimeout(liveCalcTimer);
+                            liveCalcTimer = setTimeout(function() { calculateEngine(); }, 300);
+                        }
+                        ['pan_w', 'pan_d', 'entry_w', 'custom_x', 'custom_y'].forEach(function(id) {
+                            const el = document.getElementById(id);
+                            if (el) el.addEventListener('input', scheduleLiveCalculation);
+                        });
+
+                        function renderWallsUI() {
+                            const container = document.getElementById('dynamic_walls_container');
+                            const printContainer = document.getElementById('print_walls_container');
+                            if(!container || !printContainer) return;
+                            container.innerHTML = ''; printContainer.innerHTML = '';
+                            
+                            wallData.forEach(function(wall, index) {
+                                container.innerHTML += `
+                                    &lt;div class="row g-2 mb-2 align-items-end wall-segment-row" data-id="${wall.id}"&gt;
+                                        &lt;div class="col-md-4 col-4"&gt;
+                                            &lt;label class="form-label text-muted small mb-0"&gt;Wall Name&lt;/label&gt;
+                                            &lt;input type="text" class="form-control form-control-sm wall-name" value="${wall.name}"/&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class="col-md-3 col-3"&gt;
+                                            &lt;label class="form-label text-muted small mb-0"&gt;Width (in)&lt;/label&gt;
+                                            &lt;input type="number" class="form-control form-control-sm wall-w" value="${wall.w}" min="0"/&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class="col-md-3 col-3"&gt;
+                                            &lt;label class="form-label text-muted small mb-0"&gt;Height (in)&lt;/label&gt;
+                                            &lt;input type="number" class="form-control form-control-sm wall-h" value="${wall.h}" min="0"/&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class="col-md-2 col-2 text-end"&gt;
+                                            &lt;button type="button" class="btn btn-sm btn-outline-danger remove-wall-btn w-100" tabindex="-1" ${wallData.length &lt;= 1 ? 'disabled' : ''}&gt;&lt;i class="fa fa-trash"&gt;&lt;/i&gt;&lt;/button&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                `;
+                                printContainer.innerHTML += `
+                                    &lt;div class="d-flex justify-content-between align-items-center border-bottom py-1" style="font-size: 9.5pt;"&gt;
+                                        &lt;strong class="hb-green" style="width: 140px;"&gt;${wall.name}&lt;/strong&gt;
+                                        &lt;span class="text-muted text-start" style="flex: 1;"&gt;Width: &lt;strong class="text-dark"&gt;${wall.w}"&lt;/strong&gt;&lt;/span&gt;
+                                        &lt;span class="text-muted text-start" style="flex: 1;"&gt;Height: &lt;strong class="text-dark"&gt;${wall.h}"&lt;/strong&gt;&lt;/span&gt;
+                                    &lt;/div&gt;
+                                `;
+                            });
+                            
+                            container.querySelectorAll('.wall-name, .wall-w, .wall-h').forEach(function(input) { input.addEventListener('change', syncWallsAndCalculate); });
+                            container.querySelectorAll('.remove-wall-btn').forEach(function(btn, index) {
+                                btn.addEventListener('click', function() { wallData.splice(index, 1); renderWallsUI(); calculateEngine(); });
+                            });
+                        }
+
+                        function syncWallsAndCalculate() {
+                            wallData = Array.from(document.querySelectorAll('.wall-segment-row')).map(function(row) {
+                                return {
+                                    id: row.getAttribute('data-id'), name: row.querySelector('.wall-name').value || 'Wall',
+                                    w: parseFloat(row.querySelector('.wall-w').value) || 0, h: parseFloat(row.querySelector('.wall-h').value) || 0
+                                };
+                            });
+                            renderWallsUI(); calculateEngine();
+                        }
+
+                        let addWallBtn = document.getElementById('add_wall_btn');
+                        if (addWallBtn) {
+                            addWallBtn.addEventListener('click', function() {
+                                wallCounter++; let defaultH = wallData.length &gt; 0 ? wallData[wallData.length - 1].h : 96;
+                                wallData.push({ id: wallCounter, name: 'Custom Wall', w: 36, h: defaultH });
+                                renderWallsUI(); calculateEngine();
+                            });
+                        }
+                        
+                        let esEl = document.getElementById('entry_style'); if(esEl) esEl.addEventListener('change', calculateEngine);
+                        let dtEl = document.getElementById('drain_type'); if(dtEl) dtEl.addEventListener('change', calculateEngine);
+                        let llEl = document.getElementById('linear_loc'); if(llEl) llEl.addEventListener('change', calculateEngine);
+                        let ltEl = document.getElementById('linear_trim'); if(ltEl) ltEl.addEventListener('change', calculateEngine);
+                        let btEl = document.getElementById('board_thick'); if(btEl) btEl.addEventListener('change', calculateEngine);
+                        
+                        document.querySelectorAll('.wallboard-toggle').forEach(function(el) {
+                            el.addEventListener('change', calculateEngine);
+                        });
+
+                        window.addAccessoryDropdown = function(type) {
+                            const container = document.getElementById(type + '_container');
+                            if (!container) return;
+                            const selects = container.querySelectorAll('select');
+                            if (selects.length &gt;= 6) return; 
+                            const clone = selects[0].cloneNode(true);
+                            clone.value = 'none'; clone.classList.add('mt-2'); 
+                            clone.addEventListener('change', calculateEngine); 
+                            container.appendChild(clone); calculateEngine();
+                        };
+                        
+                        let anBtn = document.getElementById('add_niche_btn'); if(anBtn) anBtn.addEventListener('click', function() { window.addAccessoryDropdown('niche'); });
+                        let abBtn = document.getElementById('add_bench_btn'); if(abBtn) abBtn.addEventListener('click', function() { window.addAccessoryDropdown('bench'); });
+
+                        function drawFloorPlan(options) {
+                            const panW = options.panW; const panD = options.panD; const entryW = options.entryW; const activeFormat = options.activeFormat;
+                            const cX = options.cX; const cY = options.cY; const linLoc = options.linLoc; const isBarrierFree = options.isBarrierFree;
+                            const baseW = options.baseW; const baseR = options.baseR; const panQty = options.panQty; const sideExtQty = options.sideExtQty;
+                            const trimStyle = options.trimStyle; const bestPanConfig = options.bestPanConfig; const hasExtensions = options.hasExtensions;
+
+                            const canvas = document.getElementById('floorCanvas');
+                            if(!canvas) return;
+                            const ctx = canvas.getContext('2d');
+                            if (panW &lt;= 0 || panD &lt;= 0) { ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
+
+                            canvas.width = 800; const padding = 50; const availableW = canvas.width - (padding * 2);
+                            const scale = availableW / panW; const drawW = availableW; const drawH = panD * scale;
+                            canvas.height = drawH + (padding * 2);
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.fillStyle = '#3A3D42'; ctx.font = "bold 16px Arial"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                            ctx.fillText("Pan Width: " + panW + '"', canvas.width / 2, padding / 2);
+                            ctx.save(); ctx.translate(padding / 2, canvas.height / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("Pan Depth: " + panD + '"', 0, 0); ctx.restore();
+                            ctx.translate(padding, padding);
+                            ctx.fillStyle = 'rgba(91, 158, 49, 0.15)'; ctx.fillRect(0, 0, drawW, drawH);
+
+                            let drawPanW = 0; let drawPanH = 0; let pX = 0; let pY = 0;
+
+                            if (activeFormat.includes('linear')) {
+                                let reqDrainEdge = (linLoc === 'back' || linLoc === 'entry' || linLoc === 'center_double') ? panW : panD;
+                                let reqRun = (linLoc === 'back' || linLoc === 'entry' || linLoc === 'center_double') ? (linLoc === 'center_double' ? panD/2 : panD) : panW;
+                                let physicalDrainEdge = Math.min(panQty * baseW, reqDrainEdge);
+                                if (sideExtQty &gt; 0) physicalDrainEdge = baseW; 
+                                let physicalRun = Math.min(baseR, reqRun);
+                                
+                                if (linLoc === 'back') { drawPanW = physicalDrainEdge * scale; drawPanH = physicalRun * scale; pX = (drawW - drawPanW) / 2; pY = 0; }
+                                else if (linLoc === 'side') { drawPanW = physicalRun * scale; drawPanH = physicalDrainEdge * scale; pX = 0; pY = (drawH - drawPanH) / 2; }
+                                else if (linLoc === 'entry') { drawPanW = physicalDrainEdge * scale; drawPanH = physicalRun * scale; pX = (drawW - drawPanW) / 2; pY = drawH - drawPanH; }
+                                else if (linLoc === 'center_double') { drawPanW = physicalDrainEdge * scale; drawPanH = physicalRun * scale; pX = (drawW - drawPanW) / 2; }
+                            } else {
+                                if (bestPanConfig &amp;&amp; bestPanConfig.opt) {
+                                    let opt = bestPanConfig.opt;
+                                    let startX = cX - opt.dx1; let endX = cX + opt.dx2; let startY = cY - opt.dy1; let endY = cY + opt.dy2;
+                                    pX = Math.max(0, startX) * scale; pY = Math.max(0, startY) * scale;
+                                    drawPanW = (Math.min(panW, endX) - Math.max(0, startX)) * scale;
+                                    drawPanH = (Math.min(panD, endY) - Math.max(0, startY)) * scale;
+                                }
+                            }
+
+                            if (activeFormat.includes('linear') &amp;&amp; linLoc === 'center_double') {
+                                ctx.clearRect(pX, (drawH/2) - drawPanH, drawPanW, drawPanH); ctx.fillStyle = '#f0f3f1'; ctx.fillRect(pX, (drawH/2) - drawPanH, drawPanW, drawPanH);
+                                ctx.clearRect(pX, drawH/2, drawPanW, drawPanH); ctx.fillStyle = '#f0f3f1'; ctx.fillRect(pX, drawH/2, drawPanW, drawPanH);
+                            } else {
+                                ctx.clearRect(pX, pY, drawPanW, drawPanH); ctx.fillStyle = '#f0f3f1'; ctx.fillRect(pX, pY, drawPanW, drawPanH);
+                            }
+                            
+                            if (panQty &gt; 1) {
+                                if (activeFormat.includes('linear') &amp;&amp; bestPanConfig &amp;&amp; bestPanConfig.sideExtQty === 0) {
+                                    ctx.strokeStyle = 'rgba(0,0,0,0.15)'; ctx.lineWidth = 2; ctx.setLineDash([5, 5]);
+                                    let singlePanEdgeScale = bestPanConfig.baseW * scale;
+                                    let numPansPerSide = (linLoc === 'center_double') ? panQty / 2 : panQty;
+                                    
+                                    if (linLoc === 'side') {
+                                        for(let i=1; i&lt;numPansPerSide; i++) {
+                                            let seamY = pY + (i * singlePanEdgeScale);
+                                            if (seamY &lt; pY + drawPanH) { ctx.beginPath(); ctx.moveTo(pX, seamY); ctx.lineTo(pX + drawPanW, seamY); ctx.stroke(); }
+                                        }
+                                    } else if (linLoc === 'center_double') {
+                                        for(let i=1; i&lt;numPansPerSide; i++) {
+                                            let seamX = pX + (i * singlePanEdgeScale);
+                                            if (seamX &lt; pX + drawPanW) { ctx.beginPath(); ctx.moveTo(seamX, (drawH/2) - drawPanH); ctx.lineTo(seamX, (drawH/2) + drawPanH); ctx.stroke(); }
+                                        }
+                                    } else {
+                                        for(let i=1; i&lt;numPansPerSide; i++) {
+                                            let seamX = pX + (i * singlePanEdgeScale);
+                                            if (seamX &lt; pX + drawPanW) { ctx.beginPath(); ctx.moveTo(seamX, pY); ctx.lineTo(seamX, pY + drawPanH); ctx.stroke(); }
+                                        }
+                                    }
+                                    ctx.setLineDash([]);
+                                }
+                            }
+                            
+                            ctx.strokeStyle = '#5B9E31'; ctx.lineWidth = 2; ctx.setLineDash([6, 6]);
+                            if (activeFormat.includes('linear') &amp;&amp; linLoc === 'center_double') {
+                                ctx.strokeRect(pX, (drawH/2) - drawPanH, drawPanW, drawPanH); ctx.strokeRect(pX, drawH/2, drawPanW, drawPanH);
+                            } else {
+                                ctx.strokeRect(pX, pY, drawPanW, drawPanH);
+                            }
+                            ctx.setLineDash([]);
+                            ctx.strokeStyle = 'rgba(91, 158, 49, 0.1)'; ctx.lineWidth = 1;
+                            for(let i=0; i&lt;panW; i+=12) { ctx.beginPath(); ctx.moveTo(i*scale, 0); ctx.lineTo(i*scale, drawH); ctx.stroke(); }
+                            for(let i=0; i&lt;panD; i+=12) { ctx.beginPath(); ctx.moveTo(0, i*scale); ctx.lineTo(drawW, i*scale); ctx.stroke(); }
+
+                            if (hasExtensions) {
+                                ctx.fillStyle = '#2d4f18'; ctx.font = "bold 12px Arial"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                                if (activeFormat.includes('linear') &amp;&amp; linLoc === 'center_double') {
+                                    if (Math.round(drawPanW) &lt; Math.round(drawW)) {
+                                        let leftExtX = pX / 2; if (leftExtX &lt; 20) leftExtX += 15; 
+                                        if (pX &gt; 0) { ctx.save(); ctx.translate(leftExtX, drawH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("EXTENSION", 0, 0); ctx.restore(); }
+                                        let rightExtX = pX + drawPanW + (drawW - (pX + drawPanW))/2;
+                                        if (drawW - (pX + drawPanW) &gt; 0) { ctx.save(); ctx.translate(rightExtX, drawH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("EXTENSION", 0, 0); ctx.restore(); }
+                                    }
+                                } else {
+                                    if (Math.round(drawPanH) &lt; Math.round(drawH)) {
+                                        let topExtY = pY / 2; if ((activeFormat.includes('linear') &amp;&amp; linLoc === 'back') &amp;&amp; topExtY &lt; 20) topExtY += 15;
+                                        if (pY &gt; 0) { ctx.fillText("EXTENSION", drawW / 2, topExtY); }
+                                        let botExtY = pY + drawPanH + (drawH - (pY + drawPanH))/2;
+                                        if ((activeFormat.includes('linear') &amp;&amp; linLoc === 'entry') &amp;&amp; (drawH - botExtY) &lt; 20) botExtY -= 15;
+                                        if (drawH - (pY + drawPanH) &gt; 0) { ctx.fillText("EXTENSION", drawW / 2, botExtY); }
+                                    }
+                                    if (Math.round(drawPanW) &lt; Math.round(drawW)) {
+                                        let leftExtX = pX / 2; if ((activeFormat.includes('linear') &amp;&amp; linLoc === 'side') &amp;&amp; leftExtX &lt; 20) leftExtX += 15;
+                                        if (pX &gt; 0) { ctx.save(); ctx.translate(leftExtX, drawH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("EXTENSION", 0, 0); ctx.restore(); }
+                                        let rightExtX = pX + drawPanW + (drawW - (pX + drawPanW))/2;
+                                        if (drawW - (pX + drawPanW) &gt; 0) { ctx.save(); ctx.translate(rightExtX, drawH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("EXTENSION", 0, 0); ctx.restore(); }
+                                    }
+                                }
+                            }
+
+                            ctx.strokeStyle = '#3A3D42'; ctx.lineWidth = 4; ctx.strokeRect(0, 0, drawW, drawH);
+                            ctx.strokeStyle = '#5B9E31'; ctx.lineWidth = 2; ctx.fillStyle = '#5B9E31';
+
+                            if (activeFormat === 'center' || activeFormat === 'offset' || activeFormat === 'custom') {
+                                let drainPxX = cX * scale; let drainPxY = cY * scale; 
+                                if (drainPxX &lt; 0) drainPxX = 0; if (drainPxX &gt; drawW) drainPxX = drawW;
+                                if (drainPxY &lt; 0) drainPxY = 0; if (drainPxY &gt; drawH) drainPxY = drawH;
+                                ctx.beginPath(); ctx.arc(drainPxX, drainPxY, 8, 0, 2 * Math.PI); ctx.fill();
+                                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(drainPxX, drainPxY); ctx.stroke();
+                                ctx.beginPath(); ctx.moveTo(drawW, 0); ctx.lineTo(drainPxX, drainPxY); ctx.stroke();
+                                ctx.beginPath(); ctx.moveTo(0, drawH); ctx.lineTo(drainPxX, drainPxY); ctx.stroke();
+                                ctx.beginPath(); ctx.moveTo(drawW, drawH); ctx.lineTo(drainPxX, drainPxY); ctx.stroke();
+                            } else if (activeFormat.includes('linear')) {
+                                ctx.fillStyle = '#666'; 
+                                let dThickness = 5 * scale; let gap = (trimStyle === 'sight') ? (2 * scale) : 0;
+                                let reqDrainEdge = (linLoc === 'back' || linLoc === 'entry' || linLoc === 'center_double') ? panW : panD;
+                                let reqDrainQty = 1;
+                                if (reqDrainEdge &gt; 73.5) reqDrainQty = Math.ceil((reqDrainEdge - 24) / 73.5);
+                                if (reqDrainQty &lt; 1) reqDrainQty = 1;
+
+                                if (linLoc === 'back') {
+                                    let drainActualL = Math.min(drawW, (reqDrainQty * 73.5) * scale); let dStartX = (drawW / 2) - (drainActualL / 2);
+                                    ctx.fillRect(dStartX, gap, drainActualL, dThickness);
+                                    ctx.beginPath(); ctx.moveTo(drawW/2, drawH - (20*scale)); ctx.lineTo(drawW/2, gap + dThickness + (5*scale)); ctx.lineTo((drawW/2) - 10, gap + dThickness + (5*scale) + 10);
+                                    ctx.moveTo(drawW/2, gap + dThickness + (5*scale)); ctx.lineTo((drawW/2) + 10, gap + dThickness + (5*scale) + 10); ctx.stroke();
+                                } else if (linLoc === 'side') {
+                                    let drainActualL = Math.min(drawH, (reqDrainQty * 73.5) * scale); let dStartY = (drawH / 2) - (drainActualL / 2);
+                                    ctx.fillRect(gap, dStartY, dThickness, drainActualL);
+                                    ctx.beginPath(); ctx.moveTo(drawW - (20*scale), drawH/2); ctx.lineTo(gap + dThickness + (5*scale), drawH/2); ctx.lineTo(gap + dThickness + (5*scale) + 10, (drawH/2) - 10);
+                                    ctx.moveTo(gap + dThickness + (5*scale), drawH/2); ctx.lineTo(gap + dThickness + (5*scale) + 10, (drawH/2) + 10); ctx.stroke();
+                                } else if (linLoc === 'entry') {
+                                    let drainActualL = Math.min(drawW, (reqDrainQty * 73.5) * scale); let dStartX = (drawW / 2) - (drainActualL / 2);
+                                    let curbOffset = (isBarrierFree ? 0 : 4.5 * scale); let dStartY = drawH - curbOffset - dThickness - gap;
+                                    ctx.fillRect(dStartX, dStartY, drainActualL, dThickness);
+                                    ctx.beginPath(); ctx.moveTo(drawW/2, 20*scale); ctx.lineTo(drawW/2, dStartY - (5*scale)); ctx.lineTo((drawW/2) - 10, dStartY - (5*scale) - 10);
+                                    ctx.moveTo(drawW/2, dStartY - (5*scale)); ctx.lineTo((drawW/2) + 10, dStartY - (5*scale) - 10); ctx.stroke();
+                                } else if (linLoc === 'center_double') {
+                                    let drainActualL = Math.min(drawW, (reqDrainQty * 73.5) * scale); let dStartX = (drawW / 2) - (drainActualL / 2); let dStartY = (drawH / 2) - (dThickness / 2);
+                                    ctx.fillRect(dStartX, dStartY, drainActualL, dThickness);
+                                    ctx.beginPath(); ctx.moveTo(drawW/2, 10*scale); ctx.lineTo(drawW/2, dStartY - (5*scale)); ctx.lineTo((drawW/2) - 10, dStartY - (5*scale) - 10); ctx.moveTo(drawW/2, dStartY - (5*scale)); ctx.lineTo((drawW/2) + 10, dStartY - (5*scale) - 10); ctx.stroke();
+                                    ctx.beginPath(); ctx.moveTo(drawW/2, drawH - (10*scale)); ctx.lineTo(drawW/2, dStartY + dThickness + (5*scale)); ctx.lineTo((drawW/2) - 10, dStartY + dThickness + (5*scale) + 10); ctx.moveTo(drawW/2, dStartY + dThickness + (5*scale)); ctx.lineTo((drawW/2) + 10, dStartY + dThickness + (5*scale) + 10); ctx.stroke();
+                                }
+                            }
+
+                            if (entryW &gt; 0) {
+                                const pxEntryW = entryW * scale; const position = getStr('hb_entry_position'); const entryStartX = position === 'left' ? 0 : (position === 'right' ? drawW - pxEntryW : (drawW - pxEntryW) / 2);
+                                if (isBarrierFree) {
+                                    ctx.strokeStyle = '#0d6efd'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(entryStartX, drawH); ctx.lineTo(entryStartX + pxEntryW, drawH); ctx.stroke();
+                                    ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillRect(entryStartX + 10, drawH - 24, pxEntryW - 20, 20);
+                                    ctx.fillStyle = '#0d6efd'; ctx.font = "bold 14px Arial"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText("Curbless Transition (" + entryW + "\")", entryStartX + pxEntryW/2, drawH - 14);
+                                } else {
+                                    const curbDepth = 4.5 * scale; ctx.fillStyle = '#dcdcdc'; ctx.fillRect(entryStartX, drawH - curbDepth, pxEntryW, curbDepth);
+                                    ctx.strokeStyle = '#3A3D42'; ctx.lineWidth = 2; ctx.strokeRect(entryStartX, drawH - curbDepth, pxEntryW, curbDepth);
+                                    ctx.fillStyle = '#333'; ctx.font = "bold 12px Arial"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                                    let curbLabel = pxEntryW &lt; 120 ? "Curb" : "Shower Curb Component (" + entryW + "\")"; ctx.fillText(curbLabel, entryStartX + pxEntryW/2, drawH - (curbDepth/2));
+                                }
+                            }
+                        }
+
+                        function drawWallVisualizer(walls, use3660, use4864, use4896) {
+                            const canvas = document.getElementById('wallCanvas'); if(!canvas) return; const ctx = canvas.getContext('2d');
+                            const gap = 8; const activeWalls = walls.filter(function(w) { return w.w &gt; 0 &amp;&amp; w.h &gt; 0; });
+                            if (activeWalls.length === 0) { ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
+
+                            const totalWidthInches = activeWalls.reduce(function(sum, wall) { return sum + wall.w; }, 0) + (gap * (activeWalls.length - 1)) + (gap * 2);
+                            const maxH = Math.max.apply(Math, activeWalls.map(function(w) { return w.h; }));
+                            const textSpaceInches = 15; const bottomSpaceInches = 2; const totalHeightInches = maxH + textSpaceInches + bottomSpaceInches;
+                            canvas.width = 1200; canvas.height = (totalHeightInches / totalWidthInches) * 1200; ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                            const scale = canvas.width / totalWidthInches; const yOffset = textSpaceInches * scale;
+
+                            function drawScrew(x, y) {
+                                ctx.beginPath(); ctx.arc(x, y, 0.8 * scale, 0, 2 * Math.PI); ctx.fillStyle = '#B0B5B9'; ctx.fill();
+                                ctx.lineWidth = 0.5; ctx.strokeStyle = '#555'; ctx.stroke();
+                                ctx.beginPath(); ctx.arc(x, y, 0.2 * scale, 0, 2 * Math.PI); ctx.fillStyle = '#333'; ctx.fill();
+                            }
+
+                            function drawWallSegment(startX, wallW, wallH, label) {
+                                const pxW = wallW * scale; const pxH = wallH * scale; const pxStartX = startX * scale;
+                                const maxPxH = maxH * scale; const pxStartY = yOffset + maxPxH - pxH; 
+
+                                ctx.fillStyle = '#e4e7e5'; ctx.fillRect(pxStartX, pxStartY, pxW, pxH);
+                                ctx.strokeStyle = '#3A3D42'; ctx.lineWidth = 3; ctx.strokeRect(pxStartX, pxStartY, pxW, pxH);
+
+                                const hSeams = []; const vSeams = []; const boards = [];
+
+                                for(let bx = 0; bx &lt; wallW; ) {
+                                    let bW = 36;
+                                    if (use4896 || use4864) { if (wallW - bx &gt; 36 || !use3660) bW = 48; }
+                                    const drawW = Math.min(bW, wallW - bx);
+
+                                    for(let by = 0; by &lt; wallH; ) {
+                                        let bH = 60; let remH = wallH - by;
+                                        if (bW === 48) {
+                                            if (use4896 &amp;&amp; (remH &gt; 64 || !use4864)) bH = 96; else if (use4864) bH = 64; else bH = 96;
+                                        }
+                                        const drawH = Math.min(bH, wallH - by); boards.push({x: bx, y: by, w: drawW, h: drawH});
+                                        if (by + drawH &lt; wallH) { hSeams.push({y: by + drawH, startX: bx, endX: bx + drawW}); }
+                                        by += bH;
+                                    }
+                                    if (bx + drawW &lt; wallW) { vSeams.push({x: bx + drawW, startY: 0, endY: wallH}); }
+                                    bx += bW;
+                                }
+
+                                boards.forEach(function(b) {
+                                    const sx = pxStartX + (b.x * scale); const sy = pxStartY + pxH - (b.y * scale) - (b.h * scale);
+                                    const sw = b.w * scale; const sh = b.h * scale;
+
+                                    ctx.save(); ctx.beginPath(); ctx.rect(sx, sy, sw, sh); ctx.clip();
+                                    ctx.fillStyle = 'rgba(91, 158, 49, 0.12)'; ctx.font = "bold " + (3.5 * scale) + "px Arial"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                                    const stepX = 25 * scale; const stepY = 18 * scale; const offsetX = ((b.x * 13) + (b.y * 7)) % stepX; const offsetY = ((b.x * 5) + (b.y * 11)) % stepY;
+                                    for (let px = sx - stepX + offsetX; px &lt; sx + sw + stepX; px += stepX) {
+                                        for (let py = sy - stepY + offsetY; py &lt; sy + sh + stepY; py += stepY) {
+                                            ctx.save(); ctx.translate(px, py); ctx.rotate(-Math.PI / 6); ctx.fillText("HYDRO-BLOK", 0, 0); ctx.restore();
+                                        }
+                                    }
+                                    ctx.restore();
+                                    ctx.strokeStyle = '#5B9E31'; ctx.lineWidth = 2; ctx.strokeRect(sx, sy, sw, sh);
+                                });
+
+                                const screwMap = new Set(); const finalScrews = [];
+                                function addS(x_in, y_in) {
+                                    if (y_in &lt; 2) return; if (x_in &lt; 1) x_in = 1; if (x_in &gt; wallW - 1) x_in = wallW - 1; if (y_in &gt; wallH - 1) y_in = wallH - 1;
+                                    const key = Math.round(x_in) + "," + Math.round(y_in);
+                                    if (!screwMap.has(key)) { screwMap.add(key); finalScrews.push({x: x_in, y: y_in}); }
+                                }
+
+                                const studs = []; for(let x=0; x&lt;=wallW; x+=16) studs.push(x); if (studs[studs.length-1] !== wallW) studs.push(wallW);
+                                for (let cx of studs) { for (let cy = 12; cy &lt; wallH; cy += 12) { addS(cx, cy); } addS(cx, wallH - 1); }
+                                hSeams.forEach(function(seam) { for (let cx of studs) { if (cx &gt;= seam.startX &amp;&amp; cx &lt;= seam.endX) { addS(cx, seam.y); } } });
+                                vSeams.forEach(function(seam) { for (let cy = 12; cy &lt; wallH; cy += 12) { addS(seam.x, cy); } addS(seam.x, wallH - 1); });
+
+                                for(let s of finalScrews) { const cx = pxStartX + (s.x * scale); const cy = pxStartY + pxH - (s.y * scale); drawScrew(cx, cy); }
+
+                                ctx.fillStyle = '#3A3D42'; let fontSize = 28; if (pxW &lt; 220) fontSize = 22; if (pxW &lt; 150) fontSize = 18;
+                                ctx.font = "bold " + fontSize + "px Arial"; ctx.textAlign = 'center'; ctx.fillText(label + " (" + wallW + "\")", pxStartX + (pxW/2), pxStartY - 15);
+                            }
+
+                            let currentStartX = gap;
+                            activeWalls.forEach(function(wall) { drawWallSegment(currentStartX, wall.w, wall.h, wall.name); currentStartX += wall.w + gap; });
+                        }
+
+                        function getBestPointPan(panW, panD, cX, cY, isOffsetMode) {
+                            let options = [];
+                            if (isOffsetMode) {
+                                options.push({sku: 'HBLPSP3672OD', w: 36, d: 72, dx1: 18, dx2: 18, dy1: 12, dy2: 60});
+                                options.push({sku: 'HBLPSP3672OD', w: 36, d: 72, dx1: 18, dx2: 18, dy1: 60, dy2: 12});
+                                options.push({sku: 'HBLPSP3672OD', w: 72, d: 36, dx1: 12, dx2: 60, dy1: 18, dy2: 18});
+                                options.push({sku: 'HBLPSP3672OD', w: 72, d: 36, dx1: 60, dx2: 12, dy1: 18, dy2: 18});
+                            } else {
+                                let centerSkus = ['HBLPSP3636', 'HBLPSP3648', 'HBLPSP4848', 'HBLPSP3660', 'HBLPSP4860', 'HBLPSP6060', 'HBLPSP3672', 'HBLPSP4872', 'HBLPSP4884', 'HBLPSP6072', 'HBLPSP6084', 'HBLPSP7272'];
+                                for (let s of centerSkus) {
+                                    let match = s.match(/(\d{2})(\d{2})/);
+                                    let w = parseInt(match[1]); let d = parseInt(match[2]);
+                                    options.push({sku: s, w: w, d: d, dx1: w/2, dx2: w/2, dy1: d/2, dy2: d/2});
+                                    if (w !== d) { options.push({sku: s, w: d, d: w, dx1: d/2, dx2: d/2, dy1: w/2, dy2: w/2}); }
+                                }
+                            }
+
+                            let bestPan = null; let minScore = Infinity;
+                            for (let opt of options) {
+                                let extL = Math.max(0, cX - opt.dx1); let extR = Math.max(0, (panW - cX) - opt.dx2);
+                                let extT = Math.max(0, cY - opt.dy1); let extB = Math.max(0, (panD - cY) - opt.dy2);
+
+                                if (extL &lt;= 12 &amp;&amp; extR &lt;= 12 &amp;&amp; extT &lt;= 12 &amp;&amp; extB &lt;= 12) {
+                                    let baseAreaSqIn = opt.w * opt.d;
+                                    let covStartX = Math.max(0, cX - opt.dx1); let covEndX = Math.min(panW, cX + opt.dx2);
+                                    let covStartY = Math.max(0, cY - opt.dy1); let covEndY = Math.min(panD, cY + opt.dy2);
+                                    let covW = Math.max(0, covEndX - covStartX); let covH = Math.max(0, covEndY - covStartY);
+                                    let coveredAreaSqIn = covW * covH; let requiredExtAreaSqIn = (panW * panD) - coveredAreaSqIn;
+                                    let score = baseAreaSqIn + (requiredExtAreaSqIn * 1000);
+                                    
+                                    if (score &lt; minScore) {
+                                        minScore = score;
+                                        bestPan = { sku: opt.sku, requiresExt: requiredExtAreaSqIn &gt; 0, uncoveredSqIn: requiredExtAreaSqIn, w: opt.w, d: opt.d, opt: opt };
+                                    }
+                                }
+                            }
+                            return bestPan;
+                        }
+
+                        function getBestLinearPan(reqW, reqD, isThin, loc) {
+                            let reqDrainEdge = (loc === 'back' || loc === 'entry' || loc === 'center_double') ? reqW : reqD;
+                            let reqRun = (loc === 'back' || loc === 'entry' || loc === 'center_double') ? (loc === 'center_double' ? reqD/2 : reqD) : reqW;
+                            if (reqRun &gt; 72) return null; 
+
+                            let linearPans = isThin ?
+                                [{sku: 'HBTSSSP3660', w: 36, r: 60}, {sku: 'HBTSSSP6036', w: 60, r: 36}, {sku: 'HBTSSSP4872', w: 48, r: 72}, {sku: 'HBTSSSP7248', w: 72, r: 48}] :
+                                [{sku: 'HBSSSP3660', w: 36, r: 60}, {sku: 'HBSSSP6036', w: 60, r: 36}, {sku: 'HBSSSP4872', w: 48, r: 72}, {sku: 'HBSSSP7248', w: 72, r: 48}];
+                            let sideExtSku = isThin ? null : 'HBSSSP1872EXT'; 
+                            let best = null; let minCost = Infinity;
+
+                            for (let p of linearPans) {
+                                if (reqRun &lt;= p.r) {
+                                    let qtyPansOnly = Math.ceil(reqDrainEdge / p.w);
+                                    let costA = qtyPansOnly * window.hydroblokCatalog[p.sku].price;
+                                    let optA = { sku: p.sku, panQty: qtyPansOnly, sideExtQty: 0, cost: costA, baseW: p.w, baseR: p.r };
+                                    let bestOpt = optA;
+
+                                    if (sideExtSku &amp;&amp; p.w &lt; reqDrainEdge) {
+                                        let remainingWidth = reqDrainEdge - p.w; let numSideExts = Math.ceil(remainingWidth / 18);
+                                        let costB = window.hydroblokCatalog[p.sku].price + (numSideExts * window.hydroblokCatalog[sideExtSku].price);
+                                        if (costB &lt; costA) { bestOpt = { sku: p.sku, panQty: 1, sideExtQty: numSideExts, cost: costB, baseW: p.w, baseR: p.r }; }
+                                    }
+                                    if (bestOpt.cost &lt; minCost) { minCost = bestOpt.cost; best = bestOpt; }
+                                }
+                            }
+                            return best;
+                        }
+
+                        function renderErrorState(msg) {
+                            const errorBox = document.getElementById('validation_error_box'); const errorText = document.getElementById('validation_error_text');
+                            const canvasCont = document.getElementById('canvas_container'); const bomBody = document.getElementById('bom_table_body');
+                            const gTotal = document.getElementById('grand_total'); const btn = document.getElementById('add_to_quote_btn'); const gallery = document.getElementById('foundation_gallery_container');
+                            if (errorBox &amp;&amp; errorText) { errorBox.classList.remove('d-none'); errorText.innerHTML = msg; }
+                            if (canvasCont) canvasCont.classList.add('d-none'); const preview3d=document.getElementById('hb_3d_container'); if(preview3d)preview3d.classList.add('d-none'); if (bomBody) bomBody.innerHTML = '';
+                            if (gTotal) gTotal.innerText = '$0.00'; if (btn) btn.disabled = true; if (gallery) gallery.classList.add('d-none');
+                        }
+
+                        function clearErrorState() {
+                            const errorBox = document.getElementById('validation_error_box'); const canvasCont = document.getElementById('canvas_container'); const btn = document.getElementById('add_to_quote_btn');
+                            if (errorBox) errorBox.classList.add('d-none'); if (canvasCont) canvasCont.classList.toggle('d-none',hbSceneCamera.active); const preview3d=document.getElementById('hb_3d_container'); if(preview3d)preview3d.classList.toggle('d-none',!hbSceneCamera.active); if (btn) btn.disabled = false;
+                        }
+
+                        function calculateEngine() {
+                            try {
+                                clearErrorState(); let bom = {};
+                                const panW = getVal('pan_w'); const panD = getVal('pan_d');
+
+                        // DT8_HB_PRODUCTION_ENTRY_WIDTH_RESTORE_20261015_V1: full-width entry follows footprint changes; manually edited entry widths do not.
+                        if (panW &gt; 0 &amp;&amp; panW !== hbLastFootprint.w &amp;&amp; hbEntryFollowsFootprint &amp;&amp; hbEntryInput) hbEntryInput.value = String(panW);
+                        // DT8_HB_UX_VALIDATION_WALL_LINK_ENTRY_20261015_V1: keep standard three primary wall widths tied to footprint until individually changed.
+                        if (panW &gt; 0 &amp;&amp; panD &gt; 0 &amp;&amp; (panW !== hbLastFootprint.w || panD !== hbLastFootprint.d)) {
+                            let hbNeedsWallRefresh = false;
+                            [[0,'Left Wall',hbLastFootprint.d,panD],[1,'Back Wall',hbLastFootprint.w,panW],[2,'Right Wall',hbLastFootprint.d,panD]].forEach(function(spec) {
+                                const wall = wallData[spec[0]];
+                                if (wall &amp;&amp; wall.name === spec[1] &amp;&amp; Math.abs(wall.w - spec[2]) &lt; 0.001 &amp;&amp; Math.abs(wall.w - spec[3]) &gt; 0.001) {
+                                    wall.w = spec[3]; hbNeedsWallRefresh = true;
+                                }
+                            });
+                            hbLastFootprint = {w:panW,d:panD};
+                            if (hbNeedsWallRefresh) renderWallsUI();
+                        }
+                        if (panW &lt;= 0 || panD &lt;= 0 || panW &gt; 240 || panD &gt; 240) {
+                            renderErrorState('Please enter a shower width and depth greater than zero and no more than 240 inches. For larger custom installations, contact our design team.');
+                            return;
+                        }
+                        // Narrow entrance widths are supported. Invalid intermediate input is not sent to the cart.
+
+                                let entryWidthEl = document.getElementById('entry_w'); let entryWidth = parseFloat(entryWidthEl.value);
+                                if (isNaN(entryWidth) || entryWidth &lt;= 0 || entryWidth &gt; panW) {
+                                    entryWidth = panW; if (document.activeElement !== entryWidthEl &amp;&amp; entryWidthEl) entryWidthEl.value = panW;
+                                }
+                                
+                                let drainTypeEl = document.getElementById('drain_type'); let linLocEl = document.getElementById('linear_loc');
+                                let optLinearStd = document.getElementById('opt_linear_std'); let trimSelect = document.getElementById('linear_trim');
+
+                                let activeDrainType = drainTypeEl.value; const isLinear = activeDrainType.includes('linear');
+                                let activeLinLoc = linLocEl ? linLocEl.value : 'back'; // DT8_HB_DOUBLE_SLOPE_STATE_AND_OPTION_PRICE_20261015_V1
+                                const customX = getVal('custom_x'); const customY = getVal('custom_y');
+                                
+                                const customGroups = document.querySelectorAll('.custom-drain-group');
+                                const linPanel = document.getElementById('linear_panel');
+
+                                if (activeDrainType === 'custom') {
+                                    customGroups.forEach(function(el) { el.classList.remove('d-none'); });
+                                    if (linPanel) linPanel.classList.add('d-none');
+                                } else {
+                                    customGroups.forEach(function(el) { el.classList.add('d-none'); });
+                                    if (linPanel) { if (isLinear) linPanel.classList.remove('d-none'); else linPanel.classList.add('d-none'); }
+                                }
+
+                                const locCont = document.getElementById('linear_loc_container');
+                                const barrierHint = document.getElementById('barrier_linear_hint');
+                                const curbContainer = document.getElementById('curb_style_container');
+                                const isCurbless = getStr('entry_style') === 'bf';
+                                let isDoubleSlope = (activeLinLoc === 'center_double');
+
+                                if (curbContainer) curbContainer.classList.toggle('d-none', isCurbless);
+
+                                if (isCurbless) {
+                                    if (optLinearStd) {
+                                        optLinearStd.disabled = true; optLinearStd.style.display = 'none';
+                                        if (activeDrainType === 'linear_std') { drainTypeEl.value = 'linear_thin'; activeDrainType = 'linear_thin'; }
+                                    }
+                                } else { if (optLinearStd) { optLinearStd.disabled = false; optLinearStd.style.display = ''; } }
+
+                                if (isLinear) {
+                                    if (isDoubleSlope &amp;&amp; trimSelect) {
+                                        trimSelect.value = 'sight'; if (trimSelect.parentElement) trimSelect.parentElement.classList.add('d-none'); 
+                                    } else if (trimSelect) {
+                                        if (trimSelect.parentElement &amp;&amp; !isCurbless) trimSelect.parentElement.classList.remove('d-none'); 
+                                    }
+                                    if (isCurbless) {
+                                        if (linLocEl) { linLocEl.value = 'entry'; activeLinLoc = 'entry'; isDoubleSlope = false; if (locCont) locCont.classList.add('d-none'); }
+                                        if (trimSelect) { trimSelect.value = 'sight'; if (trimSelect.parentElement) trimSelect.parentElement.classList.add('d-none'); }
+                                        if (barrierHint) { barrierHint.innerHTML = '* Curbless linears &lt;strong&gt;must&lt;/strong&gt; be placed at the entrance.'; barrierHint.classList.remove('d-none'); }
+                                    } else {
+                                        if (linLocEl &amp;&amp; locCont) locCont.classList.remove('d-none'); if (barrierHint) barrierHint.classList.add('d-none');
+                                    }
+                                }
+
+                                let validationError = null; let bestPointPan = null; let cX = panW / 2; let cY = panD / 2;
+
+                                if (isLinear) {
+                                    let reqRun = (activeLinLoc === 'center_double') ? panD/2 : (activeLinLoc === 'side' ? panW : panD);
+                                    if (reqRun &gt; 72) validationError = "⚠️ &lt;strong&gt;Shower Too Large:&lt;/strong&gt; The water flow path is too long for a standard single-slope pan. Please reduce the size or select 'Center Area (Double Slope)' to split the water flow.";
+                                } else {
+                                    if (activeDrainType === 'offset') {
+                                        if (panW &gt;= panD) { cX = 12; cY = panD / 2; } else { cX = panW / 2; cY = 12; }
+                                        bestPointPan = getBestPointPan(panW, panD, cX, cY, true);
+                                        if (!bestPointPan) validationError = "⚠️ &lt;strong&gt;Shower Too Large for Point Drain:&lt;/strong&gt; This shower is too large to properly funnel water to an offset point drain. Please switch to a 'Linear Drain'.";
+                                    } else if (activeDrainType === 'center') {
+                                        bestPointPan = getBestPointPan(panW, panD, cX, cY, false);
+                                        if (!bestPointPan) validationError = "⚠️ &lt;strong&gt;Shower Too Large for Point Drain:&lt;/strong&gt; This shower is too large to properly funnel water to a center circular drain. Please switch to a 'Linear Drain'.";
+                                    } else if (activeDrainType === 'custom') {
+                                        cX = customX; cY = customY; let minDist = Math.min(customX, panW - customX, customY, panD - customY);
+                                        if (minDist &lt; 10) { validationError = "⚠️ &lt;strong&gt;Drain Too Close to Wall:&lt;/strong&gt; Point drains need at least 10 inches of space from the walls to keep the floor properly sloped. Please move the drain inward, or switch to a 'Linear Drain'.";
+                                        } else {
+                                            bestPointPan = getBestPointPan(panW, panD, cX, cY, false);
+                                            let offsetCheck = getBestPointPan(panW, panD, cX, cY, true);
+                                            if (offsetCheck) { if (!bestPointPan || offsetCheck.uncoveredSqIn &lt; bestPointPan.uncoveredSqIn) bestPointPan = offsetCheck; }
+                                            if (!bestPointPan) validationError = "⚠️ &lt;strong&gt;Shower Too Large for Point Drain:&lt;/strong&gt; This shower is too large to properly funnel water to a single circular drain. Please switch to a 'Linear Drain'.";
+                                        }
+                                    }
+                                }
+
+                                if (validationError) { renderErrorState(validationError); return; }
+
+                                const thickStr = getStr('board_thick'); 
+                                
+                                const board4864Cont = document.getElementById('board_4864_container');
+                                const board4896Cont = document.getElementById('board_4896_container');
+                                const board4864Input = document.getElementById('board_4864');
+                                const board4896Input = document.getElementById('board_4896');
+                                const board3660Input = document.getElementById('board_3660');
+
+                                if (thickStr === '58') {
+                                    if (board4864Cont) board4864Cont.classList.add('d-none');
+                                    if (board4896Cont) board4896Cont.classList.add('d-none');
+                                    if (board4864Input) board4864Input.checked = false;
+                                    if (board4896Input) board4896Input.checked = false;
+                                    if (board3660Input) { board3660Input.checked = true; board3660Input.disabled = true; }
+                                } else {
+                                    if (board4864Cont) board4864Cont.classList.remove('d-none');
+                                    if (board4896Cont) board4896Cont.classList.remove('d-none');
+                                    if (board3660Input) board3660Input.disabled = false;
+                                }
+
+                                let use3660 = board3660Input ? board3660Input.checked : true;
+                                let use4864 = board4864Input ? board4864Input.checked : false;
+                                let use4896 = board4896Input ? board4896Input.checked : false;
+                                
+                                if (!use3660 &amp;&amp; !use4864 &amp;&amp; !use4896) { 
+                                    use3660 = true; if(board3660Input) board3660Input.checked = true; 
+                                }
+
+                                hbPositionPanels();
+                            drawWallVisualizer(wallData, use3660, use4864, use4896);
+
+                                let boardQty36 = 0; let boardQty48 = 0; let boardQty4896 = 0;
+                                let boardSku36 = 'HBWB3660' + thickStr; 
+                                let boardSku48 = thickStr === '58' ? 'HBWB486412' : 'HBWB4864' + thickStr; 
+                                let boardSku4896 = 'HBWB489612';
+
+                                wallData.forEach(function(wall) {
+                                    if (wall.w &gt; 0 &amp;&amp; wall.h &gt; 0) {
+                                        let areaSqFt = (wall.w * wall.h) / 144;
+                                        
+                                        if (use4896) {
+                                            let num4896 = Math.floor(areaSqFt / 32); 
+                                            let rem = areaSqFt - (num4896 * 32);
+                                            
+                                            if (rem &gt; 0) { 
+                                                if (use3660 &amp;&amp; use4864) {
+                                                    if (rem &lt;= 15) boardQty36 += 1; 
+                                                    else if (rem &lt;= 21.33) boardQty48 += 1; 
+                                                    else boardQty4896 += 1;
+                                                } else if (use3660 &amp;&amp; !use4864) {
+                                                    if (rem &lt;= 15) boardQty36 += 1; 
+                                                    else if (rem &lt;= 30) boardQty36 += 2; 
+                                                    else boardQty4896 += 1;
+                                                } else if (!use3660 &amp;&amp; use4864) {
+                                                    if (rem &lt;= 21.33) boardQty48 += 1; 
+                                                    else boardQty4896 += 1;
+                                                } else {
+                                                    boardQty4896 += 1;
+                                                }
+                                            }
+                                            boardQty4896 += num4896;
+                                            
+                                        } else if (use4864) {
+                                            let num48 = Math.floor(areaSqFt / 21.33); 
+                                            let rem = areaSqFt - (num48 * 21.33);
+                                            
+                                            if (rem &gt; 0) { 
+                                                if (use3660) {
+                                                    if (rem &lt;= 15) boardQty36 += 1; 
+                                                    else boardQty48 += 1; 
+                                                } else {
+                                                    boardQty48 += 1;
+                                                }
+                                            }
+                                            boardQty48 += num48;
+                                            
+                                        } else {
+                                            boardQty36 += Math.ceil(areaSqFt / 15);
+                                        }
+                                    }
+                                });
+
+                                if(boardQty36 &gt; 0) bom[boardSku36] = boardQty36; 
+                                if(boardQty48 &gt; 0) bom[boardSku48] = boardQty48; 
+                                if(boardQty4896 &gt; 0) bom[boardSku4896] = boardQty4896;
+                                
+                                let totalScrews = (boardQty36 * 15) + (boardQty48 * 22) + (boardQty4896 * 32);
+                                bom['HBSCREWWASH100'] = Math.ceil(totalScrews / 100);
+
+                                let panSku = null; let drainQty = 1; let panQty = 1; let sideExtQty = 0; let baseW = 0; let baseR = 0; let bestPanConfig = null;
+                                
+                                if (activeDrainType === 'center' || activeDrainType === 'offset' || activeDrainType === 'custom') {
+                                    bestPanConfig = bestPointPan; panSku = bestPointPan.sku; baseW = bestPointPan.w; baseR = bestPointPan.d;
+                                    if (bestPointPan.uncoveredSqIn &gt; 0) bom['HBLPSP1272EXT'] = Math.ceil((bestPointPan.uncoveredSqIn * 1.1) / 864);
+                                } 
+                                else if (isLinear) {
+                                    const isThin = activeDrainType === 'linear_thin'; let loc = linLocEl ? linLocEl.value : 'back';
+                                    if (isCurbless) loc = 'entry'; 
+                                    let trimStyle = trimSelect ? trimSelect.value : 'sight';
+                                    let bestLin = getBestLinearPan(panW, panD, isThin, loc);
+                                    bestPanConfig = bestLin;
+                                    
+                                    if (bestLin) {
+                                        panSku = bestLin.sku; panQty = bestLin.panQty; sideExtQty = bestLin.sideExtQty; baseW = bestLin.baseW; baseR = bestLin.baseR;
+                                        if (loc === 'center_double') { panQty *= 2; sideExtQty *= 2; }
+                                        if (sideExtQty &gt; 0) { bom['HBSSSP1872EXT'] = sideExtQty; }
+
+                                        const reqDrainEdge = (loc === 'back' || loc === 'entry' || loc === 'center_double') ? panW : panD;
+                                        if (reqDrainEdge &gt; 73.5) {
+                                            drainQty = Math.ceil((reqDrainEdge - 24) / 73.5); if (drainQty &lt; 1) drainQty = 1;
+                                            let coverage = drainQty * 73.5; if (reqDrainEdge &gt; coverage) bom['HBLDSLOTEXT'] = Math.ceil((reqDrainEdge - coverage) / 12);
+                                        }
+
+                                        bom['HBLD73'] = drainQty; if (drainQty &gt; 1) { bom['HBLDCOUP'] = drainQty - 1; }
+                                        let trimSku = null; if (trimStyle === 'shadow') trimSku = 'HBINSHADOW'; else trimSku = 'HBINSI' + getStr('tile_thick');
+                                        if (trimSku) bom[trimSku] = (loc === 'center_double') ? (drainQty * 2) : drainQty;
+                                    }
+                                }
+                                
+                                if (panSku) bom[panSku] = panQty;
+
+                                let loweringKitSku = null; let loweringKitQty = 0; let curbSku = null; let curbQty = 0;
+
+                                if (isCurbless) {
+                                    loweringKitSku = 'HBFLJCK'; const floorSqFt = (panW * panD) / 144;
+                                    loweringKitQty = Math.ceil(floorSqFt / 24) || 1; bom[loweringKitSku] = loweringKitQty;
+                                } else {
+                                    const curbStyle = getStr('curb_style'); const curbSize = entryWidth &gt; 60 ? 84 : 60;
+                                    curbSku = (curbStyle === 'std') ? ('HBSC3124' + curbSize) : ('HBSCM' + curbSize);
+                                    curbQty = Math.ceil(entryWidth / curbSize) || 1; bom[curbSku] = curbQty;
+                                }
+
+                                let actTrim = trimSelect ? trimSelect.value : 'sight';
+                                let hasExtensions = (bom['HBLPSP1272EXT'] &gt; 0 || bom['HBSSSP1872EXT'] &gt; 0 || bom['HBTSSSP7212EXT'] &gt; 0);
+                                let actLoc = isCurbless ? 'entry' : activeLinLoc;
+                                
+                                drawFloorPlan({
+                                    panW: panW, panD: panD, entryW: entryWidth, activeFormat: activeDrainType, cX: cX, cY: cY,
+                                    linLoc: actLoc, isBarrierFree: isCurbless, panSku: panSku, baseW: baseW, baseR: baseR,
+                                    panQty: panQty, sideExtQty: sideExtQty, trimStyle: actTrim, bestPanConfig: bestPanConfig, hasExtensions: hasExtensions
+                                });
+
+                                const panImg = document.getElementById('pan_preview_img'); const panLabelSku = document.getElementById('pan_sku_label');
+                                if(panLabelSku &amp;&amp; panSku) panLabelSku.innerText = "SKU: " + panSku;
+                                if (panImg) {
+                                    if (panSku &amp;&amp; catalog[panSku] &amp;&amp; catalog[panSku].id) { panImg.src = getAbsoluteUrl(`/web/image/product.product/${catalog[panSku].id}/image_256`); panImg.classList.remove('d-none');
+                                    } else { panImg.classList.add('d-none'); }
+                                }
+
+                                const foundGalleryContainer = document.getElementById('foundation_gallery_container');
+                                const foundGallery = document.getElementById('foundation_gallery');
+                                if(foundGallery) foundGallery.innerHTML = '';
+                                
+                                let currentTrimSku = null; let isDoubleSlopeRender = (isLinear &amp;&amp; activeLinLoc === 'center_double');
+                                if (isLinear) {
+                                    let activeTrimStyle = getStr('linear_trim'); if (isCurbless || isDoubleSlopeRender) activeTrimStyle = 'sight';
+                                    currentTrimSku = (activeTrimStyle === 'shadow') ? 'HBINSHADOW' : 'HBINSI' + getStr('tile_thick');
+                                }
+                                
+                                const foundationSkusToCheck = [panSku, 'HBLD73', currentTrimSku, loweringKitSku, curbSku, 'HBLDSLOTEXT', 'HBLDCOUP', 'HBLPSP1272EXT', 'HBSSSP1872EXT', 'HBTSSSP7212EXT'];
+                                const foundSkus = foundationSkusToCheck.filter(function(sku) { return sku &amp;&amp; bom[sku] &gt; 0; });
+                                const uniqueFoundSkus = [];
+                                foundSkus.forEach(function(s) { if(uniqueFoundSkus.indexOf(s) === -1) uniqueFoundSkus.push(s); });
+                                let hasFoundItems = uniqueFoundSkus.length &gt; 0;
+                                
+                                uniqueFoundSkus.forEach(function(sku) {
+                                    if(catalog[sku]) {
+                                        let itemName = catalog[sku].name; let imgSrc = catalog[sku].id ? getAbsoluteUrl(`/web/image/product.product/${catalog[sku].id}/image_256`) : ''; let imgHTML = '';
+                                        if(imgSrc) { imgHTML = `&lt;img src="${imgSrc}" class="border rounded shadow-sm bg-white p-2 mb-2 click-zoom" style="height: 100px; width: 100px; object-fit: cover;" /&gt;`;
+                                        } else { imgHTML = `&lt;div class="border rounded shadow-sm bg-light d-flex align-items-center justify-content-center mb-2" style="height: 100px; width: 100px;"&gt;&lt;span class="text-muted" style="font-size: 0.7rem;"&gt;No Image&lt;/span&gt;&lt;/div&gt;`; }
+                                        let qtyBadge = ''; let displayQty = bom[sku]; 
+                                        if(displayQty &gt; 1) { qtyBadge = `&lt;span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-hb-green" style="z-index: 5;"&gt;${displayQty}&lt;/span&gt;`; }
+                                        if(foundGallery) { foundGallery.innerHTML += `&lt;div class="text-center d-flex flex-column align-items-center justify-content-end" style="width: 140px;"&gt;&lt;div class="position-relative"&gt;${imgHTML}${qtyBadge}&lt;/div&gt;&lt;small class="fw-bold d-block text-dark mb-1" style="font-size: 0.8rem; line-height: 1.2;"&gt;${itemName}&lt;/small&gt;&lt;span class="badge bg-light text-dark border px-2 py-1" style="font-size: 0.7rem;"&gt;${sku}&lt;/span&gt;&lt;/div&gt;`; }
+                                    }
+                                });
+                                
+                                if(foundGalleryContainer) { if(hasFoundItems) foundGalleryContainer.classList.remove('d-none'); else foundGalleryContainer.classList.add('d-none'); }
+
+                                const niches = Array.from(document.querySelectorAll('#niche_container select')).map(function(s) { return s.value; }).filter(function(v) { return v !== 'none'; });
+                                const benches = Array.from(document.querySelectorAll('#bench_container select')).map(function(s) { return s.value; }).filter(function(v) { return v !== 'none'; });
+
+                                // DT8_HB_PROD_SEALANT_CATALOGUE_DIM_FIX_20261015_V1: confirmed 10 oz cartridges and 84-inch mini curb; sealant remains a preliminary allowance.
+                                let totalSqFt = (boardQty36 * 15) + (boardQty48 * 21.33) + (boardQty4896 * 32);
+                                let totalOunces = totalSqFt; 
+                                totalOunces += 10; 
+                                if (isDoubleSlopeRender) totalOunces += 10; 
+                                if (!isCurbless) totalOunces += (curbQty * 10); 
+                                
+                                let totalExtBlocks = (bom['HBLPSP1272EXT'] || 0) + (bom['HBSSSP1872EXT'] || 0) + (bom['HBTSSSP7212EXT'] || 0);
+                                totalOunces += (niches.length * 5);
+                                totalOunces += (benches.length * 5);
+                                totalOunces += (totalExtBlocks * 5);
+
+                                const isSausage = getStr('sealant_size') === 'sausage';
+                                const sealantSku = isSausage ? 'HBJSSAUS' : 'HBJSCART';
+                                bom[sealantSku] = isSausage ? Math.ceil(totalOunces / 20) : Math.ceil(totalOunces / 10);
+
+                                const galleryContainer = document.getElementById('accessory_gallery_container'); const gallery = document.getElementById('accessory_gallery');
+                                if(gallery) gallery.innerHTML = ''; let hasAccessories = false;
+                                const accessorySkusToRender = [].concat(niches, benches, [sealantSku]);
+
+                                accessorySkusToRender.forEach(function(sku) {
+                                    if (sku !== sealantSku) { bom[sku] = (bom[sku] || 0) + 1; } 
+                                    if(catalog[sku]) {
+                                        hasAccessories = true; let itemName = catalog[sku].name; let imgHTML = '';
+                                        if (catalog[sku].id) { imgHTML = `&lt;img src="${getAbsoluteUrl(`/web/image/product.product/${catalog[sku].id}/image_256`)}" class="border rounded shadow-sm bg-white p-2 mb-2 click-zoom" style="height: 120px; width: 120px; object-fit: cover;" /&gt;`; } else { imgHTML = `&lt;div class="border rounded shadow-sm bg-light d-flex align-items-center justify-content-center mb-2" style="height: 120px; width: 120px;"&gt;&lt;span class="text-muted small"&gt;No Image&lt;/span&gt;&lt;/div&gt;`; }
+                                        const existingGalleryItem = gallery ? gallery.querySelector(`[data-gallery-sku="${sku}"]`) : null;
+                                        if(existingGalleryItem &amp;&amp; sku !== sealantSku) {
+                                            let badge = existingGalleryItem.querySelector('.gallery-qty-badge');
+                                            if(!badge) { const relBox = existingGalleryItem.querySelector('.position-relative'); badge = document.createElement('span'); badge.className = "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-hb-green gallery-qty-badge"; badge.style.zIndex = "5"; badge.innerText = "1"; if(relBox) relBox.appendChild(badge); }
+                                            if(badge) badge.innerText = parseInt(badge.innerText) + 1;
+                                        } else {
+                                            if(gallery) { gallery.innerHTML += `&lt;div class="text-center d-flex flex-column align-items-center justify-content-end" style="width: 140px;" data-gallery-sku="${sku}"&gt;&lt;div class="position-relative"&gt;${imgHTML}&lt;/div&gt;&lt;small class="fw-bold d-block text-dark mb-1" style="font-size: 0.8rem; line-height: 1.2;"&gt;${itemName}&lt;/small&gt;&lt;span class="badge bg-light text-dark border px-2 py-1" style="font-size: 0.7rem;"&gt;${sku}&lt;/span&gt;&lt;/div&gt;`; }
+                                        }
+                                    }
+                                });
+
+                                if(galleryContainer) { if(hasAccessories) galleryContainer.classList.remove('d-none'); else galleryContainer.classList.add('d-none'); }
+                                Object.keys(hbOptionalSelections).forEach(function(sku){
+                                    if (hbOptionalSelections[sku] &gt; 0 &amp;&amp; catalog[sku] &amp;&amp; catalog[sku].id) bom[sku] = (bom[sku] || 0) + hbOptionalSelections[sku];
+                                });
+                                currentBom = bom; renderTable(bom);
+                                hbDraw2DLocationPins();
+                                if(hbSceneCamera.active)hbRender3D();
+                            } catch (e) {
+                                console.error("Shower Engine Calculation Error: ", e);
+                                renderErrorState("⚠️ &lt;strong&gt;We couldn’t update the calculation.&lt;/strong&gt; Please review the measurements or options you just changed. If everything looks correct, refresh the page and try again.");
+                            }
+                        }
+
+                        function renderTable(bom) {
+                            const tbody = document.getElementById('bom_table_body'); if(!tbody) return; tbody.innerHTML = ''; let grandTotal = 0; let missingPriceCount = 0; // DT8_HB_PRICE_COUNT_V2
+                            const entries = []; for (const sku in bom) { if (bom.hasOwnProperty(sku)) { entries.push([sku, bom[sku]]); } }
+
+                            for (let i = 0; i &lt; entries.length; i++) {
+                                const sku = entries[i][0];
+                                const qty = entries[i][1];
+                                
+                                if (qty &gt; 0) {
+                                    const item = catalog[sku] || { name: 'Requires Custom Quote', price: 0, id: null }; const hasPrice = Boolean(item.id &amp;&amp; Number(item.price) &gt; 0); if (!hasPrice) missingPriceCount += 1; const lineTotal = hasPrice ? Number(item.price) * qty : 0; grandTotal += lineTotal;
+                                    let productUrl = item.id ? getAbsoluteUrl(`/shop/product/${item.id}`) : '#';
+                                    let nameHtml = item.id ? `&lt;span class="fw-bold d-block text-dark d-print-none" style="font-size: 0.9rem;"&gt;${item.name}&lt;/span&gt;&lt;a href="${productUrl}" target="_blank" class="fw-bold d-none d-print-block text-primary" style="font-size: 0.85rem;"&gt;${item.name}&lt;/a&gt;` : `&lt;span class="fw-bold d-block text-dark" style="font-size: 0.9rem;"&gt;${item.name}&lt;/span&gt;`;
+                                    let imgHtml = ''; if (item.id) { imgHtml = `&lt;a href="${productUrl}" target="_blank" class="d-block"&gt;&lt;img src="${getAbsoluteUrl(`/web/image/product.product/${item.id}/image_256`)}" class="border rounded shadow-sm print-bom-img d-none d-print-block" /&gt;&lt;/a&gt;`; }
+                                    tbody.innerHTML += `&lt;tr&gt;&lt;td class="align-middle" style="width: 70%;"&gt;&lt;div class="d-flex align-items-center"&gt;${imgHtml}&lt;div&gt;${nameHtml}&lt;small class="text-muted d-block" style="font-size: 0.75rem; line-height: 1.2;"&gt;${sku}&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="text-center align-middle text-nowrap"&gt;&lt;span class="badge bg-hb-grey rounded-pill"&gt;${qty}&lt;/span&gt;&lt;/td&gt;&lt;td class="text-end align-middle text-nowrap fw-bold"&gt;${hasPrice ? "$" + lineTotal.toFixed(2) : "Price pending"}&lt;/td&gt;&lt;/tr&gt;`;
+                                }
+                            }
+                            const priceLabelType = window.hbIsGuest ? "MSRP" : "Your Cost"; const typeLabel = document.getElementById('total_type_label');
+                            if(typeLabel) typeLabel.innerText = missingPriceCount ? "Partial priced subtotal (other items require quote):" : ("Estimated Total (" + priceLabelType + "):");
+                            const gt = document.getElementById('grand_total'); if(gt) gt.innerText = '$' + grandTotal.toFixed(2);
+                        }
+
+                        const allStaticInputs = document.querySelectorAll('input, select');
+                        allStaticInputs.forEach(function(input) {
+                            if (!input.classList.contains('wall-name') &amp;&amp; !input.classList.contains('wall-w') &amp;&amp; !input.classList.contains('wall-h') &amp;&amp; input.id !== 'entry_w' &amp;&amp; input.id !== 'pan_w') {
+                                input.addEventListener('change', function() {
+                                    if (liveCalcTimer) { clearTimeout(liveCalcTimer); liveCalcTimer = null; }
+                                    calculateEngine();
+                                });
+                            }
+                        });
+
+                        let quoteBtn = document.getElementById('add_to_quote_btn');
+                        if (quoteBtn) {
+                            quoteBtn.addEventListener('click', function() {
+                                if (Object.keys(currentBom).some(function(s) { var i = catalog[s]; return currentBom[s] &gt; 0 &amp;&amp; (!i || !i.id || !(Number(i.price) &gt; 0)); })) { window.alert('One or more Hydroblok components need a confirmed price. Please contact Dalla Terra before ordering.'); return; }
+                                let ghostCart = JSON.parse(localStorage.getItem(window.hbCartStorageKey || 'b2b_ghost_cart') || '[]');
+                                
+                                const entries = []; for (const sku in currentBom) { if (currentBom.hasOwnProperty(sku)) { entries.push([sku, currentBom[sku]]); } }
+
+                                for (let i = 0; i &lt; entries.length; i++) {
+                                    const sku = entries[i][0];
+                                    const qty = entries[i][1];
+                                    if (qty &gt; 0 &amp;&amp; catalog[sku] &amp;&amp; catalog[sku].id) {
+                                        const item = catalog[sku]; 
+                                        let existingItem = null;
+                                        for(let j=0; j&lt;ghostCart.length; j++) { if(ghostCart[j].product_id === item.id) existingItem = ghostCart[j]; }
+                                        if (existingItem) { existingItem.qty += qty; } else {
+                                            ghostCart.push({ product_id: item.id, qty: qty, price: item.price, name: item.name, code: sku, isSqft: false, sqftPerPcs: 1, pcsPerBox: 1, fullBoxOnly: false });
+                                        }
+                                    }
+                                }
+                                localStorage.setItem(window.hbCartStorageKey || 'b2b_ghost_cart', JSON.stringify(ghostCart));
+                                const btn = document.getElementById('add_to_quote_btn'); const originalText = btn.innerHTML;
+                                btn.innerHTML = '&lt;i class="fa fa-check me-2"&gt;&lt;/i&gt;Redirecting...'; btn.classList.replace('btn-primary', 'btn-success');
+                                setTimeout(function() { btn.innerHTML = originalText; btn.classList.replace('btn-success', 'btn-primary'); window.location.href = '/website/action/1771'; }, 650);
+                            });
+                        }
+
+                        setTimeout(function() { renderWallsUI(); calculateEngine(); }, 150); window.addEventListener('resize', calculateEngine);
+                    });
+                // 
+                </script>
+            </section>
+        </div>
+    </t>
+</t>
