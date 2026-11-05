@@ -43,3 +43,10 @@ Only company8 QWeb views 8221/7891 modified. No Showroom write, no cost exposure
 - The patch did **not** modify manufacturer BOM, dealer/MSRP prices, authenticated cart handoff, CRM inheritance anchors, or Showroom company 2.
 - Focused Chromium browser assertions added to existing GitHub QA `studio_v288_handoff_qa.js` for initial grey/disabled and valid linear-drain unlock. Commits `8c5f9d25c4ba1146fc9373d4aab5da725dc60cd6`, `cce8477751321d455fbd0aa71c0ca36c5db70a89`. The workflow is configured for push, but its execution result was **not retrieved** in this turn; do not claim a passed interactive browser test. XML readbacks passed.
 - No order, email, Make, or scheduled process triggered. Original V288 rollback evidence remains applicable; any rollback should preserve customer quote data.
+
+
+## V290 shared-source foundation — November 5, 2026 (STAGED, no live Odoo changes)
+- Design/engineering master now resides in existing Showroom Studio QA repository: [unified-studio architecture](https://github.com/adamdallaterra-ai/shower-studio-qa/blob/main/unified-studio/README.md).
+- One canonical V289 shared design/calculation source and separate Dalla Terra guest-MSRP/dealer-price/quote adapter generate all four existing QWeb views. Rebuilt Dalla production 7891 matches the live **2,061,486** units/FNV32 **67c6d18c** exactly; preview 8221 matches **2,061,524**/FNV32 **f5ffba9c** exactly. Focused common-source edit propagated to both Dalla and Showroom generated outputs in isolated build self-test.
+- **Only target presentation difference:** Dalla Terra shows public MSRP or assigned dealer prices with materials. Protected company-specific saved plan, quote/cart and freight review behavior must remain separate. Visual parity of any future edit is not yet browser-verified.
+- Both V289 production Studio instances remain live and unchanged by this V290 staging. GitHub Actions runner failed before steps and did not test browser behavior; no order submitted, emails sent, TinyFish, Make schedule or company-boundary changes.
