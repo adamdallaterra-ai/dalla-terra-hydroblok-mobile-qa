@@ -27,6 +27,37 @@ async function check(engine){
        getComputedStyle(document.getElementById('sf251_quote_action')).display==='none':true}));
   ok('guest_http_and_no_order_action',guest?.status()===200&&g.guest===true&&g.quoteButtons===0,g);
   ok('guest_public_msrp',Number(g.publicPrice)===74.70,g);
+
+  // V289: required drain must visibly and functionally disable forward navigation.
+  await page.waitForFunction(()=>!!window.sfHBV135?.status&&!!window.sfHBV282Repair&&
+    !!window.sfHBV48?.status&&!!window.sfHBV31C?.show,{timeout:25000});
+  await page.evaluate(()=>window.sfHBV31C.show('start',false));
+  await sleep(550);
+  const beforeDrain=await page.evaluate(()=>{
+    const b=document.querySelector('.sf-v31-flow-next button.sf-v31-primary');
+    const f=document.querySelector('#sf_v133_floating_actions .sf-v133-next');
+    return {stage:document.getElementById('wrap')?.dataset.v31Stage,
+      explicit:window.sfHBV135?.status?.()?.explicitDrainChosen,
+      nativeDisabled:b?.disabled,colour:b?getComputedStyle(b).backgroundColor:null,
+      floatingDisabled:f?.disabled,cssPresent:!!document.getElementById('dt8_v289_drain_next_disabled')};
+  });
+  ok('v289_required_drain_next_grey_and_disabled',beforeDrain.stage==='start'&&
+    beforeDrain.explicit===false&&beforeDrain.nativeDisabled===true&&
+    beforeDrain.colour==='rgb(165, 174, 167)'&&beforeDrain.floatingDisabled===true&&
+    beforeDrain.cssPresent===true,beforeDrain);
+  await page.locator('#sf48_types [data-style="linear"]').click();
+  await page.locator('#sf48_locations [data-position="linear:entry"]').click();
+  await sleep(750);
+  const afterDrain=await page.evaluate(()=>{
+    const b=document.querySelector('.sf-v31-flow-next button.sf-v31-primary');
+    const f=document.querySelector('#sf_v133_floating_actions .sf-v133-next');
+    return {explicit:window.sfHBV135?.status?.()?.explicitDrainChosen,
+      nativeDisabled:b?.disabled,floatingDisabled:f?.disabled,
+      drain:window.sfHBV48?.status?.()};
+  });
+  ok('v289_valid_drain_unlocks_navigation',afterDrain.explicit===true&&
+    afterDrain.nativeDisabled===false&&afterDrain.floatingDisabled===false,afterDrain);
+
   const login=await page.goto(BASE+'/web/login?redirect=%2Fshop',{waitUntil:'domcontentloaded'});
   const form=page.locator('form.oe_login_form').first();
   await form.waitFor({state:'visible',timeout:20000});
