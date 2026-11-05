@@ -35,3 +35,11 @@
 
 ## Execution safeguards
 Only company8 QWeb views 8221/7891 modified. No Showroom write, no cost exposure (`standard_price`), no email, real orders, recurring Make, Work, TinyFish or paid services.
+
+## V289 targeted navigation correction — November 4, 2026
+- User requested: when a drain choice is required, the Next/Continue control must be visibly greyed out and not clickable until the required selection exists.
+- Installed only in Dalla Terra company 8 preview QWeb 8221 and production QWeb 7891. Both XML updates were followed by exact readback matches.
+- Existing V282 disabled-button guard now also requires V135's explicit drain choice result; this avoids treating default native drain settings as a user selection. V133 floating Next is disabled/re-enabled in sync; CSS greys both disabled controls.
+- The patch did **not** modify manufacturer BOM, dealer/MSRP prices, authenticated cart handoff, CRM inheritance anchors, or Showroom company 2.
+- Focused Chromium browser assertions added to existing GitHub QA `studio_v288_handoff_qa.js` for initial grey/disabled and valid linear-drain unlock. Commits `8c5f9d25c4ba1146fc9373d4aab5da725dc60cd6`, `cce8477751321d455fbd0aa71c0ca36c5db70a89`. The workflow is configured for push, but its execution result was **not retrieved** in this turn; do not claim a passed interactive browser test. XML readbacks passed.
+- No order, email, Make, or scheduled process triggered. Original V288 rollback evidence remains applicable; any rollback should preserve customer quote data.
