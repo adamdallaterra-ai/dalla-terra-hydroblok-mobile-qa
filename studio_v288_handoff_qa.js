@@ -46,7 +46,7 @@ async function check(engine){
     beforeDrain.colour==='rgb(165, 174, 167)'&&beforeDrain.floatingDisabled===true&&
     beforeDrain.cssPresent===true,beforeDrain);
   await page.locator('#sf48_types [data-style="linear"]').click();
-  await page.locator('#sf48_locations [data-position="linear:entry"]').click();
+  await page.locator('#sf48_positions [data-position="linear:entry"]').click();
   await sleep(750);
   const afterDrain=await page.evaluate(()=>{
     const b=document.querySelector('.sf-v31-flow-next button.sf-v31-primary');
